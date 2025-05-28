@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 16:36:53 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/05/12 16:51:07 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/05/19 17:25:41 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static inline void	draw_texture(int *addr, t_texture tex,
 	int		tex_size_line;
 	int		y;
 
-	step = (double)tex.height / infos->line_height;
+	step = tex.d_height / infos->line_height;
 	tex_pos = (infos->wall_pos[0] - infos->half_win_height
 			+ infos->half_line_height) * step;
 	tex_size_line = tex.size_line;

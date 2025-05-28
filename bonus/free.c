@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 16:43:42 by marvin            #+#    #+#             */
-/*   Updated: 2025/05/18 14:30:14 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/05/19 14:03:34 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,10 @@ static void	free_map(t_map *map, void *mlx)
 		ft_free(&map->map);
 	if (map->map_array)
 		free_array(&map->map_array);
+	if (map->floor_path)
+		free(map->floor_path);
+	if (map->ceil_path)
+		free(map->ceil_path);
 	if (!map->tex_list)
 		return ;
 	mlx_destroy_image(mlx, map->tex_list[0].ptr);

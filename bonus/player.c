@@ -6,7 +6,7 @@
 /*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 16:40:40 by marvin            #+#    #+#             */
-/*   Updated: 2025/05/18 15:03:16 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/05/27 13:15:25 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,14 @@ static void	get_player_infos(t_game *game)
 		&& !ft_strchr(game->map.map_array[y], 'W'))
 		y++;
 	game->player.y = y + 0.5001;
+	game->player.int_y = (int)y;
+	game->player.y_mantissa = 0.5001;
 	x = 0;
 	while (!ft_strchr("NSEW", game->map.map_array[y][x]))
 		x++;
 	game->player.x = x + 0.5001;
+	game->player.int_x = (int)x;
+	game->player.x_mantissa = 0.5001;
 	init_camera(&game->player, game->map.map_array[y][x]);
 	game->map.map_array[(int)game->player.y][(int)game->player.x] = '0';
 	game->map.map[(int)((game->player.y * game->map.w_map)
@@ -111,8 +115,16 @@ void	actualise_player_pos(char **map_array, t_player *player, int key)
 
 	cpy = *player;
 	compute_movement(&cpy, key);
-	if (map_array[(int)player->y][(int)(cpy.x)] != '1')
+	if (map_array[player->int_y][(int)(cpy.x)] != '1')
+	{
 		player->x = cpy.x;
-	if (map_array[(int)cpy.y][(int)(player->x)] != '1')
+		player->int_x = (int)cpy.x;
+		player->x_mantissa = cpy.x - (int)cpy.x;
+	}
+	if (map_array[(int)cpy.y][(player->int_x)] != '1')
+	{
 		player->y = cpy.y;
+		player->int_y = (int)cpy.y;
+		player->y_mantissa = cpy.y - (int)cpy.y;
+	}
 }

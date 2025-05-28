@@ -15,7 +15,7 @@ MLX_DIR = mlx
 MLX = $(MLX_DIR)/libmlx_Linux.a
 
 CC = cc
-FLAGS = -Wall -Wextra -Werror -g -Ofast
+FLAGS = -Wall -Wextra -g #-Ofast
 MLX_FLAGS = -lX11 -lXext -lm
 
 FILES = main.c \
@@ -48,6 +48,7 @@ FILES_BONUS = main.c \
 		hooks.c \
 		get_wall_dist.c \
 		draw_texture.c \
+		create_entity.c \
 		raycast_utils.c \
 		raycast.c
 

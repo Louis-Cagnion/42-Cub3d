@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/05/18 15:05:34 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/05/28 04:12:08 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@
 
 //window settings
 # ifndef WIN_WIDTH
-#  define WIN_WIDTH		2500
+#  define WIN_WIDTH		1280
 # endif
 # ifndef WIN_HEIGHT
-#  define WIN_HEIGHT	2500
+#  define WIN_HEIGHT	720
 # endif
 
 // Mouse defines
@@ -48,6 +48,12 @@
 # define RIGHT_CLICK	3
 # define SCROLL_UP		4
 # define SCROLL_DOWN	5
+
+typedef struct s_inv_size
+{
+	int		start;
+	int		end;
+}	t_inv_size;
 
 typedef struct s_mlx
 {
@@ -78,10 +84,13 @@ typedef struct s_raycast
 	double		wall_dist;
 	int			texture_x;
 	int			size_line;
+	int			fake_bpp;
+	int			tex_fake_bpp;
 	double		*row_dist_table;
 	int			half_win_height;
 	double		cam_x;
 	double		cam_x_step;
+	double		*z_buffer;
 }	t_raycast;
 
 typedef struct s_opti_const
@@ -89,26 +98,49 @@ typedef struct s_opti_const
 	double	float_width;
 	double	cam_coef;
 	int		half_height;
+	int		half_width;
 }	t_opti_const;
 
 typedef struct s_texture
 {
-	void			*ptr;
-	char			*data;
-	int				endian;
-	int				tex_endian;
-	int				size_line;
-	int				bpp;
-	int				fake_bpp;
-	int				width;
-	double			d_width;
-	int				height;
+	void	*ptr;
+	char	*data;
+	int		endian;
+	int		tex_endian;
+	int		size_line;
+	int		bpp;
+	int		fake_bpp;
+	int		width;
+	double	d_width;
+	double	d_height;
+	int		height;
 }	t_texture;
+
+typedef struct s_entity
+{
+	double		x;
+	double		y;
+	double		player_dist_x;
+	double		player_dist_y;
+	double		player_dist;
+	double		draw_dir_x;
+	double		draw_dir_y;
+	int			screen_x;
+	int			sprite_height;
+	int			half_height;
+	int			framerate;
+	t_list		**invisible_parts;
+	t_texture	tex;
+}	t_entity;
 
 typedef struct s_player
 {
 	double	x;
 	double	y;
+	int		int_x;
+	int		int_y;
+	double	x_mantissa;
+	double	y_mantissa;
 	double	plane_x;
 	double	plane_y;
 	double	direction_x;
@@ -116,7 +148,22 @@ typedef struct s_player
 	double	ray_dir_x[2];
 	double	ray_dir_y[2];
 	double	mvt_speed;
+	double	inv_deter;
 }	t_player;
+
+typedef struct s_sprite_drawing
+{
+	double		step;
+	double		ratio;
+	int			delim_x_start;
+	int			delim_x_end;
+	int			delim_y_start;
+	int			delim_y_end;
+	double		start_tex_y;
+	int			screen_x;
+	int			sprite_height;
+	double		*z_buffer;
+}	t_sprite_drawing;
 
 typedef struct s_map
 {
@@ -134,6 +181,7 @@ typedef struct s_map
 	char		**map_array;
 	int			w_map;
 	int			h_map;
+	t_list		*entity_list;
 }	t_map;
 
 typedef struct s_game
@@ -182,7 +230,7 @@ int		set_mlx(t_mlx *mlx, char *win_title);
 
 //controls
 void	init_hooks(t_game *game);
-void	key_pressed_check_controls(t_game *game);
+void	key_pressed_check_controls(t_game *game, t_player *player);
 int		key_pressed_check_camera(t_player *player,
 			t_keyboard_control key_infos);
 
@@ -192,5 +240,8 @@ void	print_map(t_map *map);
 //free
 void	free_mlx(t_mlx *mlx);
 void	free_game(t_game *game);
+
+t_entity	*create_entity(char *tex_path, double x, double y, void *mlx_ptr);
+void	draw_sprites(t_raycast infos, t_game *game);
 
 #endif
