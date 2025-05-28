@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 02:51:28 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/05/27 22:13:29 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/05/28 16:07:21 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,32 +54,6 @@ static int	release_key(int key, t_game *game)
 	return (0);
 }
 
-static void	update_entities(t_list *entities,
-		t_player player, t_opti_const consts)
-{
-	t_entity	*entity;
-
-	while (entities)
-	{
-		entity = (t_entity *)entities->data;
-		entity->player_dist_x = entity->x - player.x;
-		entity->player_dist_y = entity->y - player.y;
-		entity->player_dist = sqrt(entity->player_dist_x * entity->player_dist_x
-				+ entity->player_dist_y * entity->player_dist_y);
-		entity->draw_dir_x = player.inv_deter * (player.direction_y
-				* entity->player_dist_x - player.direction_x
-				* entity->player_dist_y);
-		entity->draw_dir_y = player.inv_deter * (-player.plane_y
-				* entity->player_dist_x + player.plane_x
-				* entity->player_dist_y);
-		entity->screen_x = (int)(consts.half_width
-			* (1 + entity->draw_dir_x / entity->draw_dir_y));
-		entity->sprite_height = abs((int)(WIN_HEIGHT / entity->draw_dir_y));
-		entity->half_height = entity->sprite_height / 2;
-		entities = entities->next;
-	}
-}
-
 static int	loop(t_game *game)
 {
 	key_pressed_check_controls(game, &game->player);
@@ -105,8 +79,8 @@ void	init_hooks(t_game *game)
 	game->raycast.size_line = game->mlx.img->size_line >> 2;
 	game->raycast.fake_bpp = game->mlx.img->bpp >> 3;
 	game->raycast.tex_fake_bpp = game->raycast.fake_bpp >> 2;
-	//ft_lstadd_front(game->map.entity_list, ft_lstnew(create_entity("./assets/goomba.xpm", 2, 2)));
-	game->map.entity_list = create_cell(create_entity("./assets/snas.xpm", 2.5, 3.8, game->mlx.init));
+	game->map.entity_list = create_cell(
+			create_entity("./assets/mario.xpm", 2.5, 3.8, game->mlx.init));
 	mlx_hook(game->mlx.window, DestroyNotify, KeyReleaseMask, quit, game);
 	mlx_hook(game->mlx.window, KeyPress, KeyPressMask, pressed_key, game);
 	mlx_hook(game->mlx.window, KeyRelease, KeyReleaseMask, release_key, game);

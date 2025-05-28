@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 15:17:03 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/05/28 03:22:20 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/05/28 16:54:00 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	display_screen(t_game *game, t_opti_const consts,
 	{
 		infos.wall_dist = get_wall_dist(game->player, &infos,
 				cam_coef * x - 1, game->map.map_array);
-		infos.z_buffer[x] = infos.wall_dist;
+		infos.z_buffer[x - 1] = infos.wall_dist;
 		infos.line_height = WIN_HEIGHT / infos.wall_dist;
 		infos.half_line_height = infos.line_height >> 1;
 		infos.wall_pos[0] = consts.half_height - infos.half_line_height;

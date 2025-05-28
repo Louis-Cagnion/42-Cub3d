@@ -15,7 +15,7 @@ MLX_DIR = mlx
 MLX = $(MLX_DIR)/libmlx_Linux.a
 
 CC = cc
-FLAGS = -Wall -Wextra -g #-Ofast
+FLAGS = -Wall -Wextra -Werror -g -Ofast
 MLX_FLAGS = -lX11 -lXext -lm
 
 FILES = main.c \
@@ -47,10 +47,13 @@ FILES_BONUS = main.c \
 		display_utils.c \
 		hooks.c \
 		get_wall_dist.c \
+		update_entities.c \
 		draw_texture.c \
 		create_entity.c \
+		draw_sprites.c \
 		raycast_utils.c \
-		raycast.c
+		raycast.c \
+		libft.c
 
 OBJS = $(FILES:%.c=$(OBJ_DIR)/%.o)
 OBJS_BONUS = $(FILES_BONUS:%.c=$(OBJ_BONUS_DIR)/%.o)

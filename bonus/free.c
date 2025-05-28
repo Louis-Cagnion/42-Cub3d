@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 16:43:42 by marvin            #+#    #+#             */
-/*   Updated: 2025/05/19 14:03:34 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/05/28 16:52:36 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,32 @@ static void	free_map(t_map *map, void *mlx)
 	free(map->tex_list);
 }
 
+static void	free_entities(t_list *entity_list, void *mlx)
+{
+	t_list		*temp;
+	t_entity	*cur;
+	int			x;
+
+	while (entity_list)
+	{
+		temp = entity_list;
+		entity_list = entity_list->next;
+		x = -1;
+		cur = (t_entity *)temp->data;
+		while (cur->invisible_parts[++x])
+			ft_lstclear(&cur->invisible_parts[x], free);
+		mlx_destroy_image(mlx, cur->tex.ptr);
+		free(cur->invisible_parts);
+		free(temp->data);
+		free(temp);
+	}
+}
+
 void	free_game(t_game *game)
 {
+	free_entities(game->map.entity_list, game->mlx.init);
 	free_map(&game->map, game->mlx.init);
 	free_mlx(&game->mlx);
+	free(game->raycast.z_buffer);
 	free(game->raycast.row_dist_table);
 }
