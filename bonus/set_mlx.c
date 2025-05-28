@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:12:35 by locagnio          #+#    #+#             */
-/*   Updated: 2025/05/26 20:30:54 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/05/28 16:59:36 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int	set_mlx(t_mlx *mlx, char *win_title)
 		return (1);
 	}
 	mlx->img = mlx_new_image(mlx->init, WIN_WIDTH, WIN_HEIGHT);
-	mlx->size_line = mlx->img->size_line >> 2;
 	mlx->size_line = mlx->img->size_line >> 3;
 	return (0);
 }
