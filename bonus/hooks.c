@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 02:51:28 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/05/28 17:00:39 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/05/28 18:41:07 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,22 +65,7 @@ static int	loop(t_game *game)
 
 void	init_hooks(t_game *game)
 {
-	game->consts.float_width = (double)WIN_WIDTH;
-	game->consts.half_height = WIN_HEIGHT / 2;
-	game->consts.half_width = WIN_WIDTH / 2;
-	game->consts.cam_coef = 2 / game->consts.float_width;
-	game->raycast.half_win_height = game->consts.half_height;
-	game->raycast.cam_x = 1;
-	game->raycast.cam_x_step = (double)1 / WIN_WIDTH;
-	game->raycast.row_dist_table
-		= init_row_dist_table(game->raycast.half_win_height);
-	game->map.player = &game->player;
-	game->raycast.z_buffer = malloc(sizeof(double) * WIN_WIDTH);
-	game->raycast.size_line = game->mlx.img->size_line >> 2;
-	game->raycast.fake_bpp = game->mlx.img->bpp >> 3;
-	game->raycast.tex_fake_bpp = game->raycast.fake_bpp >> 2;
-	game->map.entity_list = create_cell(
-			create_entity("./assets/mario.xpm", 2.5, 3.8, game->mlx.init));
+	init_raycast(game, &game->raycast);
 	mlx_hook(game->mlx.window, DestroyNotify, KeyReleaseMask, quit, game);
 	mlx_hook(game->mlx.window, KeyPress, KeyPressMask, pressed_key, game);
 	mlx_hook(game->mlx.window, KeyRelease, KeyReleaseMask, release_key, game);

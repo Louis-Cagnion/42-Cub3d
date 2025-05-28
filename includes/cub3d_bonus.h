@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/05/28 17:03:12 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/05/28 18:40:42 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,7 +226,7 @@ double		get_wall_dist(t_player player, t_raycast *infos,
 void		put_pixel(t_img *img, int x, int y, int color);
 int			get_pixel_color(t_img *img, int x, int y);
 void		init_size_line_steps(int size_line, int steps[5]);
-double		*init_row_dist_table(int half_height);
+void		init_raycast(t_game *game, t_raycast *raycast);
 void		update_player_ray_dirs(t_player *player);
 
 //entities
