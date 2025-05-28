@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/05/22 19:49:15 by marvin           ###   ########.fr       */
+/*   Updated: 2025/05/28 21:48:39 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,10 +118,27 @@ typedef struct s_player
 	double	mvt_speed;
 }	t_player;
 
+typedef struct s_minimap
+{
+	int fract_of_h;
+	int start_y_mini;
+	int end_y_mini;
+	int height_mini;
+	int fract_of_w;
+	int start_x_mini;
+	int end_x_mini;
+	int width_mini;
+	double ratio_y;
+	double ratio_y_player;
+	double ratio_x;
+	double ratio_x_player;
+} t_minimap;
+
 typedef struct s_map
 {
 	t_player	*player;
 	t_texture	*tex_list;
+	t_minimap	minimap;
 	char		*no_path;
 	char		*so_path;
 	char		*we_path;
@@ -176,7 +193,8 @@ int		get_pixel_color(t_img *img, int x, int y);
 void	init_size_line_steps(int size_line, int steps[5]);
 double	*init_row_dist_table(int half_height);
 void	update_player_ray_dirs(t_player *player);
-void	display_minimap(t_game game);
+void	put_player_minimap(t_mlx mlx, t_minimap mini);
+void	init_minimap(t_game *game);
 
 //mlx
 int		set_mlx(t_mlx *mlx, char *win_title);
