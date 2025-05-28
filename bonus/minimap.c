@@ -6,16 +6,16 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 18:18:14 by marvin            #+#    #+#             */
-/*   Updated: 2025/05/28 22:51:33 by marvin           ###   ########.fr       */
+/*   Updated: 2025/05/28 23:23:15 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-static inline char return_token_map(t_map map, t_minimap mini, int y, int x)
+static inline char	return_token_map(t_map map, t_minimap mini, int y, int x)
 {
-	int line;
-	int col;
+	int	line;
+	int	col;
 
 	line = (int)((y - mini.start_y_mini) / mini.ratio_y);
 	if (line == map.h_map)
@@ -30,13 +30,13 @@ static inline char return_token_map(t_map map, t_minimap mini, int y, int x)
 	return (map.map_array[line][col]);
 }
 
-void	put_player_minimap(t_mlx mlx, int x, int y, t_minimap mini)
+static inline void	put_player_minimap(t_mlx mlx, int x, int y, t_minimap mini)
 {
-	int x_backup;
-	int x_player;
-	int y_player;
-	int limit_x;
-	int limit_y;
+	int	x_backup;
+	int	x_player;
+	int	y_player;
+	int	limit_x;
+	int	limit_y;
 
 	mini.ratio_y_player = (mini.start_y_mini + y * mini.ratio_y);
 	mini.ratio_x_player = (mini.start_x_mini + x * mini.ratio_x);
@@ -45,7 +45,6 @@ void	put_player_minimap(t_mlx mlx, int x, int y, t_minimap mini)
 	y_player = (int)mini.ratio_y_player - 3;
 	limit_x = (int)mini.ratio_x_player + 3;
 	limit_y = (int)mini.ratio_y_player + 3;
-
 	while (y_player <= limit_y)
 	{
 		while (x_player <= limit_x)
@@ -55,12 +54,36 @@ void	put_player_minimap(t_mlx mlx, int x, int y, t_minimap mini)
 	}
 }
 
-void	put_minimap_pixels(t_game *game, t_minimap mini)
+void	put_minimap_pixels(t_mlx mlx, t_player player, t_minimap mini)
 {
+	int		i;
+	int		y;
+	int		x;
+
+	i = 0;
+	y = mini.start_y_mini;
+	while (y < mini.end_y_mini)
+	{
+		x = mini.start_x_mini;
+		while (x < mini.end_x_mini)
+		{
+			put_pixel(mlx.img, x, y, mini.color_str[i++]);
+			x++;
+		}
+		y++;
+	}
+	put_player_minimap(mlx, player.x, player.y, mini);
+	mlx_put_image_to_window(mlx.init, mlx.window, mlx.img, 0, 0);
+}
+
+void	init_minimap_colors(t_game *game, t_minimap mini)
+{
+	int		i;
 	int		y;
 	int		x;
 	char	box_token;
 
+	i = 0;
 	y = mini.start_y_mini;
 	while (y < mini.end_y_mini)
 	{
@@ -71,20 +94,18 @@ void	put_minimap_pixels(t_game *game, t_minimap mini)
 			if (box_token == '1' || box_token == ' '
 				|| y == mini.start_y_mini || y == mini.end_y_mini
 				|| x == mini.start_x_mini || x == mini.end_x_mini)
-				put_pixel(game->mlx.img, x, y, 0x000000);
+				mini.color_str[i++] = 0;
 			else
-				put_pixel(game->mlx.img, x, y, 0x808080);
+				mini.color_str[i++] = 0x808080;
 			x++;
 		}
 		y++;
 	}
-	put_player_minimap(game->mlx, game->player.x, game->player.y, mini);
-	mlx_put_image_to_window(game->mlx.init, game->mlx.window, game->mlx.img, 0, 0);
 }
 
 void	init_minimap(t_game *game)
 {
-	t_minimap minimap;
+	t_minimap	minimap;
 
 	minimap.fract_of_h = WIN_HEIGHT / 20;
 	minimap.start_y_mini = minimap.fract_of_h;
@@ -92,9 +113,17 @@ void	init_minimap(t_game *game)
 	minimap.height_mini = minimap.end_y_mini - minimap.start_y_mini;
 	minimap.fract_of_w = WIN_WIDTH / 20;
 	minimap.end_x_mini = WIN_WIDTH - minimap.fract_of_w;
-	minimap.start_x_mini = minimap.end_x_mini  - minimap.fract_of_w * 4;
+	minimap.start_x_mini = minimap.end_x_mini - minimap.fract_of_w * 4;
 	minimap.width_mini = minimap.end_x_mini - minimap.start_x_mini;
 	minimap.ratio_y = (double)minimap.height_mini / ((double)game->map.h_map);
 	minimap.ratio_x = (double)minimap.width_mini / ((double)game->map.w_map);
+	minimap.color_str = malloc(sizeof(int)
+			* (minimap.height_mini * minimap.width_mini));
+	if (!minimap.color_str)
+	{
+		ft_error("fail init minimap color");
+		return ;
+	}
+	init_minimap_colors(game, minimap);
 	game->map.minimap = minimap;
 }

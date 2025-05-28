@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/05/28 22:39:47 by marvin           ###   ########.fr       */
+/*   Updated: 2025/05/28 23:15:31 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,18 +120,19 @@ typedef struct s_player
 
 typedef struct s_minimap
 {
-	int fract_of_h;
-	int start_y_mini;
-	int end_y_mini;
-	int height_mini;
-	int fract_of_w;
-	int start_x_mini;
-	int end_x_mini;
-	int width_mini;
-	double ratio_y;
-	double ratio_y_player;
-	double ratio_x;
-	double ratio_x_player;
+	int		fract_of_h;
+	int		start_y_mini;
+	int		end_y_mini;
+	int		height_mini;
+	int		fract_of_w;
+	int		start_x_mini;
+	int		end_x_mini;
+	int		width_mini;
+	double	ratio_y;
+	double	ratio_y_player;
+	double	ratio_x;
+	double	ratio_x_player;
+	int		*color_str;
 } t_minimap;
 
 typedef struct s_map
@@ -193,7 +194,7 @@ int		get_pixel_color(t_img *img, int x, int y);
 void	init_size_line_steps(int size_line, int steps[5]);
 double	*init_row_dist_table(int half_height);
 void	update_player_ray_dirs(t_player *player);
-void	put_minimap_pixels(t_game *game, t_minimap mini);
+void	put_minimap_pixels(t_mlx mlx, t_player player, t_minimap mini);
 void	init_minimap(t_game *game);
 
 //mlx
