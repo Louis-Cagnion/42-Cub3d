@@ -48,6 +48,8 @@ FILES_BONUS = main.c \
 		hooks.c \
 		get_wall_dist.c \
 		update_entities.c \
+		draw_extra_planes.c \
+		draw_ceil_and_floor.c \
 		draw_texture.c \
 		create_entity.c \
 		draw_sprites.c \

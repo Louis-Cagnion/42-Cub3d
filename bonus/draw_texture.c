@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 16:36:53 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/05/28 17:00:52 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/05/29 18:46:45 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static inline t_texture	get_texture(t_game *game,
 static inline void	draw_texture(int *addr, t_texture tex,
 	t_raycast *infos, int size_line)
 {
-	void	*data;
+	int		*data;
 	double	tex_pos;
 	double	step;
 	int		tex_size_line;
@@ -36,13 +36,13 @@ static inline void	draw_texture(int *addr, t_texture tex,
 
 	step = tex.d_height / infos->line_height;
 	tex_pos = (infos->wall_pos[0] - infos->half_win_height
-			+ infos->half_line_height) * step;
-	tex_size_line = tex.size_line;
+			+ infos->half_line_height - infos->cam_y) * step;
 	y = infos->wall_pos[1] - infos->wall_pos[0];
-	data = tex.data + infos->texture_x;
+	data = (int *)(tex.data + infos->texture_x);
+	tex_size_line = tex.size_line >> 2;
 	while (y--)
 	{
-		*addr = *(int *)(data + (int)tex_pos * tex_size_line);
+		*addr = *(data + ((int)tex_pos * tex_size_line));
 		tex_pos += step;
 		addr += size_line;
 	}

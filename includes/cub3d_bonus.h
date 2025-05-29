@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/05/28 18:40:42 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/05/29 18:51:58 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@
 
 //window settings
 # ifndef WIN_WIDTH
-#  define WIN_WIDTH		1200
+#  define WIN_WIDTH		1500
 # endif
 # ifndef WIN_HEIGHT
-#  define WIN_HEIGHT	1000
+#  define WIN_HEIGHT	1500
 # endif
 
 // Mouse defines
@@ -71,6 +71,8 @@ typedef struct s_keyboard_control
 	char		d_key;
 	char		left_key;
 	char		right_key;
+	char		up_key;
+	char		down_key;
 }	t_keyboard_control;
 
 typedef struct s_raycast
@@ -89,6 +91,7 @@ typedef struct s_raycast
 	double		*row_dist_table;
 	int			half_win_height;
 	double		cam_x;
+	int			cam_y;
 	double		cam_x_step;
 	double		*z_buffer;
 }	t_raycast;
@@ -150,6 +153,8 @@ typedef struct s_player
 	double		ray_dir_y[2];
 	double		mvt_speed;
 	double		inv_deter;
+	int			cam_y;
+	int			half_win_height;
 }	t_player;
 
 typedef struct s_sprite_drawing
@@ -166,6 +171,7 @@ typedef struct s_sprite_drawing
 	double		tex_y;
 	int			*tex_addr;
 	int			*addr;
+	int			cam_y;
 }	t_sprite_drawing;
 
 typedef struct s_map
@@ -218,7 +224,7 @@ void		print_map(t_map *map);
 //display utils
 void		store_textures(t_map *map, void *mlx);
 void		display_screen(t_game *game, t_opti_const consts,
-				t_mlx mlx, t_raycast infos);
+				t_raycast infos);
 void		put_texture(t_game *game, int *addr,
 				t_raycast *infos, int size_line);
 double		get_wall_dist(t_player player, t_raycast *infos,
@@ -228,6 +234,14 @@ int			get_pixel_color(t_img *img, int x, int y);
 void		init_size_line_steps(int size_line, int steps[5]);
 void		init_raycast(t_game *game, t_raycast *raycast);
 void		update_player_ray_dirs(t_player *player);
+
+//floor and ceil
+void		draw_ceil_and_floor_tex(int *addr, int size,
+				t_map map, t_raycast *ray);
+void		draw_extra_floor(int *addr, double inter_dist[3],
+				t_raycast *ray, t_map map);
+void		draw_extra_ceil(int *addr, double inter_dist[3],
+				t_raycast *ray, t_map map);
 
 //entities
 t_entity	*create_entity(char *tex_path, double x, double y, void *mlx_ptr);

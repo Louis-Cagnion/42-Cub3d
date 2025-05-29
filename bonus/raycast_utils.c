@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 12:23:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/05/28 18:41:33 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/05/29 18:34:14 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ static double	*init_row_dist_table(int half_height)
 		ft_error("Memory error\n");
 		exit(0);
 	}
-	i = -1;
+	table[0] = 1e10;
+	i = 0;
 	while (++i < WIN_HEIGHT)
 		table[i] = half_height / (double)i;
 	return (table);
@@ -41,10 +42,9 @@ void	init_raycast(t_game *game, t_raycast *raycast)
 	raycast->row_dist_table
 		= init_row_dist_table(raycast->half_win_height);
 	game->map.player = &game->player;
+	game->player.half_win_height = game->consts.half_height;
 	raycast->z_buffer = malloc(sizeof(double) * WIN_WIDTH);
 	raycast->size_line = game->mlx.img->size_line >> 2;
 	raycast->fake_bpp = game->mlx.img->bpp >> 3;
 	raycast->tex_fake_bpp = raycast->fake_bpp >> 2;
-	game->map.entity_list = create_cell(
-			create_entity("./assets/mario.xpm", 2.5, 3.8, game->mlx.init));
 }

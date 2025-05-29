@@ -6,7 +6,7 @@
 /*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 16:40:40 by marvin            #+#    #+#             */
-/*   Updated: 2025/05/28 16:59:58 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/05/29 18:33:38 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ static void	get_player_infos(t_game *game)
 	game->player.x = x + 0.5001;
 	game->player.int_x = (int)x;
 	game->player.x_mantissa = 0.5001;
+	game->player.cam_y = 0;
 	init_camera(&game->player, game->map.map_array[y][x]);
 	game->map.map_array[(int)game->player.y][(int)game->player.x] = '0';
 	game->map.map[(int)((game->player.y * game->map.w_map)

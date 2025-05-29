@@ -6,7 +6,7 @@
 /*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:02:01 by locagnio          #+#    #+#             */
-/*   Updated: 2025/05/28 16:58:54 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/05/29 18:34:55 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,26 @@ inline void	update_player_ray_dirs(t_player *player)
 			- player->direction_x * player->plane_y);
 }
 
+static inline void	update_camera(t_player *player, double rotation)
+{
+	double	temp;
+
+	temp = player->direction_x;
+	player->direction_x = temp * cos(rotation)
+		- player->direction_y * sin(rotation);
+	player->direction_y = temp * sin(rotation)
+		+ player->direction_y * cos(rotation);
+	temp = player->plane_x;
+	player->plane_x = temp * cos(rotation)
+		- player->plane_y * sin(rotation);
+	player->plane_y = temp * sin(rotation)
+		+ player->plane_y * cos(rotation);
+}
+
 int	key_pressed_check_camera(t_player *player, t_keyboard_control key_infos)
 {
 	int		ret;
 	double	rotation;
-	double	temp;
 
 	ret = key_infos.left_key - key_infos.right_key;
 	if (ret)
@@ -34,18 +49,12 @@ int	key_pressed_check_camera(t_player *player, t_keyboard_control key_infos)
 		rotation = -ROT_SPEED;
 		if (ret >> 31)
 			rotation = ROT_SPEED;
-		temp = player->direction_x;
-		player->direction_x = temp * cos(rotation)
-			- player->direction_y * sin(rotation);
-		player->direction_y = temp * sin(rotation)
-			+ player->direction_y * cos(rotation);
-		temp = player->plane_x;
-		player->plane_x = temp * cos(rotation)
-			- player->plane_y * sin(rotation);
-		player->plane_y = temp * sin(rotation)
-			+ player->plane_y * cos(rotation);
+		update_camera(player, rotation);
 		update_player_ray_dirs(player);
 	}
+	player->cam_y += (key_infos.up_key - key_infos.down_key) << 4;
+	if (abs(player->cam_y) > player->half_win_height)
+		player->cam_y -= (key_infos.up_key - key_infos.down_key) << 4;
 	return (ret);
 }
 
