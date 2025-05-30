@@ -6,7 +6,7 @@
 /*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:02:01 by locagnio          #+#    #+#             */
-/*   Updated: 2025/05/18 15:04:54 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/05/28 16:58:54 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ inline void	update_player_ray_dirs(t_player *player)
 	player->ray_dir_x[1] = player->plane_x * 2;
 	player->ray_dir_y[0] = player->direction_y - player->plane_y;
 	player->ray_dir_y[1] = player->plane_y * 2;
+	player->inv_deter = 1.0 / (player->plane_x * player->direction_y
+			- player->direction_x * player->plane_y);
 }
 
 int	key_pressed_check_camera(t_player *player, t_keyboard_control key_infos)
@@ -47,24 +49,24 @@ int	key_pressed_check_camera(t_player *player, t_keyboard_control key_infos)
 	return (ret);
 }
 
-void	key_pressed_check_controls(t_game *game)
+void	key_pressed_check_controls(t_game *game, t_player *player)
 {
 	int		hsp;
 	int		vsp;
 
 	hsp = game->key_infos.d_key - game->key_infos.a_key;
 	vsp = game->key_infos.s_key - game->key_infos.w_key;
-	game->player.mvt_speed = SPEED;
+	player->mvt_speed = SPEED;
 	if (hsp && vsp)
-		game->player.mvt_speed /= 2;
+		player->mvt_speed *= 0.7;
 	if (hsp >> 31)
-		actualise_player_pos(game->map.map_array, &game->player, 'a');
-	else if (hsp & 1)
-		actualise_player_pos(game->map.map_array, &game->player, 'd');
+		actualise_player_pos(game->map.map_array, player, 'a');
+	else if (hsp)
+		actualise_player_pos(game->map.map_array, player, 'd');
 	if (vsp >> 31)
-		actualise_player_pos(game->map.map_array, &game->player, 'w');
-	else if (vsp & 1)
-		actualise_player_pos(game->map.map_array, &game->player, 's');
+		actualise_player_pos(game->map.map_array, player, 'w');
+	else if (vsp)
+		actualise_player_pos(game->map.map_array, player, 's');
 }
 
 /* for bonus */
