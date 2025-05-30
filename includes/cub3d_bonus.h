@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/05/28 23:15:31 by marvin           ###   ########.fr       */
+/*   Updated: 2025/05/30 14:38:20 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ typedef struct s_minimap
 	double	ratio_x;
 	double	ratio_x_player;
 	int		*color_str;
-} t_minimap;
+}	t_minimap;
 
 typedef struct s_map
 {
