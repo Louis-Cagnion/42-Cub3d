@@ -6,7 +6,7 @@
 /*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:02:01 by locagnio          #+#    #+#             */
-/*   Updated: 2025/05/29 18:34:55 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/05/30 11:32:39 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ int	key_pressed_check_camera(t_player *player, t_keyboard_control key_infos)
 		update_camera(player, rotation);
 		update_player_ray_dirs(player);
 	}
-	player->cam_y += (key_infos.up_key - key_infos.down_key) << 4;
-	if (abs(player->cam_y) > player->half_win_height)
-		player->cam_y -= (key_infos.up_key - key_infos.down_key) << 4;
+	ret = (key_infos.up_key - key_infos.down_key) << 4;
+	if (ret && abs(player->cam_y + ret) < player->half_win_height)
+		player->cam_y += ret;
 	return (ret);
 }
 

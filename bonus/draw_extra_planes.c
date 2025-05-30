@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 15:18:09 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/05/29 15:22:02 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/05/30 11:05:49 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ static inline void	draw_vert_tex(int *addr, double inter_dist[3],
 
 	floor_x = map.player->x + inter_dist[2] * inter_dist[0];
 	floor_y = map.player->y + inter_dist[2] * inter_dist[1];
-	floor_x -= (int)floor_x;
-	floor_y -= (int)floor_y;
+	floor_x -= floor(floor_x);
+	floor_y -= floor(floor_y);
 	texture = map.tex_list[i];
 	*addr = get_tex_pixel(texture,
 			floor_x * texture.width,

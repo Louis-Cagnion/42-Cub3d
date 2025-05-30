@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 12:13:54 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/05/29 18:58:45 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/05/30 11:05:30 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static inline int	get_tex_pixel(t_texture tex, int x, int y)
 	return (*(int *)(tex.data + (y * tex.size_line + (x << 2))));
 }
 
-static inline void	draw_ceil_and_floor(int *floor, int *ceil,
+static inline void	draw_ceil_and_floor(int *floor_addr, int *ceil,
 		double inter_dist[3], t_map map)
 {
 	t_texture	texture;
@@ -26,10 +26,10 @@ static inline void	draw_ceil_and_floor(int *floor, int *ceil,
 
 	floor_x = map.player->x + inter_dist[2] * inter_dist[0];
 	floor_y = map.player->y + inter_dist[2] * inter_dist[1];
-	floor_x -= (int)floor_x;
-	floor_y -= (int)floor_y;
+	floor_x -= floor(floor_x);
+	floor_y -= floor(floor_y);
 	texture = map.tex_list[4];
-	*floor = get_tex_pixel(texture,
+	*floor_addr = get_tex_pixel(texture,
 			floor_x * texture.width,
 			floor_y * texture.height
 			);
