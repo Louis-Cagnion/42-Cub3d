@@ -37,6 +37,7 @@ FILES	 =  main.c \
 FILES_BONUS = main.c \
 			  free.c \
 			  hooks.c \
+			  libft.c \
 			  player.c \
 			  raycast.c \
 			  minimap.c \
@@ -47,9 +48,12 @@ FILES_BONUS = main.c \
 			  treat_file.c \
 			  store_image.c \
 			  draw_texture.c \
+			  draw_sprites.c \
 			  display_utils.c \
 			  get_wall_dist.c \
 			  raycast_utils.c \
+			  create_entity.c \
+			  update_entities.c \
 			  treat_file_utils.c
 
 OBJS = $(FILES:%.c=$(OBJ_DIR)/%.o)
