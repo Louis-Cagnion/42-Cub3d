@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 14:01:47 by marvin            #+#    #+#             */
-/*   Updated: 2025/05/31 17:07:04 by marvin           ###   ########.fr       */
+/*   Updated: 2025/05/31 17:54:11 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	mouse_move(int x, int y, t_game *game)
 {
+	(void)y;
 	game->mouse.delta_x = x - game->consts.half_width;
-	game->mouse.delta_y = y - game->consts.half_height;
 	game->mouse.ignore_next = 1;
 	return (0);
 }
@@ -40,16 +40,4 @@ void	actualise_cam_mouse(t_mouse *mouse, int mid_width, t_player *player)
 			+ player->plane_y * cos(rotation);
 		update_player_ray_dirs(player);
 	}
-	/* mouse->old_delta_x = mouse->delta_x;
-	mouse->old_delta_y = mouse->delta_y; */
-}
-
-void	create_invisible_cursor(Display *display, Window win)
-{
-	Pixmap bm_no;
-	static char no_data[] = { 0, 0, 0, 0, 0, 0, 0, 0};
-
-	bm_no = XCreateBitmapFromData(display, win, no_data, 8, 8);
-	XFreePixmap(display, bm_no);
-	XDefineCursor(display, win, None);
 }

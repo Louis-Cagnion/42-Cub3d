@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/05/31 17:01:16 by marvin           ###   ########.fr       */
+/*   Updated: 2025/05/31 17:17:04 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,9 +192,6 @@ typedef struct s_map
 typedef struct s_mouse
 {
 	int			delta_x;
-	int			delta_y;
-	int			old_delta_x;
-	int			old_delta_y;
 	Display		*display;
 	Window		window;
 	char		ignore_next;
@@ -259,7 +256,6 @@ void		key_pressed_check_controls(t_game *game, t_player *player);
 int			key_pressed_check_camera(t_player *player,
 			t_keyboard_control key_infos);
 void		actualise_cam_mouse(t_mouse *mouse, int mid_width, t_player *player);
-void		create_invisible_cursor(Display *display, Window win);
 
 //debug
 void		print_map(t_map *map);
