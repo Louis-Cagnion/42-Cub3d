@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 14:01:47 by marvin            #+#    #+#             */
-/*   Updated: 2025/05/31 19:00:31 by marvin           ###   ########.fr       */
+/*   Updated: 2025/05/31 19:02:32 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int	mouse_move(int x, int y, t_game *game)
 {
 	(void)y;
 	game->mouse.delta_x = x - game->consts.half_width;
-	game->mouse.ignore_next = 1;
 	return (0);
 }
 
@@ -25,7 +24,7 @@ void	actualise_cam_mouse(t_mouse *mouse, int mid_width, t_player *player)
 	double	rotation;
 	double	temp;
 
-	rotation = mouse->delta_x * ROT_SPEED / ((double)mid_width);
+	rotation = mouse->delta_x * ROT_SPEED / (double)mid_width;
 	if (rotation)
 	{
 		temp = player->direction_x;
