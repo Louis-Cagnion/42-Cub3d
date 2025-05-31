@@ -46,6 +46,7 @@ FILES_BONUS = main.c \
 		store_image.c \
 		display_utils.c \
 		hooks.c \
+		mouse.c \
 		get_wall_dist.c \
 		update_entities.c \
 		draw_texture.c \
