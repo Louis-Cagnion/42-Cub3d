@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 14:01:47 by marvin            #+#    #+#             */
-/*   Updated: 2025/05/31 18:56:56 by marvin           ###   ########.fr       */
+/*   Updated: 2025/05/31 19:00:31 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	mouse_move(int x, int y, t_game *game)
 	return (0);
 }
 
-void	actualise_cam_mouse(t_mouse *mouse, int mid_width, t_player *player, t_game game)
+void	actualise_cam_mouse(t_mouse *mouse, int mid_width, t_player *player)
 {
 	double	rotation;
 	double	temp;
@@ -40,5 +40,4 @@ void	actualise_cam_mouse(t_mouse *mouse, int mid_width, t_player *player, t_game
 			+ player->plane_y * cos(rotation);
 		update_player_ray_dirs(player);
 	}
-	mlx_mouse_move(game.mlx.init, game.mlx.window, game.consts.half_width, game.consts.half_height);
 }
