@@ -1,10 +1,35 @@
-NO ./assets/isaac.xpm
-SO ./assets/wall.xpm
-WE ./assets/backrooms.xpm
-EA ./assets/wall.xpm
+0 {
+	NO ./assets/isaac.xpm
+	SO ./assets/wall.xpm
+	WE ./assets/backrooms.xpm
+	EA ./assets/wall.xpm
 
-F ./assets/isaac.xpm
-C ./assets/wall.xpm
+	F ./assets/isaac.xpm
+	C ./assets/wall.xpm
+	W 0
+}
+
+1 {
+	NO ./assets/isaac.xpm
+	SO ./assets/wall.xpm
+	WE ./assets/backrooms.xpm
+	EA ./assets/wall.xpm
+
+	F 255,255,0
+	C ./assets/wall.xpm
+	W 1
+}
+
+0 {
+	NO ./assets/isaac.xpm
+	SO ./assets/wall.xpm
+	WE ./assets/backrooms.xpm
+	EA ./assets/wall.xpm
+
+	F ./assets/isaac.xpm
+	C ./assets/wall.xpm
+	W 0
+}
 
 11111111111111111111111111111111111111111
 10000000000001111111111111111111111111111

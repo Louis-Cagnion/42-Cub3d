@@ -6,12 +6,37 @@
 /*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:47:09 by locagnio          #+#    #+#             */
-/*   Updated: 2025/05/10 14:39:48 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/05/31 17:23:21 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
+int		row_has_only_walls(char *row, t_tile tiles[256])
+{
+	int		i;
+
+	i = -1;
+	while (row[++i])
+		if ((row[i] != 32) && !tiles[(int)row[i]].is_wall_str)
+			return (0);
+	return (1);
+}
+
+int		map_has_valid_tiles(char *map, char	defined[256])
+{
+	int		i;
+
+	i = -1;
+	while (map[++i])
+	{
+		if (ft_strchr("\n\r ", map[i]))
+			continue ;
+		if (!defined[(int)map[i]])
+			return (1);
+	}
+	return (0);
+}
 static char	*formated_map(char **map_array, t_map *map, int *len_strings, int i)
 {
 	char	*formated_map;
@@ -87,15 +112,17 @@ static int	check_limits(char **map_array, int map_height, int *len_strings)
 }
 
 /* check the sides of map to see if it's well bordered */
-static int	check_sides(char **map_array, int map_height, int *len_strings)
+static int	check_sides(char **map_array, int map_height, int *len_strings, t_tile tiles[256])
 {
 	int	j;
 
 	j = 1;
 	while (j < map_height)
 	{
-		if (!ft_strchr("1 ", map_array[j][0])
-			|| !ft_strchr("1 ", map_array[j][len_strings[j] - 1]))
+		if ((map_array[j][0] != 32) && !tiles[(int)map_array[j][0]].is_wall_str)
+			return (0);
+		if ((map_array[j][len_strings[j] - 1] != 32)
+				&& !tiles[(int)map_array[j][len_strings[j] - 1]].is_wall_str)
 			return (0);
 		j++;
 	}
@@ -107,8 +134,8 @@ int	treat_map(char *map, int i, t_game *game)
 	char	**map_array;
 	int		*len_strings;
 
-	if (!ft_str_isformat(map, "01NSEW \n\r"))
-		return (ft_error("Wrong format used.\n"), 1);
+	if (map_has_valid_tiles(map, game->map.tile_defined))
+		return (ft_error("Invalid tiles used.\n"), 1);
 	map_array = ft_split(map, "\n\r");
 	if (!map_array)
 		return (ft_error("Failed splitting map.\n"), 1);
@@ -119,9 +146,9 @@ int	treat_map(char *map, int i, t_game *game)
 			ft_error("Failed getting len of strings.\n"), 1);
 	while (map_array[++i])
 		len_strings[i] = ft_strlen(map_array[i]);
-	if (!ft_str_isformat(map_array[0], "1 ")
-		|| !ft_str_isformat(map_array[game->map.h_map - 1], "1 ")
-		|| !check_sides(map_array, game->map.h_map, len_strings)
+	if (!row_has_only_walls(map_array[0], game->map.tiles)
+		|| !row_has_only_walls(map_array[game->map.h_map - 1], game->map.tiles)
+		|| !check_sides(map_array, game->map.h_map, len_strings, game->map.tiles)
 		|| !check_limits(map_array, game->map.h_map, len_strings))
 		return (free(len_strings), free_array(&map_array),
 			ft_error("Invalid map.\n"), 1);

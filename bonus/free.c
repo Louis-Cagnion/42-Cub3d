@@ -6,12 +6,13 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 16:43:42 by marvin            #+#    #+#             */
-/*   Updated: 2025/05/28 16:57:44 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/05/30 16:36:31 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
+/*
 void	free_mlx(t_mlx *mlx)
 {
 	if (mlx->img)
@@ -74,12 +75,17 @@ static void	free_entities(t_list *entity_list, void *mlx)
 		free(temp);
 	}
 }
+*/
 
 void	free_game(t_game *game)
 {
+	(void)game;
+	return ;
+	/*
 	free_entities(game->map.entity_list, game->mlx.init);
 	free_map(&game->map, game->mlx.init);
 	free_mlx(&game->mlx);
 	free(game->raycast.z_buffer);
 	free(game->raycast.row_dist_table);
+	*/
 }

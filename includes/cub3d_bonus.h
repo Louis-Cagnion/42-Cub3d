@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/05/29 18:51:58 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/05/31 16:56:17 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,18 +174,26 @@ typedef struct s_sprite_drawing
 	int			cam_y;
 }	t_sprite_drawing;
 
-typedef struct s_map
+typedef struct s_tile
 {
-	t_player	*player;
-	t_texture	*tex_list;
 	char		*no_path;
 	char		*so_path;
 	char		*we_path;
 	char		*ea_path;
 	char		*floor_path;
 	char		*ceil_path;
+	char		*is_wall_str;
 	int			f_rgb;
 	int			c_rgb;
+	int			is_wall;
+}	t_tile;
+
+typedef struct s_map
+{
+	t_player	*player;
+	t_texture	*tex_list;
+	t_tile		tiles[256];
+	char		tile_defined[256];
 	char		*map;
 	char		**map_array;
 	int			w_map;
@@ -205,7 +213,7 @@ typedef struct s_game
 
 //parse and treat file
 int			path_is_valid(char *pathname);
-char		**get_elem(t_map *map, int elem);
+char		**get_elem(t_tile *tile, int elem);
 int			treat_file(char *map_name, t_game *game);
 int			treat_map(char *map, int i, t_game *game);
 
@@ -268,4 +276,5 @@ void		free_game(t_game *game);
 //fucking libft
 void		ft_lstclear(t_list **lst, void (*del)(void *));
 
+int			get_tiles(char *content, int *i, char *elems[], t_map *map);
 #endif

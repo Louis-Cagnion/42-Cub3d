@@ -15,7 +15,7 @@ MLX_DIR = mlx
 MLX = $(MLX_DIR)/libmlx_Linux.a
 
 CC = cc
-FLAGS = -Wall -Wextra -Werror -g -Ofast
+FLAGS = -Wall -Wextra -Werror -g #-Ofast
 MLX_FLAGS = -lX11 -lXext -lm
 
 FILES = main.c \
@@ -42,6 +42,7 @@ FILES_BONUS = main.c \
 		printing.c \
 		treat_map.c \
 		treat_file.c \
+		check_elems.c \
 		treat_file_utils.c \
 		store_image.c \
 		display_utils.c \
