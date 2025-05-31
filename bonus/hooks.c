@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 02:51:28 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/05/28 18:41:07 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/05/31 12:58:16 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,31 @@ static int	loop(t_game *game)
 	key_pressed_check_camera(&game->player, game->key_infos);
 	update_entities(game->map.entity_list, game->player, game->consts);
 	display_screen(game, game->consts, game->mlx, game->raycast);
+	mlx_put_image_to_window(game->mlx.init,
+		game->mlx.window, game->mlx.img, 0, 0);
+	return (0);
+}
+
+int	mouse_move(int x, int y, t_game *game)
+{
+	XWarpPointer(game->mouse.display, None, game->mouse.window, 0, 0, 0, 0,
+			game->consts.half_width, game->consts.half_height);
+	XFlush(game->mouse.display);
+	game->mouse.delta_x = x - game->consts.half_width;
+	game->mouse.delta_y = y - game->consts.half_height;
 	return (0);
 }
 
 void	init_hooks(t_game *game)
 {
+	/* game->mouse.display = XOpenDisplay(NULL);
+	game->mouse.window = (Window)game->mlx.window; */
 	init_raycast(game, &game->raycast);
+	game->map.entity_list = create_cell(
+			create_entity("./assets/snas.xpm", 2.5, 3.8, game->mlx.init));
 	mlx_hook(game->mlx.window, DestroyNotify, KeyReleaseMask, quit, game);
 	mlx_hook(game->mlx.window, KeyPress, KeyPressMask, pressed_key, game);
 	mlx_hook(game->mlx.window, KeyRelease, KeyReleaseMask, release_key, game);
-	mlx_loop_hook(game->mlx.init, loop, game);
+/* 	mlx_hook(game->mlx.window, MotionNotify, PointerMotionMask, mouse_move, game);
+ */	mlx_loop_hook(game->mlx.init, loop, game);
 }

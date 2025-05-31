@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/05/28 18:40:42 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/05/31 13:00:46 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include <stdlib.h> // malloc, free, exit
 # include <string.h> // strerror
 # include <X11/X.h>
+# include <X11/Xlib.h>
+# include <X11/Xutil.h>
 # include <X11/keysym.h>
 
 # include "mlx.h"
@@ -28,10 +30,10 @@
 
 //game settings
 # ifndef SPEED
-#  define SPEED			0.06666f
+#  define SPEED			0.06666f / 2
 # endif
 # ifndef ROT_SPEED
-#  define ROT_SPEED		0.10f
+#  define ROT_SPEED		0.10f / 4
 # endif
 
 //window settings
@@ -187,6 +189,14 @@ typedef struct s_map
 	t_list		*entity_list;
 }	t_map;
 
+typedef struct s_mouse
+{
+	int			delta_x;
+	int			delta_y;
+	Display		*display;
+	Window		window;
+}	t_mouse;
+
 typedef struct s_game
 {
 	t_mlx				mlx;
@@ -195,6 +205,7 @@ typedef struct s_game
 	t_raycast			raycast;
 	t_opti_const		consts;
 	t_keyboard_control	key_infos;
+	t_mouse				mouse;
 }	t_game;
 
 //parse and treat file
