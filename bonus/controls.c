@@ -6,7 +6,7 @@
 /*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:02:01 by locagnio          #+#    #+#             */
-/*   Updated: 2025/05/30 11:32:39 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/06/01 22:37:06 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,14 @@ static inline void	update_camera(t_player *player, double rotation)
 int	key_pressed_check_camera(t_player *player, t_keyboard_control key_infos)
 {
 	int		ret;
+	int		res;
 	double	rotation;
 
-	ret = key_infos.left_key - key_infos.right_key;
-	if (ret)
+	res = key_infos.left_key - key_infos.right_key;
+	if (res)
 	{
 		rotation = -ROT_SPEED;
-		if (ret >> 31)
+		if (res >> 31)
 			rotation = ROT_SPEED;
 		update_camera(player, rotation);
 		update_player_ray_dirs(player);
@@ -55,27 +56,30 @@ int	key_pressed_check_camera(t_player *player, t_keyboard_control key_infos)
 	ret = (key_infos.up_key - key_infos.down_key) << 4;
 	if (ret && abs(player->cam_y + ret) < player->half_win_height)
 		player->cam_y += ret;
-	return (ret);
+	return (res || ret);
 }
 
-void	key_pressed_check_controls(t_game *game, t_player *player)
+int	key_pressed_check_controls(t_game *game, t_player *player)
 {
+	char	**map_array;
 	int		hsp;
 	int		vsp;
 
 	hsp = game->key_infos.d_key - game->key_infos.a_key;
 	vsp = game->key_infos.s_key - game->key_infos.w_key;
 	player->mvt_speed = SPEED;
+	map_array = game->map.map_array;
 	if (hsp && vsp)
 		player->mvt_speed *= 0.7;
 	if (hsp >> 31)
-		actualise_player_pos(game->map.map_array, player, 'a');
+		actualise_player_pos(map_array, player, 'a', game->map.tiles);
 	else if (hsp)
-		actualise_player_pos(game->map.map_array, player, 'd');
+		actualise_player_pos(map_array, player, 'd', game->map.tiles);
 	if (vsp >> 31)
-		actualise_player_pos(game->map.map_array, player, 'w');
+		actualise_player_pos(map_array, player, 'w', game->map.tiles);
 	else if (vsp)
-		actualise_player_pos(game->map.map_array, player, 's');
+		actualise_player_pos(map_array, player, 's', game->map.tiles);
+	return (vsp || hsp);
 }
 
 /* for bonus */

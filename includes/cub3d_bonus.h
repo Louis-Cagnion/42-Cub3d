@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/05/31 16:56:17 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/06/02 12:08:37 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ typedef struct s_keyboard_control
 
 typedef struct s_raycast
 {
+	int			tile;
 	int			*addr;
 	char		side;
 	int			line_height;
@@ -176,6 +177,7 @@ typedef struct s_sprite_drawing
 
 typedef struct s_tile
 {
+	t_texture	*tex_list;
 	char		*no_path;
 	char		*so_path;
 	char		*we_path;
@@ -188,10 +190,21 @@ typedef struct s_tile
 	int			is_wall;
 }	t_tile;
 
+typedef struct s_plane_drawer
+{
+	double	ray_dirs[2];
+	double	player_pos[2];
+	double	floor_pos[2];
+	double	real_pos[2];
+	int		map_pos[2];
+	double	*row_table;
+	int		tile;
+}	t_plane_drawer;
+
 typedef struct s_map
 {
-	t_player	*player;
 	t_texture	*tex_list;
+	t_player	*player;
 	t_tile		tiles[256];
 	char		tile_defined[256];
 	char		*map;
@@ -216,10 +229,17 @@ int			path_is_valid(char *pathname);
 char		**get_elem(t_tile *tile, int elem);
 int			treat_file(char *map_name, t_game *game);
 int			treat_map(char *map, int i, t_game *game);
+int			get_tiles(char *content, int *i, char *elems[], t_map *map);
+int			check_elems(char *file_infos, char *elem[], t_tile *tile);
+int			check_single_elem(char *file_infos, int *i,
+				char *elems[], t_tile *tile);
+int			check_limits(char **map_array, int map_height,
+				int *len_strings, t_tile tiles[256]);
 
 //player
 int			only_one_player(t_game *game);
-void		actualise_player_pos(char **map_array, t_player *ptr_p, int key);
+void		actualise_player_pos(char **map_array, t_player *ptr_p,
+				int key, t_tile tiles[256]);
 int			is_valid_move(char **map_array, t_player p, int key);
 
 //print
@@ -236,7 +256,7 @@ void		display_screen(t_game *game, t_opti_const consts,
 void		put_texture(t_game *game, int *addr,
 				t_raycast *infos, int size_line);
 double		get_wall_dist(t_player player, t_raycast *infos,
-				double cam_x, char **map);
+				double cam_x, t_map map);
 void		put_pixel(t_img *img, int x, int y, int color);
 int			get_pixel_color(t_img *img, int x, int y);
 void		init_size_line_steps(int size_line, int steps[5]);
@@ -246,10 +266,6 @@ void		update_player_ray_dirs(t_player *player);
 //floor and ceil
 void		draw_ceil_and_floor_tex(int *addr, int size,
 				t_map map, t_raycast *ray);
-void		draw_extra_floor(int *addr, double inter_dist[3],
-				t_raycast *ray, t_map map);
-void		draw_extra_ceil(int *addr, double inter_dist[3],
-				t_raycast *ray, t_map map);
 
 //entities
 t_entity	*create_entity(char *tex_path, double x, double y, void *mlx_ptr);
@@ -262,7 +278,7 @@ int			set_mlx(t_mlx *mlx, char *win_title);
 
 //controls
 void		init_hooks(t_game *game);
-void		key_pressed_check_controls(t_game *game, t_player *player);
+int			key_pressed_check_controls(t_game *game, t_player *player);
 int			key_pressed_check_camera(t_player *player,
 				t_keyboard_control key_infos);
 
@@ -276,5 +292,4 @@ void		free_game(t_game *game);
 //fucking libft
 void		ft_lstclear(t_list **lst, void (*del)(void *));
 
-int			get_tiles(char *content, int *i, char *elems[], t_map *map);
 #endif

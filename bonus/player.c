@@ -6,7 +6,7 @@
 /*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 16:40:40 by marvin            #+#    #+#             */
-/*   Updated: 2025/05/29 18:33:38 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/06/01 19:22:24 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,19 +110,20 @@ static void	compute_movement(t_player *cpy, int key)
 	}
 }
 
-void	actualise_player_pos(char **map_array, t_player *player, int key)
+void	actualise_player_pos(char **map_array, t_player *player,
+		int key, t_tile tiles[256])
 {
 	t_player	cpy;
 
 	cpy = *player;
 	compute_movement(&cpy, key);
-	if (map_array[player->int_y][(int)(cpy.x)] != '1')
+	if (!tiles[(int)map_array[player->int_y][(int)(cpy.x)]].is_wall)
 	{
 		player->x = cpy.x;
 		player->int_x = (int)cpy.x;
 		player->x_mantissa = cpy.x - (int)cpy.x;
 	}
-	if (map_array[(int)cpy.y][(player->int_x)] != '1')
+	if (!tiles[(int)map_array[(int)cpy.y][(player->int_x)]].is_wall)
 	{
 		player->y = cpy.y;
 		player->int_y = (int)cpy.y;

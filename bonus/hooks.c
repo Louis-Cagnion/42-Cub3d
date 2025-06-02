@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 02:51:28 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/05/29 18:56:58 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/06/01 22:34:17 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,19 @@ static int	release_key(int key, t_game *game)
 
 static int	loop(t_game *game)
 {
-	key_pressed_check_controls(game, &game->player);
-	key_pressed_check_camera(&game->player, game->key_infos);
-	update_entities(game->map.entity_list, game->player, game->consts);
+	int		ret_cam;
+	int		ret_mov;
+
 	game->raycast.cam_y = game->player.cam_y;
-	display_screen(game, game->consts, game->raycast);
-	mlx_put_image_to_window(game->mlx.init,
-		game->mlx.window, game->mlx.img, 0, 0);
+	ret_mov = key_pressed_check_controls(game, &game->player);
+	ret_cam = key_pressed_check_camera(&game->player, game->key_infos);
+	update_entities(game->map.entity_list, game->player, game->consts);
+	if (ret_mov || ret_cam)
+	{
+		display_screen(game, game->consts, game->raycast);
+		mlx_put_image_to_window(game->mlx.init,
+			game->mlx.window, game->mlx.img, 0, 0);
+	}
 	return (0);
 }
 
@@ -79,6 +85,10 @@ void	init_hooks(t_game *game)
 	init_raycast(game, &game->raycast);
 	game->map.entity_list = create_cell(
 			create_entity("./assets/snas.xpm", 2.5, 3.8, game->mlx.init));
+	update_entities(game->map.entity_list, game->player, game->consts);
+	display_screen(game, game->consts, game->raycast);
+	mlx_put_image_to_window(game->mlx.init,
+		game->mlx.window, game->mlx.img, 0, 0);
 	mlx_hook(game->mlx.window, DestroyNotify, KeyReleaseMask, quit, game);
 	mlx_hook(game->mlx.window, KeyPress, KeyPressMask, pressed_key, game);
 	mlx_hook(game->mlx.window, KeyRelease, KeyReleaseMask, release_key, game);

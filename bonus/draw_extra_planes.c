@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 15:18:09 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/05/30 11:05:49 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/06/01 22:22:56 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	draw_extra_floor(int *addr, double inter_dist[3],
 	int		size_line;
 	int		height;
 
-	height = WIN_HEIGHT - (ray->wall_pos[1] + ray->wall_pos[0]);
+	height = WIN_HEIGHT - (ray->wall_pos[1] + ray->wall_pos[0]) + 1;
 	size_line = ray->size_line;
 	p = ray->half_win_height - ray->cam_y - height;
 	dist_table = ray->row_dist_table;

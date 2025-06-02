@@ -6,7 +6,7 @@
 /*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:29:31 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/05/30 16:30:11 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/05/31 20:02:34 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int	main(int ac, char **av)
 			free_game(&game);
 			return (1);
 		}
-		exit(0);
 		store_textures(&game.map, game.mlx.init);
 		init_hooks(&game);
 		mlx_loop(game.mlx.init);

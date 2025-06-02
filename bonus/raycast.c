@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 15:17:03 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/05/29 22:04:37 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/06/01 22:00:36 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static inline void	draw_column(t_game *game, int x, t_map map_infos,
 	img = game->mlx.img;
 	size_line = infos->size_line;
 	addr = (int *)(img->data + (x * infos->fake_bpp));
+	(void)map_infos;
 	draw_ceil_and_floor_tex(addr, size_line,
 		map_infos, infos);
 	addr += size_line * infos->wall_pos[0];
@@ -38,7 +39,7 @@ void	display_screen(t_game *game, t_opti_const consts, t_raycast infos)
 	while (x)
 	{
 		infos.wall_dist = get_wall_dist(game->player, &infos,
-				cam_coef * x - 1, game->map.map_array);
+				cam_coef * x - 1, game->map);
 		infos.z_buffer[x - 1] = infos.wall_dist;
 		infos.line_height = WIN_HEIGHT / infos.wall_dist;
 		infos.half_line_height = infos.line_height >> 1;
