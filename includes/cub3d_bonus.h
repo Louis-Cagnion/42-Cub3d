@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/06/02 12:08:37 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/06/02 16:45:57 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@
 
 //window settings
 # ifndef WIN_WIDTH
-#  define WIN_WIDTH		1500
+#  define WIN_WIDTH		1280
 # endif
 # ifndef WIN_HEIGHT
-#  define WIN_HEIGHT	1500
+#  define WIN_HEIGHT	720
 # endif
 
 // Mouse defines
@@ -121,6 +121,12 @@ typedef struct s_texture
 	int			height;
 }	t_texture;
 
+typedef struct s_sprite_frame
+{
+	t_list		**invisible_parts;
+	t_texture	tex;
+}	t_sprite_frame;
+
 typedef struct s_entity
 {
 	double		x;
@@ -134,8 +140,11 @@ typedef struct s_entity
 	int			sprite_height;
 	int			half_height;
 	int			framerate;
-	t_list		**invisible_parts;
-	t_texture	tex;
+	int			frame_count;
+	void		*first_frame;
+	t_list		*frame_list;
+	t_texture	cur_tex;
+	t_list		**cur_invisible_parts;
 }	t_entity;
 
 typedef struct s_player

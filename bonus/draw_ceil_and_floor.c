@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 12:13:54 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/06/01 22:27:54 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/06/02 16:30:44 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static inline void	init_drawer_consts(t_plane_drawer *drawer, t_raycast *ray,
 	drawer->player_pos[1] = map.player->y;
 	drawer->row_table = ray->row_dist_table
 		+ (ray->half_win_height - ray->wall_pos[0] + ray->cam_y);
-	*y = ft_min(ray->wall_pos[0], WIN_HEIGHT - ray->wall_pos[1]);
+	*y = ft_min(ray->wall_pos[0], WIN_HEIGHT - ray->wall_pos[1] + 1);
 }
 
 static inline void	draw_extra_floor(int *addr, t_plane_drawer dr,

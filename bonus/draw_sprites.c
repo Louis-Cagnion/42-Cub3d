@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 15:52:59 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/06/01 12:12:14 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/06/02 16:28:53 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ static inline void	init_sprite_consts(t_sprite_drawing *spr,
 		spr->delim_x_end = WIN_WIDTH - 1;
 	spr->screen_x = screen_x - half_height;
 	spr->sprite_height = entity->sprite_height;
-	spr->step = (double)entity->tex.height / entity->sprite_height;
-	spr->ratio = entity->sprite_height / (double)entity->tex.height;
+	spr->step = (double)entity->cur_tex.height / entity->sprite_height;
+	spr->ratio = entity->sprite_height / (double)entity->cur_tex.height;
 	spr->start_tex_y = (int)(spr->step * ((spr->delim_y_start << 8)
 				- (WIN_HEIGHT << 7) + (spr->sprite_height << 7))) >> 8;
 	spr->start_tex_y -= (--cam_y * spr->step);
@@ -100,11 +100,11 @@ static inline void	draw_sprite_loop(t_sprite_drawing spr, t_entity *temp_spr,
 	int		height;
 	t_list	*cur;
 
-	tex_x = (int)(spr.screen_x * temp_spr->tex.width / spr.sprite_height);
-	tex_data = (int *)temp_spr->tex.data;
+	tex_x = (int)(spr.screen_x * temp_spr->cur_tex.width / spr.sprite_height);
+	tex_data = (int *)temp_spr->cur_tex.data;
 	tex_data += tex_x;
-	tex_size_line = temp_spr->tex.fake_size_line;
-	cur = temp_spr->invisible_parts[tex_x];
+	tex_size_line = temp_spr->cur_tex.fake_size_line;
+	cur = temp_spr->cur_invisible_parts[tex_x];
 	while (cur)
 	{
 		height = init_stripe_draw(&spr, og_addr, size_line,

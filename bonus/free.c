@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 16:43:42 by marvin            #+#    #+#             */
-/*   Updated: 2025/06/01 19:47:43 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/06/02 16:27:04 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	free_tiles(t_tile tiles[256], void *mlx, char *defined, int i)
 			mlx_destroy_image(mlx, tiles[i].tex_list[2].ptr);
 			mlx_destroy_image(mlx, tiles[i].tex_list[3].ptr);
 		}
-		else
+		else if (i)
 		{
 			mlx_destroy_image(mlx, tiles[i].tex_list[4].ptr);
 			mlx_destroy_image(mlx, tiles[i].tex_list[5].ptr);
@@ -53,6 +53,7 @@ static void	free_tiles(t_tile tiles[256], void *mlx, char *defined, int i)
 	}
 }
 
+/*
 static void	free_entities(t_list *entity_list, void *mlx)
 {
 	t_list		*temp;
@@ -72,11 +73,11 @@ static void	free_entities(t_list *entity_list, void *mlx)
 		free(temp->data);
 		free(temp);
 	}
-}
+}*/
 
 void	free_game(t_game *game)
 {
-	free_entities(game->map.entity_list, game->mlx.init);
+	//free_entities(game->map.entity_list, game->mlx.init);
 	free_tiles(game->map.tiles, game->mlx.init, game->map.tile_defined, 256);
 	free_mlx(&game->mlx);
 	free(game->map.map);

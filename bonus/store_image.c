@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 15:21:23 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/06/02 12:21:42 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/06/02 14:52:53 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,10 @@ static void	store_defaults_settings(t_map *map, void *mlx)
 	src = map->tiles[0];
 	cur = &map->tiles['0'];
 	cur->tex_list = malloc(sizeof(t_texture) * 6);
+	if (src.floor_path)
+		cur->floor_path = ft_strdup(src.floor_path);
+	if (src.ceil_path)
+		cur->ceil_path = ft_strdup(src.ceil_path);
 	store_image(src.floor_path, cur, mlx, 4);
 	store_image(src.ceil_path, cur, mlx, 5);
 	cur = &map->tiles['1'];

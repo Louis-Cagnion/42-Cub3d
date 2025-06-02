@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:05:07 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/05/28 15:54:09 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/06/02 16:49:26 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	go_to_next_pixel(int **addr_ref, int size_line, int height)
 	return (-height);
 }
 
-static t_list	*fill_invisible_stripe(t_entity *entity,
+static t_list	*fill_invisible_stripe(t_texture tex,
 		int *addr, int size_line)
 {
 	t_list	*lst;
@@ -53,7 +53,7 @@ static t_list	*fill_invisible_stripe(t_entity *entity,
 	int		height;
 	int		y;
 
-	height = entity->tex.height;
+	height = tex.height;
 	y = go_to_next_pixel(&addr, size_line, height);
 	if (!addr)
 		return (create_cell(create_new_part(height, height)));
@@ -73,26 +73,31 @@ static t_list	*fill_invisible_stripe(t_entity *entity,
 	return (dest);
 }
 
-static void	fill_invisible_buffer(t_entity *entity)
+static t_sprite_frame	*create_sprite_frame(t_texture tex)
 {
-	t_list	**buffer;
-	int		*addr;
-	int		size_line;
-	int		x;
+	t_sprite_frame	*dest;
+	t_list			**buffer;
+	int				*addr;
+	int				size_line;
+	int				x;
 
-	buffer = entity->invisible_parts;
+	dest = malloc(sizeof(t_sprite_frame));
+	dest->tex = tex;
+	dest->invisible_parts = malloc(sizeof(t_list *) * (tex.width + 1));
+	buffer = dest->invisible_parts;
 	x = -1;
-	addr = (int *)entity->tex.data;
-	size_line = entity->tex.size_line >> 2;
-	while (++x < entity->tex.width)
-		buffer[x] = fill_invisible_stripe(entity, addr++, size_line);
+	addr = (int *)tex.data;
+	size_line = tex.size_line >> 2;
+	while (++x < tex.width)
+		buffer[x] = fill_invisible_stripe(tex, addr++, size_line);
 	buffer[x] = NULL;
+	return (dest);
 }
 
 t_entity	*create_entity(char *tex_path, double x, double y, void *mlx_ptr)
 {
-	t_entity	*dest;
-	t_texture	tex;
+	t_entity		*dest;
+	t_texture		tex;
 
 	dest = malloc(sizeof(t_entity));
 	dest->x = x;
@@ -104,9 +109,13 @@ t_entity	*create_entity(char *tex_path, double x, double y, void *mlx_ptr)
 	tex.tex_endian = tex.endian - 1;
 	tex.d_width = (double)tex.width;
 	tex.d_height = (double)tex.height;
-	tex.fake_size_line = tex.size_line / 4;
-	dest->tex = tex;
-	dest->invisible_parts = malloc(sizeof(t_list *) * (tex.width + 1));
-	fill_invisible_buffer(dest);
+	tex.fake_size_line = tex.size_line >> 2;
+	dest->frame_list = create_cell(create_sprite_frame(tex));
+	dest->first_frame = (void *)dest->frame_list;
+	dest->cur_tex = tex;
+	dest->cur_invisible_parts = ((t_sprite_frame *)dest->frame_list->data)->invisible_parts;
+	dest->frame_list->next = dest->frame_list;
+	dest->framerate = 24;
+	dest->frame_count = 0;
 	return (dest);
 }
