@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   treat_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:47:09 by locagnio          #+#    #+#             */
-/*   Updated: 2025/05/10 14:39:48 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/06/04 01:48:49 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int	walls_around(int *len_strings, char **map_array, int i, int j)
 	|| (map_array[j + 1] && i + 1 < len_strings[j + 1]
 		&& !ft_strchr("1 ", map_array[j + 1][i + 1]))
 	|| (map_array[j + 1] && i > 0 && i - 1 < len_strings[j + 1]
-		&& !ft_strchr("1", map_array[j + 1][i - 1]))
+		&& !ft_strchr("1 ", map_array[j + 1][i - 1]))
 	|| (j > 0 && i < len_strings[j - 1]
 		&& !ft_strchr("1 ", map_array[j - 1][i]))
 	|| (j > 0 && i + 1 < len_strings[j - 1]
