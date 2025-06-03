@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 15:52:59 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/06/01 12:12:14 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/06/03 14:40:48 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ static inline void	draw_sprite_stripe(t_sprite_drawing spr, int size_line,
 			break ;
 		addr += size_line;
 	}
-	return ;
 }
 
 static inline int	init_stripe_draw(t_sprite_drawing *spr, int *og_addr,
