@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 15:17:03 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/06/03 14:39:01 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/06/03 17:31:42 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ static inline void	draw_column(t_game *game, int x, t_map map_infos,
 	img = game->mlx.img;
 	size_line = infos->size_line;
 	addr = (int *)(img->data + (x * infos->fake_bpp));
-	(void)map_infos;
 	draw_ceil_and_floor_tex(addr, size_line,
 		map_infos, infos);
 	addr += size_line * infos->wall_pos[0];
