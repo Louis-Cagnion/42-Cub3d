@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 15:21:23 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/06/03 14:39:37 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/06/03 14:48:57 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	rgb_to_image(t_tile *tile, int color, void *mlx_ptr, int i)
 	if (dest.ptr)
 		dest.data = mlx_get_data_addr(dest.ptr, &dest.bpp,
 				&dest.size_line, &dest.endian);
-	dest.fake_bpp = dest.bpp / 8;
+	dest.fake_bpp = dest.bpp >> 3;
 	dest.fake_size_line = dest.size_line >> 2;
 	dest.tex_endian = dest.endian - 1;
 	dest.d_width = 1.0f;
