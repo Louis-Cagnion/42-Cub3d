@@ -54,6 +54,7 @@ FILES_BONUS = main.c \
 		draw_ceil_and_floor.c \
 		draw_texture.c \
 		create_entity.c \
+		entities_methods.c \
 		draw_sprites.c \
 		raycast_utils.c \
 		raycast.c \

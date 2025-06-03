@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 16:43:42 by marvin            #+#    #+#             */
-/*   Updated: 2025/06/02 16:27:04 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/06/03 01:58:30 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,31 +53,8 @@ static void	free_tiles(t_tile tiles[256], void *mlx, char *defined, int i)
 	}
 }
 
-/*
-static void	free_entities(t_list *entity_list, void *mlx)
-{
-	t_list		*temp;
-	t_entity	*cur;
-	int			x;
-
-	while (entity_list)
-	{
-		temp = entity_list;
-		entity_list = entity_list->next;
-		x = -1;
-		cur = (t_entity *)temp->data;
-		while (cur->invisible_parts[++x])
-			ft_lstclear(&cur->invisible_parts[x], free);
-		mlx_destroy_image(mlx, cur->tex.ptr);
-		free(cur->invisible_parts);
-		free(temp->data);
-		free(temp);
-	}
-}*/
-
 void	free_game(t_game *game)
 {
-	//free_entities(game->map.entity_list, game->mlx.init);
 	free_tiles(game->map.tiles, game->mlx.init, game->map.tile_defined, 256);
 	free_mlx(&game->mlx);
 	free(game->map.map);

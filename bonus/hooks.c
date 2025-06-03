@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 02:51:28 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/06/02 16:27:18 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/06/03 01:36:26 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,10 @@ static int	loop(t_game *game)
 	ret_mov = key_pressed_check_controls(game, &game->player);
 	ret_cam = key_pressed_check_camera(&game->player, game->key_infos);
 	update_entities(game->map.entity_list, game->player, game->consts);
-	if (ret_mov || ret_cam)
-	{
+	if (ret_mov || ret_cam || 1)
 		display_screen(game, game->consts, game->raycast);
-		mlx_put_image_to_window(game->mlx.init,
-			game->mlx.window, game->mlx.img, 0, 0);
-	}
+	mlx_put_image_to_window(game->mlx.init,
+		game->mlx.window, game->mlx.img, 0, 0);
 	return (0);
 }
 

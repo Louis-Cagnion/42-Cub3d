@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:05:07 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/06/02 16:49:26 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/06/03 01:58:53 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static t_list	*fill_invisible_stripe(t_texture tex,
 	return (dest);
 }
 
-static t_sprite_frame	*create_sprite_frame(t_texture tex)
+t_sprite_frame	*create_sprite_frame(t_texture tex)
 {
 	t_sprite_frame	*dest;
 	t_list			**buffer;
@@ -113,9 +113,12 @@ t_entity	*create_entity(char *tex_path, double x, double y, void *mlx_ptr)
 	dest->frame_list = create_cell(create_sprite_frame(tex));
 	dest->first_frame = (void *)dest->frame_list;
 	dest->cur_tex = tex;
-	dest->cur_invisible_parts = ((t_sprite_frame *)dest->frame_list->data)->invisible_parts;
+	dest->cur_invisible_parts = ((t_sprite_frame *)dest->frame_list->data)
+		->invisible_parts;
 	dest->frame_list->next = dest->frame_list;
 	dest->framerate = 24;
 	dest->frame_count = 0;
+	add_entity_frame(dest, "./assets/isaac.xpm", mlx_ptr);
+	add_entity_frame(dest, "./assets/mario.xpm", mlx_ptr);
 	return (dest);
 }
