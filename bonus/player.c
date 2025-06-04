@@ -6,7 +6,7 @@
 /*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 16:40:40 by marvin            #+#    #+#             */
-/*   Updated: 2025/05/28 16:59:58 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/06/03 14:38:10 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ static void	get_player_infos(t_game *game)
 	game->player.x = x + 0.5001;
 	game->player.int_x = (int)x;
 	game->player.x_mantissa = 0.5001;
+	game->player.cam_y = 0;
 	init_camera(&game->player, game->map.map_array[y][x]);
 	game->map.map_array[(int)game->player.y][(int)game->player.x] = '0';
 	game->map.map[(int)((game->player.y * game->map.w_map)
@@ -109,19 +110,20 @@ static void	compute_movement(t_player *cpy, int key)
 	}
 }
 
-void	actualise_player_pos(char **map_array, t_player *player, int key)
+void	actualise_player_pos(char **map_array, t_player *player,
+		int key, t_tile tiles[256])
 {
 	t_player	cpy;
 
 	cpy = *player;
 	compute_movement(&cpy, key);
-	if (map_array[player->int_y][(int)(cpy.x)] != '1')
+	if (!tiles[(int)map_array[player->int_y][(int)(cpy.x)]].is_wall)
 	{
 		player->x = cpy.x;
 		player->int_x = (int)cpy.x;
 		player->x_mantissa = cpy.x - (int)cpy.x;
 	}
-	if (map_array[(int)cpy.y][(player->int_x)] != '1')
+	if (!tiles[(int)map_array[(int)cpy.y][(player->int_x)]].is_wall)
 	{
 		player->y = cpy.y;
 		player->int_y = (int)cpy.y;

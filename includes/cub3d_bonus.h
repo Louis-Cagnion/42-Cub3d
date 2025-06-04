@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/05/28 18:40:42 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/06/03 14:37:52 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@
 
 //window settings
 # ifndef WIN_WIDTH
-#  define WIN_WIDTH		1200
+#  define WIN_WIDTH		1500
 # endif
 # ifndef WIN_HEIGHT
-#  define WIN_HEIGHT	1000
+#  define WIN_HEIGHT	1500
 # endif
 
 // Mouse defines
@@ -71,10 +71,13 @@ typedef struct s_keyboard_control
 	char		d_key;
 	char		left_key;
 	char		right_key;
+	char		up_key;
+	char		down_key;
 }	t_keyboard_control;
 
 typedef struct s_raycast
 {
+	int			tile;
 	int			*addr;
 	char		side;
 	int			line_height;
@@ -89,6 +92,7 @@ typedef struct s_raycast
 	double		*row_dist_table;
 	int			half_win_height;
 	double		cam_x;
+	int			cam_y;
 	double		cam_x_step;
 	double		*z_buffer;
 }	t_raycast;
@@ -150,6 +154,8 @@ typedef struct s_player
 	double		ray_dir_y[2];
 	double		mvt_speed;
 	double		inv_deter;
+	int			cam_y;
+	int			half_win_height;
 }	t_player;
 
 typedef struct s_sprite_drawing
@@ -166,11 +172,11 @@ typedef struct s_sprite_drawing
 	double		tex_y;
 	int			*tex_addr;
 	int			*addr;
+	int			cam_y;
 }	t_sprite_drawing;
 
-typedef struct s_map
+typedef struct s_tile
 {
-	t_player	*player;
 	t_texture	*tex_list;
 	char		*no_path;
 	char		*so_path;
@@ -178,8 +184,29 @@ typedef struct s_map
 	char		*ea_path;
 	char		*floor_path;
 	char		*ceil_path;
+	char		*is_wall_str;
 	int			f_rgb;
 	int			c_rgb;
+	int			is_wall;
+}	t_tile;
+
+typedef struct s_plane_drawer
+{
+	double	ray_dirs[2];
+	double	player_pos[2];
+	double	floor_pos[2];
+	double	real_pos[2];
+	int		map_pos[2];
+	double	*row_table;
+	int		tile;
+}	t_plane_drawer;
+
+typedef struct s_map
+{
+	t_texture	*tex_list;
+	t_player	*player;
+	t_tile		tiles[256];
+	char		tile_defined[256];
 	char		*map;
 	char		**map_array;
 	int			w_map;
@@ -199,13 +226,20 @@ typedef struct s_game
 
 //parse and treat file
 int			path_is_valid(char *pathname);
-char		**get_elem(t_map *map, int elem);
+char		**get_elem(t_tile *tile, int elem);
 int			treat_file(char *map_name, t_game *game);
 int			treat_map(char *map, int i, t_game *game);
+int			get_tiles(char *content, int *i, char *elems[], t_map *map);
+int			check_elems(char *file_infos, char *elem[], t_tile *tile);
+int			check_single_elem(char *file_infos, int *i,
+				char *elems[], t_tile *tile);
+int			check_limits(char **map_array, int map_height,
+				int *len_strings, t_tile tiles[256]);
 
 //player
 int			only_one_player(t_game *game);
-void		actualise_player_pos(char **map_array, t_player *ptr_p, int key);
+void		actualise_player_pos(char **map_array, t_player *ptr_p,
+				int key, t_tile tiles[256]);
 int			is_valid_move(char **map_array, t_player p, int key);
 
 //print
@@ -218,16 +252,20 @@ void		print_map(t_map *map);
 //display utils
 void		store_textures(t_map *map, void *mlx);
 void		display_screen(t_game *game, t_opti_const consts,
-				t_mlx mlx, t_raycast infos);
+				t_raycast infos);
 void		put_texture(t_game *game, int *addr,
 				t_raycast *infos, int size_line);
 double		get_wall_dist(t_player player, t_raycast *infos,
-				double cam_x, char **map);
+				double cam_x, t_map map);
 void		put_pixel(t_img *img, int x, int y, int color);
 int			get_pixel_color(t_img *img, int x, int y);
 void		init_size_line_steps(int size_line, int steps[5]);
 void		init_raycast(t_game *game, t_raycast *raycast);
 void		update_player_ray_dirs(t_player *player);
+
+//floor and ceil
+void		draw_ceil_and_floor_tex(int *addr, int size,
+				t_map map, t_raycast *ray);
 
 //entities
 t_entity	*create_entity(char *tex_path, double x, double y, void *mlx_ptr);
@@ -240,7 +278,7 @@ int			set_mlx(t_mlx *mlx, char *win_title);
 
 //controls
 void		init_hooks(t_game *game);
-void		key_pressed_check_controls(t_game *game, t_player *player);
+int			key_pressed_check_controls(t_game *game, t_player *player);
 int			key_pressed_check_camera(t_player *player,
 				t_keyboard_control key_infos);
 
