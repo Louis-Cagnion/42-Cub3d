@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/05/31 19:00:36 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/09 19:07:18 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@
 
 //window settings
 # ifndef WIN_WIDTH
-#  define WIN_WIDTH		1200
+#  define WIN_WIDTH		3800
 # endif
 # ifndef WIN_HEIGHT
-#  define WIN_HEIGHT	1000
+#  define WIN_HEIGHT	2000
 # endif
 
 // Mouse defines
@@ -73,6 +73,7 @@ typedef struct s_keyboard_control
 	char		d_key;
 	char		left_key;
 	char		right_key;
+	char		ctrl_key;
 }	t_keyboard_control;
 
 typedef struct s_raycast
@@ -142,6 +143,7 @@ typedef struct s_player
 	double		y;
 	int			int_x;
 	int			int_y;
+	double		rotation;
 	double		x_mantissa;
 	double		y_mantissa;
 	double		plane_x;
