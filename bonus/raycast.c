@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 15:17:03 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/05/28 17:02:15 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/06/09 18:17:33 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ static inline void	draw_ceil_and_floor_tex(int **addr, int size_line,
 	*addr = floor_addr;
 	p = ray->wall_pos[1] - ray->half_win_height;
 	inter_dist[0] = map.player->ray_dir_x[0]
-		+ ray->cam_x * map.player->ray_dir_x[1];
+		+ (ray->cam_x * map.player->ray_dir_x[1]);
 	inter_dist[1] = map.player->ray_dir_y[0]
-		+ ray->cam_x * map.player->ray_dir_y[1];
+		+ (ray->cam_x * map.player->ray_dir_y[1]);
 	y = ray->wall_pos[0];
 	while (y--)
 	{

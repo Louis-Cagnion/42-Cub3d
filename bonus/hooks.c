@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 02:51:28 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/05/30 14:59:35 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/09 18:23:15 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,14 @@ static int	loop(t_game *game)
 	key_pressed_check_camera(&game->player, game->key_infos);
 	update_entities(game->map.entity_list, game->player, game->consts);
 	display_screen(game, game->consts, game->mlx, game->raycast);
-	put_minimap_pixels(game->mlx, game->player, game->map.minimap);
+	put_minimap(game->mlx, game->map.minimap);
 	return (0);
 }
 
 void	init_hooks(t_game *game)
 {
-	init_minimap(game);
 	init_raycast(game, &game->raycast);
+	init_minimap(game);
 	mlx_hook(game->mlx.window, DestroyNotify, KeyReleaseMask, quit, game);
 	mlx_hook(game->mlx.window, KeyPress, KeyPressMask, pressed_key, game);
 	mlx_hook(game->mlx.window, KeyRelease, KeyReleaseMask, release_key, game);
