@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 18:18:14 by marvin            #+#    #+#             */
-/*   Updated: 2025/05/28 23:23:15 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/09 22:34:05 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static inline char	return_token_map(t_map map, t_minimap mini, int y, int x)
 	return (map.map_array[line][col]);
 }
 
-static inline void	put_player_minimap(t_mlx mlx, int x, int y, t_minimap mini)
+static inline void	put_player_minimap(t_mlx mlx, double x, double y, t_minimap mini)
 {
 	int	x_backup;
 	int	x_player;
@@ -38,13 +38,13 @@ static inline void	put_player_minimap(t_mlx mlx, int x, int y, t_minimap mini)
 	int	limit_x;
 	int	limit_y;
 
-	mini.ratio_y_player = (mini.start_y_mini + y * mini.ratio_y);
 	mini.ratio_x_player = (mini.start_x_mini + x * mini.ratio_x);
+	mini.ratio_y_player = (mini.start_y_mini + y * mini.ratio_y);
 	x_player = (int)mini.ratio_x_player - 3;
 	x_backup = x_player;
 	y_player = (int)mini.ratio_y_player - 3;
-	limit_x = (int)mini.ratio_x_player + 3;
-	limit_y = (int)mini.ratio_y_player + 3;
+	limit_x = x_player + 6;
+	limit_y = y_player + 6;
 	while (y_player <= limit_y)
 	{
 		while (x_player <= limit_x)
