@@ -6,7 +6,11 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/06/09 22:39:21 by marvin           ###   ########.fr       */
+=======
+/*   Updated: 2025/06/09 18:34:07 by gakarbou         ###   ########.fr       */
+>>>>>>> fde75085911bf151ecd264d51c4033ad68151421
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +40,10 @@
 
 //window settings
 # ifndef WIN_WIDTH
-#  define WIN_WIDTH		1500
+#  define WIN_WIDTH		4000
 # endif
 # ifndef WIN_HEIGHT
-#  define WIN_HEIGHT	700
+#  define WIN_HEIGHT	2000
 # endif
 
 // Mouse defines
@@ -154,13 +158,14 @@ typedef struct s_player
 
 typedef struct s_minimap
 {
+	t_img	*img;
 	int		fract_of_h;
-	int		start_y_mini;
-	int		end_y_mini;
+	int		start_y;
+	int		end_y;
 	int		height_mini;
 	int		fract_of_w;
-	int		start_x_mini;
-	int		end_x_mini;
+	int		start_x;
+	int		end_x;
 	int		width_mini;
 	double	ratio_y;
 	double	ratio_y_player;
@@ -168,6 +173,7 @@ typedef struct s_minimap
 	double	ratio_x_player;
 	int		*color_str;
 }	t_minimap;
+
 typedef struct s_sprite_drawing
 {
 	double		step;
@@ -233,7 +239,11 @@ void		ft_error(char *msg);
 void		print_map(t_map *map);
 
 //display utils
+<<<<<<< HEAD
 void		put_minimap_pixels(t_mlx mlx, t_player player, t_minimap mini);
+=======
+void		put_minimap(t_mlx mlx, t_minimap minimap);
+>>>>>>> fde75085911bf151ecd264d51c4033ad68151421
 void		init_minimap(t_game *game);
 void		store_textures(t_map *map, void *mlx);
 void		display_screen(t_game *game, t_opti_const consts,
