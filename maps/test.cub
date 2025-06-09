@@ -1,9 +1,9 @@
-NO maps/test.cub       
-SO maps/test.cub
-WE maps/test.cub
-EA maps/test.cub
+NO ./assets/isaac.xpm
+SO ./assets/wall.xpm
+WE ./assets/backrooms.xpm
+EA ./assets/wall.xpm
 
-F 255,0,0
+F ./assets/isaac.xpm
 C 255,0,0
 
 11111

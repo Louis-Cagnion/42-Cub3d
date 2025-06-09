@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/05/30 14:50:27 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/09 21:54:00 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,7 +233,6 @@ void		ft_error(char *msg);
 void		print_map(t_map *map);
 
 //display utils
-double		*init_row_dist_table(int half_height);
 void		put_minimap_pixels(t_mlx mlx, t_player player, t_minimap mini);
 void		init_minimap(t_game *game);
 void		store_textures(t_map *map, void *mlx);
