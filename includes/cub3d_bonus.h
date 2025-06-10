@@ -6,7 +6,11 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/06/10 13:41:11 by marvin           ###   ########.fr       */
+=======
+/*   Updated: 2025/06/10 13:29:33 by marvin           ###   ########.fr       */
+>>>>>>> main
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +53,7 @@
 # define SCROLL_UP		4
 # define SCROLL_DOWN	5
 
+<<<<<<< HEAD
 //player
 # ifndef P_HPS
 #  define P_HPS		100
@@ -237,6 +242,14 @@ typedef struct s_map
 	int			h_map;
 	t_list		*entity_list;
 }	t_map;
+=======
+# include "bonus/map_bonus.h"
+# include "bonus/draw_bonus.h"
+# include "bonus/misc_bonus.h"
+# include "bonus/player_bonus.h"
+# include "bonus/raycast_bonus.h"
+# include "bonus/entities_bonus.h"
+>>>>>>> main
 
 typedef struct s_game
 {
@@ -253,62 +266,54 @@ int			path_is_valid(char *pathname);
 char		**get_elem(t_tile *tile, int elem);
 int			treat_file(char *map_name, t_game *game);
 int			treat_map(char *map, int i, t_game *game);
-int			get_tiles(char *content, int *i, char *elems[], t_map *map);
-int			check_elems(char *file_infos, char *elem[], t_tile *tile);
 int			check_single_elem(char *file_infos, int *i,
 				char *elems[], t_tile *tile);
 int			check_limits(char **map_array, int map_height,
 				int *len_strings, t_tile tiles[256]);
+int			check_elems(char *file_infos, char *elem[], t_tile *tile);
+int			get_tiles(char *content, int *i, char *elems[], t_map *map);
 
 //player
 int			only_one_player(t_game *game);
 void		display_stats(t_stats p_stats, t_mlx mlx);
 void		actualise_player_pos(char **map_array, t_player *ptr_p,
 				int key, t_tile tiles[256]);
-int			is_valid_move(char **map_array, t_player p, int key);
 
 //print
 int			usage_prompt(void);
 void		ft_error(char *msg);
 
-//debug
-void		print_map(t_map *map);
-
 //display utils
-void		store_textures(t_map *map, void *mlx);
-void		display_screen(t_game *game, t_opti_const consts,
-				t_raycast infos);
 void		put_texture(t_game *game, int *addr,
 				t_raycast *infos, int size_line);
+void		store_textures(t_map *map, void *mlx);
+void		update_player_ray_dirs(t_player *player);
+int			get_pixel_color(t_img *img, int x, int y);
+void		init_raycast(t_game *game, t_raycast *raycast);
+void		put_pixel(t_img *img, int x, int y, int color);
 double		get_wall_dist(t_player player, t_raycast *infos,
 				double cam_x, t_map map);
-void		put_pixel(t_img *img, int x, int y, int color);
-int			get_pixel_color(t_img *img, int x, int y);
-void		init_size_line_steps(int size_line, int steps[5]);
-void		init_raycast(t_game *game, t_raycast *raycast);
-void		update_player_ray_dirs(t_player *player);
+void		display_screen(t_game *game, t_opti_const consts,
+				t_raycast infos);
 
 //floor and ceil
 void		draw_ceil_and_floor_tex(int *addr, int size,
 				t_map map, t_raycast *ray);
 
 //entities
-t_entity	*create_entity(char *tex_path, double x, double y, void *mlx_ptr);
 void		draw_sprites(t_raycast infos, t_game *game);
 void		update_entities(t_list *entities, t_player player,
 				t_opti_const consts);
+t_entity	*create_entity(char *tex_path, double x, double y, void *mlx_ptr);
 
 //mlx
 int			set_mlx(t_mlx *mlx, char *win_title);
 
 //controls
 void		init_hooks(t_game *game);
-int			key_pressed_check_controls(t_game *game, t_player *player);
 int			key_pressed_check_camera(t_player *player,
 				t_keyboard_control key_infos);
-
-//debug
-void		print_map(t_map *map);
+int			key_pressed_check_controls(t_game *game, t_player *player);
 
 //free
 void		free_mlx(t_mlx *mlx);

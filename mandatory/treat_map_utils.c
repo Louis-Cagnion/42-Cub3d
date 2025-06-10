@@ -6,11 +6,11 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 21:57:47 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/06/10 12:56:20 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/10 12:56:46 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d_bonus.h"
+#include "cub3d.h"
 
 static char	*construct_wall_str(t_tile tiles[256])
 {
