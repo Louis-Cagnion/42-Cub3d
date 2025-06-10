@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update_entities.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 16:01:23 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/05/28 16:07:05 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/06/10 11:34:49 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,7 @@ void	update_entities(t_list *entities, t_player player, t_opti_const consts)
 		entity->sprite_height = abs((int)(WIN_HEIGHT / entity->draw_dir_y));
 		entity->half_height = entity->sprite_height / 2;
 		entities = entities->next;
+		entity->stats.hps = E_HPS;
+		entity->stats.attack = E_ATK;
 	}
 }

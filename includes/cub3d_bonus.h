@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/06/03 14:37:52 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/06/10 11:49:48 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,22 @@
 # define RIGHT_CLICK	3
 # define SCROLL_UP		4
 # define SCROLL_DOWN	5
+
+//player
+# ifndef P_HPS
+#  define P_HPS		100
+# endif
+# ifndef P_ATK
+#  define P_ATK		50
+# endif
+
+//player
+# ifndef E_HPS
+#  define E_HPS		P_ATK
+# endif
+# ifndef E_ATK
+#  define E_ATK		P_HPS / 5
+# endif
 
 typedef struct s_inv_size
 {
@@ -121,6 +137,12 @@ typedef struct s_texture
 	int			height;
 }	t_texture;
 
+typedef struct s_stats
+{
+	int	hps;
+	int	attack;
+} t_stats;
+
 typedef struct s_entity
 {
 	double		x;
@@ -136,6 +158,7 @@ typedef struct s_entity
 	int			framerate;
 	t_list		**invisible_parts;
 	t_texture	tex;
+	t_stats		stats;
 }	t_entity;
 
 typedef struct s_player
@@ -156,6 +179,7 @@ typedef struct s_player
 	double		inv_deter;
 	int			cam_y;
 	int			half_win_height;
+	t_stats		stats;
 }	t_player;
 
 typedef struct s_sprite_drawing
@@ -238,6 +262,7 @@ int			check_limits(char **map_array, int map_height,
 
 //player
 int			only_one_player(t_game *game);
+void		display_stats(t_stats p_stats, t_mlx mlx);
 void		actualise_player_pos(char **map_array, t_player *ptr_p,
 				int key, t_tile tiles[256]);
 int			is_valid_move(char **map_array, t_player p, int key);
