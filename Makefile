@@ -32,7 +32,6 @@ FILES = main.c \
 		display_utils.c \
 		hooks.c \
 		treat_map_utils.c \
-		get_tiles.c \
 		get_wall_dist.c \
 		draw_texture.c \
 		raycast.c
