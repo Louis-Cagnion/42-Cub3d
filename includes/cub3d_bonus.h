@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/06/10 13:25:50 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/10 13:29:33 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@
 # include "bonus/misc_bonus.h"
 # include "bonus/player_bonus.h"
 # include "bonus/raycast_bonus.h"
-# include "bonus/keyboard_bonus.h"
 # include "bonus/entities_bonus.h"
 
 typedef struct s_game
