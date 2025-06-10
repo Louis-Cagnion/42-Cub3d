@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/06/10 12:30:44 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/10 13:25:50 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,25 +51,11 @@
 
 # include "bonus/map_bonus.h"
 # include "bonus/draw_bonus.h"
-# include "bonus/consts_bonus.h"
+# include "bonus/misc_bonus.h"
 # include "bonus/player_bonus.h"
 # include "bonus/raycast_bonus.h"
 # include "bonus/keyboard_bonus.h"
 # include "bonus/entities_bonus.h"
-
-typedef struct s_inv_size
-{
-	int		start;
-	int		end;
-}	t_inv_size;
-
-typedef struct s_mlx
-{
-	void		*init;
-	void		*window;
-	t_img		*img;
-	int			size_line;
-}	t_mlx;
 
 typedef struct s_game
 {
