@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 02:51:28 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/06/10 11:50:40 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/10 15:11:44 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,11 @@ static int	loop(t_game *game)
 	int		ret_cam;
 	int		ret_mov;
 
+	display_stats(game->player.stats, game->mlx);
 	game->raycast.cam_y = game->player.cam_y;
 	ret_mov = key_pressed_check_controls(game, &game->player);
 	ret_cam = key_pressed_check_camera(&game->player, game->key_infos);
 	update_entities(game->map.entity_list, game->player, game->consts);
-	display_stats(game->player.stats, game->mlx);
 	if (ret_mov || ret_cam)
 	{
 		display_screen(game, game->consts, game->raycast);
@@ -84,6 +84,7 @@ static int	loop(t_game *game)
 void	init_hooks(t_game *game)
 {
 	init_raycast(game, &game->raycast);
+	init_hp_bar(&game->player.stats, game->mlx);
 	game->map.entity_list = create_cell(
 			create_entity("./assets/snas.xpm", 2.5, 3.8, game->mlx.init));
 	update_entities(game->map.entity_list, game->player, game->consts);

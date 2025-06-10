@@ -6,12 +6,39 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/06/10 12:08:51 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/10 15:05:32 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PLAYER_BONUS_H
 # define PLAYER_BONUS_H
+
+# ifndef P_HPS
+#  define P_HPS		100
+# endif
+
+# ifndef P_ATK
+#  define P_ATK		50
+# endif
+
+# ifndef E_HPS
+#  define E_HPS		P_ATK
+# endif
+
+# ifndef E_ATK
+#  define E_ATK		P_HPS / 5
+# endif
+
+typedef struct s_stats
+{
+	int 	hps;
+	int 	attack;
+	int		start_w_hp;
+	int		start_h_hp;
+	t_img	*hp_bar;
+	int		hp_bar_w;
+	int		hp_bar_h;
+}	t_stats;
 
 typedef struct s_player
 {
@@ -31,6 +58,7 @@ typedef struct s_player
 	double		inv_deter;
 	int			cam_y;
 	int			half_win_height;
+	t_stats		stats;
 }	t_player;
 
 #endif

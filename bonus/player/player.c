@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 16:40:40 by marvin            #+#    #+#             */
-/*   Updated: 2025/06/10 11:34:41 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/10 15:15:55 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ static void	get_player_infos(t_map *map, t_player *player)
 	player->int_x = (int)x;
 	player->x_mantissa = 0.5001;
 	player->cam_y = 0;
-	init_camera(&player, map->map_array[y][x]);
+	init_camera(player, map->map_array[y][x]);
 	map->map_array[(int)player->y][(int)player->x] = '0';
-	map->map[(int)((player->y * map->w_map)	+ player->x)] = '0';
+	map->map[(int)((player->y * map->w_map) + player->x)] = '0';
 	player->stats.hps = P_HPS;
 	player->stats.attack = P_ATK;
 }

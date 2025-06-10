@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/06/10 12:14:24 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/10 13:57:17 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define ENTITIES_BONUS_H
 
 # include "textures_bonus.h"
+# include "player_bonus.h"
 # include "libft.h"
 
 typedef struct s_entity
@@ -31,6 +32,7 @@ typedef struct s_entity
 	int			framerate;
 	t_list		**invisible_parts;
 	t_texture	tex;
+	t_stats		stats;
 }	t_entity;
 
 #endif
