@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 16:40:40 by marvin            #+#    #+#             */
-/*   Updated: 2025/06/10 15:15:55 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/10 15:42:21 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ static void	get_player_infos(t_map *map, t_player *player)
 	map->map_array[(int)player->y][(int)player->x] = '0';
 	map->map[(int)((player->y * map->w_map) + player->x)] = '0';
 	player->stats.hps = P_HPS;
+	player->stats.old_hps = P_HPS;
 	player->stats.attack = P_ATK;
 }
 
