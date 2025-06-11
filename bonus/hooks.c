@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 02:51:28 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/06/11 19:00:55 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/06/11 21:38:39 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,17 @@ static int	thread_finished(t_game *game)
 
 static void	thread_draw_screen(t_game *game)
 {
+	pthread_mutex_lock(&game->jsp);
+	game->next_draw = 1;
+	game->thread_wait = 0;
+	pthread_mutex_unlock(&game->jsp);
 	while (!thread_finished(game))
-		;
+		usleep(1);
 	mlx_put_image_to_window(game->mlx.init,
 		game->mlx.window, game->mlx.img, 0, 0);
+	pthread_mutex_lock(&game->jsp);
+	game->next_draw = 0;
+	pthread_mutex_unlock(&game->jsp);
 }
 
 static int	pressed_key(int key, t_game *game)
@@ -90,12 +97,7 @@ static int	loop(t_game *game)
 	game->raycast.cam_y = game->player.cam_y;
 	ret_mov = key_pressed_check_controls(game, &game->player);
 	ret_cam = key_pressed_check_camera(&game->player, game->key_infos);
-	game->thread_wait = THREAD_COUNT;
-	while (!thread_finished(game))
-		;
-	mlx_put_image_to_window(game->mlx.init,
-		game->mlx.window, game->mlx.img, 0, 0);
-	usleep(1);
+	thread_draw_screen(game);
 	/*draw_sprites(game->raycast, game);
 	update_entities(game->map.entity_list, game->player, game->consts);
 	game->map.entity_list = create_cell(
@@ -117,6 +119,7 @@ void	init_hooks(t_game *game)
 	key_pressed_check_camera(&game->player, game->key_infos);
 	pthread_mutex_init(&game->jsp, NULL);
 	game->thread_wait = 0;
+	game->next_draw = 0;
 	while (++i < THREAD_COUNT)
 	{
 		game->thread[i].index = i;
@@ -124,7 +127,6 @@ void	init_hooks(t_game *game)
 		game->thread[i].game = game;
 		pthread_create(&game->thread[i].thread, NULL, thread_routine, &game->thread[i]);
 	}
-	game->thread_wait = 4;
 	thread_draw_screen(game);
 	mlx_hook(game->mlx.window, DestroyNotify, KeyReleaseMask, quit, game);
 	mlx_hook(game->mlx.window, KeyPress, KeyPressMask, pressed_key, game);

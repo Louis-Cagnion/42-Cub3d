@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 15:17:03 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/06/11 19:00:20 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/06/11 21:41:22 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	display_screen(t_game *game, t_raycast infos, int x, int width)
 	{
 		infos.wall_dist = get_wall_dist(game->player, &infos,
 				cam_coef * x - 1, game->map);
-		infos.z_buffer[x - 1] = infos.wall_dist;
+		infos.z_buffer[x] = infos.wall_dist;
 		infos.line_height = WIN_HEIGHT / infos.wall_dist;
 		infos.half_line_height = infos.line_height >> 1;
 		infos.wall_pos[0] = infos.half_win_height - infos.half_line_height
@@ -49,9 +49,8 @@ void	display_screen(t_game *game, t_raycast infos, int x, int width)
 			infos.wall_pos[0] = 0;
 		if (infos.wall_pos[1] > WIN_HEIGHT)
 			infos.wall_pos[1] = WIN_HEIGHT;
-		draw_column(game, x, game->map, &infos);
+		draw_column(game, x++, game->map, &infos);
 		infos.cam_x += infos.cam_x_step;
-		x++;
 	}
 }
 
@@ -61,7 +60,7 @@ static int	thread_finished(t_game *game)
 
 	res = 0;
 	pthread_mutex_lock(&game->jsp);
-	if (game->thread_wait == THREAD_COUNT)
+	if (game->next_draw)
 		res++;
 	pthread_mutex_unlock(&game->jsp);
 	return (res);
@@ -79,11 +78,13 @@ void	*thread_routine(void *ptr)
 	while (!game->stop)
 	{
 		while (!thread_finished(game))
-			;
+			usleep(1);
 		display_screen(game, thread->raycast, thread->start, thread->width);
 		pthread_mutex_lock(&game->jsp);
 		game->thread_wait++;
 		pthread_mutex_unlock(&game->jsp);
+		while (thread_finished(game))
+			usleep(1);
 	}
 	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/06/11 17:10:01 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/06/11 21:37:36 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@
 
 //window settings
 # ifndef WIN_WIDTH
-#  define WIN_WIDTH		4000
+#  define WIN_WIDTH		1000
 # endif
 # ifndef WIN_HEIGHT
-#  define WIN_HEIGHT	2000
+#  define WIN_HEIGHT	500
 # endif
 
 // Mouse defines
