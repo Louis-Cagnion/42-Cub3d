@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/06/03 01:54:54 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/06/11 17:10:01 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <unistd.h> // read, write, close
 # include <stdlib.h> // malloc, free, exit
 # include <string.h> // strerror
+# include <pthread.h>
 # include <X11/X.h>
 # include <X11/keysym.h>
 
@@ -32,6 +33,9 @@
 # endif
 # ifndef ROT_SPEED
 #  define ROT_SPEED		0.10f
+# endif
+# ifndef THREAD_COUNT
+#  define THREAD_COUNT		4
 # endif
 
 //window settings
@@ -48,6 +52,8 @@
 # define RIGHT_CLICK	3
 # define SCROLL_UP		4
 # define SCROLL_DOWN	5
+
+typedef struct s_game	t_game;
 
 typedef struct s_inv_size
 {
@@ -94,13 +100,13 @@ typedef struct s_raycast
 	double		cam_x;
 	int			cam_y;
 	double		cam_x_step;
+	double		cam_coef;
 	double		*z_buffer;
 }	t_raycast;
 
 typedef struct s_opti_const
 {
 	double		float_width;
-	double		cam_coef;
 	int			half_height;
 	int			half_width;
 }	t_opti_const;
@@ -223,6 +229,16 @@ typedef struct s_map
 	t_list		*entity_list;
 }	t_map;
 
+typedef struct s_thread_info
+{
+	t_game		*game;
+	t_raycast	raycast;
+	int			index;
+	int			start;
+	int			width;
+	pthread_t	thread;
+}	t_thread_info;
+
 typedef struct s_game
 {
 	t_mlx				mlx;
@@ -231,6 +247,11 @@ typedef struct s_game
 	t_raycast			raycast;
 	t_opti_const		consts;
 	t_keyboard_control	key_infos;
+	t_thread_info		thread[4];
+	int					thread_wait;
+	int					stop;
+	int					next_draw;
+	pthread_mutex_t		jsp;
 }	t_game;
 
 //parse and treat file
@@ -260,8 +281,8 @@ void			print_map(t_map *map);
 
 //display utils
 void			store_textures(t_map *map, void *mlx);
-void			display_screen(t_game *game, t_opti_const consts,
-					t_raycast infos);
+//void			display_screen(t_game *game, t_opti_const consts,
+//					t_raycast *infos);
 void			put_texture(t_game *game, int *addr,
 					t_raycast *infos, int size_line);
 double			get_wall_dist(t_player player, t_raycast *infos,
@@ -303,5 +324,7 @@ void			free_game(t_game *game);
 
 //fucking libft
 void			ft_lstclear(t_list **lst, void (*del)(void *));
+
+void			*thread_routine(void *ptr);
 
 #endif

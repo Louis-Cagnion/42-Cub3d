@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 12:23:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/05/29 18:34:14 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/06/09 20:08:44 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	init_raycast(t_game *game, t_raycast *raycast)
 	game->consts.float_width = (double)WIN_WIDTH;
 	game->consts.half_height = WIN_HEIGHT / 2;
 	game->consts.half_width = WIN_WIDTH / 2;
-	game->consts.cam_coef = 2 / game->consts.float_width;
+	game->raycast.cam_coef = 2 / game->consts.float_width;
 	raycast->half_win_height = game->consts.half_height;
 	raycast->cam_x = 1;
 	raycast->cam_x_step = (double)1 / WIN_WIDTH;

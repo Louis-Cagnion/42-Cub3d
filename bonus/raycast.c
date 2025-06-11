@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 15:17:03 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/06/03 01:36:14 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/06/11 19:00:20 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,30 +28,62 @@ static inline void	draw_column(t_game *game, int x, t_map map_infos,
 	put_texture(game, addr, infos, size_line);
 }
 
-void	display_screen(t_game *game, t_opti_const consts, t_raycast infos)
+void	display_screen(t_game *game, t_raycast infos, int x, int width)
 {
 	double		cam_coef;
-	int			x;
 
-	x = WIN_WIDTH;
-	cam_coef = consts.cam_coef;
-	while (x)
+	cam_coef = infos.cam_coef;
+	infos.cam_x = (infos.cam_x_step * x);
+	while (x < width)
 	{
 		infos.wall_dist = get_wall_dist(game->player, &infos,
 				cam_coef * x - 1, game->map);
 		infos.z_buffer[x - 1] = infos.wall_dist;
 		infos.line_height = WIN_HEIGHT / infos.wall_dist;
 		infos.half_line_height = infos.line_height >> 1;
-		infos.wall_pos[0] = consts.half_height - infos.half_line_height
+		infos.wall_pos[0] = infos.half_win_height - infos.half_line_height
 			+ infos.cam_y;
-		infos.wall_pos[1] = consts.half_height + infos.half_line_height
+		infos.wall_pos[1] = infos.half_win_height + infos.half_line_height
 			+ infos.cam_y;
 		if (infos.wall_pos[0] >> 31)
 			infos.wall_pos[0] = 0;
 		if (infos.wall_pos[1] > WIN_HEIGHT)
 			infos.wall_pos[1] = WIN_HEIGHT;
-		draw_column(game, --x, game->map, &infos);
-		infos.cam_x -= infos.cam_x_step;
+		draw_column(game, x, game->map, &infos);
+		infos.cam_x += infos.cam_x_step;
+		x++;
 	}
-	draw_sprites(infos, game);
+}
+
+static int	thread_finished(t_game *game)
+{
+	int	res;
+
+	res = 0;
+	pthread_mutex_lock(&game->jsp);
+	if (game->thread_wait == THREAD_COUNT)
+		res++;
+	pthread_mutex_unlock(&game->jsp);
+	return (res);
+}
+
+void	*thread_routine(void *ptr)
+{
+	t_game			*game;
+	t_thread_info	*thread;
+
+	thread = (t_thread_info *)ptr;
+	game = thread->game;
+	thread->start = thread->index * (WIN_WIDTH / THREAD_COUNT);
+	thread->width = thread->start + (WIN_WIDTH / THREAD_COUNT);
+	while (!game->stop)
+	{
+		while (!thread_finished(game))
+			;
+		display_screen(game, thread->raycast, thread->start, thread->width);
+		pthread_mutex_lock(&game->jsp);
+		game->thread_wait++;
+		pthread_mutex_unlock(&game->jsp);
+	}
+	return (NULL);
 }

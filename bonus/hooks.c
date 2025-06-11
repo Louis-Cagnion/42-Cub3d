@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 02:51:28 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/06/03 01:36:26 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/06/11 19:00:55 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,26 @@ static int	quit(t_game *game)
 {
 	mlx_loop_end(game->mlx.init);
 	return (0);
+}
+
+static int	thread_finished(t_game *game)
+{
+	int	res;
+
+	res = 0;
+	pthread_mutex_lock(&game->jsp);
+	if (game->thread_wait == THREAD_COUNT)
+		res++;
+	pthread_mutex_unlock(&game->jsp);
+	return (res);
+}
+
+static void	thread_draw_screen(t_game *game)
+{
+	while (!thread_finished(game))
+		;
+	mlx_put_image_to_window(game->mlx.init,
+		game->mlx.window, game->mlx.img, 0, 0);
 }
 
 static int	pressed_key(int key, t_game *game)
@@ -70,9 +90,17 @@ static int	loop(t_game *game)
 	game->raycast.cam_y = game->player.cam_y;
 	ret_mov = key_pressed_check_controls(game, &game->player);
 	ret_cam = key_pressed_check_camera(&game->player, game->key_infos);
+	game->thread_wait = THREAD_COUNT;
+	while (!thread_finished(game))
+		;
+	mlx_put_image_to_window(game->mlx.init,
+		game->mlx.window, game->mlx.img, 0, 0);
+	usleep(1);
+	/*draw_sprites(game->raycast, game);
 	update_entities(game->map.entity_list, game->player, game->consts);
-	if (ret_mov || ret_cam || 1)
-		display_screen(game, game->consts, game->raycast);
+	game->map.entity_list = create_cell(
+			create_entity("./assets/snas.xpm", 2.5, 3.8, game->mlx.init));
+	update_entities(game->map.entity_list, game->player, game->consts);*/
 	mlx_put_image_to_window(game->mlx.init,
 		game->mlx.window, game->mlx.img, 0, 0);
 	return (0);
@@ -80,13 +108,24 @@ static int	loop(t_game *game)
 
 void	init_hooks(t_game *game)
 {
+	int		i;
+
+	game->stop = 0;
+	i = -1;
 	init_raycast(game, &game->raycast);
-	game->map.entity_list = create_cell(
-			create_entity("./assets/snas.xpm", 2.5, 3.8, game->mlx.init));
-	update_entities(game->map.entity_list, game->player, game->consts);
-	display_screen(game, game->consts, game->raycast);
-	mlx_put_image_to_window(game->mlx.init,
-		game->mlx.window, game->mlx.img, 0, 0);
+	key_pressed_check_controls(game, &game->player);
+	key_pressed_check_camera(&game->player, game->key_infos);
+	pthread_mutex_init(&game->jsp, NULL);
+	game->thread_wait = 0;
+	while (++i < THREAD_COUNT)
+	{
+		game->thread[i].index = i;
+		game->thread[i].raycast = game->raycast;
+		game->thread[i].game = game;
+		pthread_create(&game->thread[i].thread, NULL, thread_routine, &game->thread[i]);
+	}
+	game->thread_wait = 4;
+	thread_draw_screen(game);
 	mlx_hook(game->mlx.window, DestroyNotify, KeyReleaseMask, quit, game);
 	mlx_hook(game->mlx.window, KeyPress, KeyPressMask, pressed_key, game);
 	mlx_hook(game->mlx.window, KeyRelease, KeyReleaseMask, release_key, game);
