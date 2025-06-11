@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 02:51:28 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/05/31 19:00:40 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/11 20:18:09 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,10 @@ static int	pressed_key(int key, t_game *game)
 		game->key_infos.left_key = 1;
 	else if (key == XK_Right)
 		game->key_infos.right_key = 1;
+	else if (key == XK_Up)
+		game->key_infos.up_key = 1;
+	else if (key == XK_Down)
+		game->key_infos.down_key = 1;
 	return (0);
 }
 
@@ -51,18 +55,29 @@ static int	release_key(int key, t_game *game)
 		game->key_infos.left_key = 0;
 	else if (key == XK_Right)
 		game->key_infos.right_key = 0;
+	else if (key == XK_Up)
+		game->key_infos.up_key = 0;
+	else if (key == XK_Down)
+		game->key_infos.down_key = 0;
 	return (0);
 }
 
 static int	loop(t_game *game)
 {
-	key_pressed_check_controls(game, &game->player);
-	key_pressed_check_camera(&game->player, game->key_infos);
+	int		ret_cam;
+	int		ret_mov;
+	
+	game->raycast.cam_y = game->player.cam_y;
+	ret_mov = key_pressed_check_controls(game, &game->player);
+	ret_cam = key_pressed_check_camera(&game->player, game->key_infos);
 	actualise_cam_mouse(&game->mouse, game->consts.half_width, &game->player);
 	update_entities(game->map.entity_list, game->player, game->consts);
-	display_screen(game, game->consts, game->mlx, game->raycast);
-	mlx_put_image_to_window(game->mlx.init,
-		game->mlx.window, game->mlx.img, 0, 0);
+	if (ret_mov || ret_cam)
+	{
+		display_screen(game, game->consts, game->raycast);
+		mlx_put_image_to_window(game->mlx.init,
+			game->mlx.window, game->mlx.img, 0, 0);
+	}
 	return (0);
 }
 
@@ -71,6 +86,10 @@ void	init_hooks(t_game *game)
 	init_raycast(game, &game->raycast);
 	game->map.entity_list = create_cell(
 			create_entity("./assets/snas.xpm", 2.5, 3.8, game->mlx.init));
+	update_entities(game->map.entity_list, game->player, game->consts);
+	display_screen(game, game->consts, game->raycast);
+	mlx_put_image_to_window(game->mlx.init,
+		game->mlx.window, game->mlx.img, 0, 0);
 	mlx_hook(game->mlx.window, DestroyNotify, KeyReleaseMask, quit, game);
 	mlx_hook(game->mlx.window, KeyPress, KeyPressMask, pressed_key, game);
 	mlx_hook(game->mlx.window, KeyRelease, KeyReleaseMask, release_key, game);

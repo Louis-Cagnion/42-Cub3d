@@ -1,7 +1,7 @@
-NO ./test.cub
-SO ./test.cub
-WE ./test.cub
-EA ./test.cub
+NO ./assets/isaac.xpm
+SO ./assets/wall.xpm
+WE ./assets/backrooms.xpm
+EA ./assets/wall.xpm
 
 F 255,0,0
 C 255,0,0
