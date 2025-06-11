@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:31:43 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/06/10 16:02:01 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/11 20:00:10 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ void	display_stats(t_stats p_stats, t_mlx mlx)
 	if (p_stats.hps != p_stats.old_hps)
 	{
 		hps_left = p_stats.hp_bar_w / P_HPS * p_stats.hps;
-		hps_left /= 2;
 		put_pixels_hp_bar(hps_left, &p_stats, 0, 1);
 	}
 	print_hp_bar(p_stats.hp_bar, p_stats.pixels_hp_bar,
