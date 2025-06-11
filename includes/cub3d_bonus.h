@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 20:41:35 by marvin            #+#    #+#             */
-/*   Updated: 2025/06/11 22:12:17 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/11 23:04:17 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@
 
 //window settings
 # ifndef WIN_WIDTH
-#  define WIN_WIDTH		1900
+#  define WIN_WIDTH		(int)(1900 * 0.8)
 # endif
 # ifndef WIN_HEIGHT
-#  define WIN_HEIGHT	1000
+#  define WIN_HEIGHT	(int)(1000 * 0.8)
 # endif
 
 // Mouse defines
@@ -89,8 +89,8 @@ int			usage_prompt(void);
 void		ft_error(char *msg);
 
 //display utils
-void		put_minimap(t_mlx mlx, t_minimap minimap);
-void		init_minimap(t_game *game, int y, int x, char box_token);
+void		put_minimap(t_mlx mlx, t_minimap mini, t_player player);
+void		init_minimap(t_minimap *mini, t_map map, t_mlx mlx);
 void		store_textures(t_map *map, void *mlx);
 void		put_texture(t_game *game, int *addr,
 				t_raycast *infos, int size_line);

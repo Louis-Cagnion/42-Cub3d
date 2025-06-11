@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/06/11 22:13:59 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/11 22:21:48 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,6 @@
 # include "libft.h"
 # include "player_bonus.h"
 # include "textures_bonus.h"
-
-# ifndef OX_GREY
-#  define OX_GREY		0x808080
-# endif
 
 typedef struct s_minimap
 {
