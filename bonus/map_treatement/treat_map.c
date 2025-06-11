@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:47:09 by locagnio          #+#    #+#             */
-/*   Updated: 2025/06/11 20:14:44 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/11 20:30:45 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,9 @@ static int	check_sides(char **map_array, int map_height,
 	j = 1;
 	while (j < map_height)
 	{
-		if ((map_array[j][0] != 32) && !tiles[(int)map_array[j][0]].is_wall_str)
+		if ((map_array[j][0] != ' ') && !tiles[(int)map_array[j][0]].is_wall_str)
 			return (0);
-		if ((map_array[j][len_strings[j] - 1] != 32)
+		if ((map_array[j][len_strings[j] - 1] != ' ')
 				&& !tiles[(int)map_array[j][len_strings[j] - 1]].is_wall_str)
 			return (0);
 		j++;

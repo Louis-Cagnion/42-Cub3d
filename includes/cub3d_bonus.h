@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/06/11 20:19:39 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/11 20:22:47 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ int			set_mlx(t_mlx *mlx, char *win_title);
 //controls
 void		init_hooks(t_game *game);
 int			mouse_move(int x, int y, t_game *game);
-void		key_pressed_check_controls(t_game *game, t_player *player);
+int			key_pressed_check_controls(t_game *game, t_player *player);
 int			key_pressed_check_camera(t_player *player,
 			t_keyboard_control key_infos);
 void		actualise_cam_mouse(t_mouse *mouse, int mid_width, t_player *player);

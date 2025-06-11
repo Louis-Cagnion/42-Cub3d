@@ -37,33 +37,12 @@ FILES = main.c \
 		raycast.c
 
 FILES_BONUS = main.c \
-<<<<<<< HEAD
-		free.c \
-		player.c \
-		set_mlx.c \
-		controls.c \
-		printing.c \
-		treat_map.c \
-		treat_file.c \
-		treat_file_utils.c \
-		store_image.c \
-		display_utils.c \
-		hooks.c \
-		mouse.c \
-		get_wall_dist.c \
-		update_entities.c \
-		draw_texture.c \
-		create_entity.c \
-		draw_sprites.c \
-		raycast_utils.c \
-		raycast.c \
-		libft.c
-=======
 		\
 		player/player.c \
 		player/controls.c \
 		\
 		mlx/hooks.c \
+		mlx/mouse.c \
 		mlx/set_mlx.c \
 		\
 		map_treatement/treat_map.c \
@@ -89,7 +68,6 @@ FILES_BONUS = main.c \
 		utils/printing.c \
 		utils/display_utils.c \
 		utils/raycast_utils.c
->>>>>>> main
 
 OBJS = $(FILES:%.c=$(OBJ_DIR)/%.o)
 OBJS_BONUS = $(FILES_BONUS:%.c=$(OBJ_BONUS_DIR)/%.o)
