@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 02:51:28 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/06/11 19:55:11 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/11 23:21:15 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ static int	loop(t_game *game)
 	int		ret_cam;
 	int		ret_mov;
 
-	display_stats(game->player.stats, game->mlx);
 	game->raycast.cam_y = game->player.cam_y;
 	ret_mov = key_pressed_check_controls(game, &game->player);
 	ret_cam = key_pressed_check_camera(&game->player, game->key_infos);
@@ -77,6 +76,7 @@ static int	loop(t_game *game)
 		display_screen(game, game->consts, game->raycast);
 		mlx_put_image_to_window(game->mlx.init,
 			game->mlx.window, game->mlx.img, 0, 0);
+		display_stats(game->player.stats, game->mlx);
 	}
 	return (0);
 }
@@ -91,6 +91,7 @@ void	init_hooks(t_game *game)
 	display_screen(game, game->consts, game->raycast);
 	mlx_put_image_to_window(game->mlx.init,
 		game->mlx.window, game->mlx.img, 0, 0);
+	display_stats(game->player.stats, game->mlx);
 	mlx_hook(game->mlx.window, DestroyNotify, KeyReleaseMask, quit, game);
 	mlx_hook(game->mlx.window, KeyPress, KeyPressMask, pressed_key, game);
 	mlx_hook(game->mlx.window, KeyRelease, KeyReleaseMask, release_key, game);
