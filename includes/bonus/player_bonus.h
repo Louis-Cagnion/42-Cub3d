@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/06/10 15:41:58 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/11 23:54:43 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,15 @@
 typedef struct s_stats
 {
 	int 	hps;
+	double 	hp_ratio;
 	int		old_hps;
 	int 	attack;
 	int		start_w_hp;
 	int		start_h_hp;
 	t_img	*hp_bar;
-	int		*pixels_hp_bar;
 	int		hp_bar_w;
 	int		hp_bar_h;
+	int		*pixels_hp_bar;
 }	t_stats;
 
 typedef struct s_player
