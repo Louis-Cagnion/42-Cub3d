@@ -6,11 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 18:18:14 by marvin            #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/06/09 22:34:05 by marvin           ###   ########.fr       */
-=======
-/*   Updated: 2025/06/09 17:47:01 by gakarbou         ###   ########.fr       */
->>>>>>> fde75085911bf151ecd264d51c4033ad68151421
+/*   Updated: 2025/06/11 20:04:08 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +38,8 @@ static inline void	put_player_minimap(t_mlx mlx, double x, double y, t_minimap m
 	int	limit_x;
 	int	limit_y;
 
-<<<<<<< HEAD
-	mini.ratio_x_player = (mini.start_x_mini + x * mini.ratio_x);
-	mini.ratio_y_player = (mini.start_y_mini + y * mini.ratio_y);
-=======
-	return ;
 	mini.ratio_y_player = (mini.start_y + y * mini.ratio_y);
 	mini.ratio_x_player = (mini.start_x + x * mini.ratio_x);
->>>>>>> fde75085911bf151ecd264d51c4033ad68151421
 	x_player = (int)mini.ratio_x_player - 3;
 	x_backup = x_player;
 	y_player = (int)mini.ratio_y_player - 3;

@@ -6,26 +6,28 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 20:53:48 by locagnio          #+#    #+#             */
-/*   Updated: 2025/05/22 19:48:18 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/11 20:09:06 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-char	**get_elem(t_map *map, int elem)
+char	**get_elem(t_tile *tile, int elem)
 {
 	if (elem == 0)
-		return (&map->no_path);
+		return (&tile->no_path);
 	else if (elem == 1)
-		return (&map->so_path);
+		return (&tile->so_path);
 	else if (elem == 2)
-		return (&map->we_path);
+		return (&tile->we_path);
 	else if (elem == 3)
-		return (&map->ea_path);
+		return (&tile->ea_path);
 	else if (elem == 4)
-		return (&map->floor_path);
+		return (&tile->floor_path);
 	else if (elem == 5)
-		return (&map->ceil_path);
+		return (&tile->ceil_path);
+	else if (elem == 6)
+		return (&tile->is_wall_str);
 	return (NULL);
 }
 
