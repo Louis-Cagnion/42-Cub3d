@@ -6,30 +6,12 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/06/11 20:05:06 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/11 20:47:16 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef DRAW_BONUS_H
 # define DRAW_BONUS_H
-
-typedef struct s_minimap
-{
-	t_img	*img;
-	int		fract_of_h;
-	int		start_y;
-	int		end_y;
-	int		height_mini;
-	int		fract_of_w;
-	int		start_x;
-	int		end_x;
-	int		width_mini;
-	double	ratio_y;
-	double	ratio_y_player;
-	double	ratio_x;
-	double	ratio_x_player;
-	int		*color_str;
-}	t_minimap;
 
 typedef struct s_sprite_drawing
 {

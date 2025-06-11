@@ -5,16 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-<<<<<<< HEAD
-<<<<<<< HEAD
-/*   Updated: 2025/06/09 22:39:21 by marvin           ###   ########.fr       */
-=======
-/*   Updated: 2025/06/09 18:34:07 by gakarbou         ###   ########.fr       */
->>>>>>> fde75085911bf151ecd264d51c4033ad68151421
-=======
-/*   Updated: 2025/06/10 13:29:33 by marvin           ###   ########.fr       */
->>>>>>> main
+/*   Created: 2025/06/11 20:41:35 by marvin            #+#    #+#             */
+/*   Updated: 2025/06/11 22:12:17 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,17 +36,10 @@
 
 //window settings
 # ifndef WIN_WIDTH
-<<<<<<< HEAD
-#  define WIN_WIDTH		4000
+#  define WIN_WIDTH		1900
 # endif
 # ifndef WIN_HEIGHT
-#  define WIN_HEIGHT	2000
-=======
-#  define WIN_WIDTH		1500
-# endif
-# ifndef WIN_HEIGHT
-#  define WIN_HEIGHT	1500
->>>>>>> main
+#  define WIN_HEIGHT	1000
 # endif
 
 // Mouse defines
@@ -95,6 +80,7 @@ int			get_tiles(char *content, int *i, char *elems[], t_map *map);
 
 //player
 int			only_one_player(t_game *game);
+void		update_player_ray_dirs(t_player *player);
 void		actualise_player_pos(char **map_array, t_player *ptr_p,
 				int key, t_tile tiles[256]);
 
@@ -104,7 +90,7 @@ void		ft_error(char *msg);
 
 //display utils
 void		put_minimap(t_mlx mlx, t_minimap minimap);
-void		init_minimap(t_game *game);
+void		init_minimap(t_game *game, int y, int x, char box_token);
 void		store_textures(t_map *map, void *mlx);
 void		put_texture(t_game *game, int *addr,
 				t_raycast *infos, int size_line);
