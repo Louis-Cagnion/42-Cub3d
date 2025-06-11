@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 02:51:28 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/06/11 20:18:09 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/11 23:26:56 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static int	loop(t_game *game)
 {
 	int		ret_cam;
 	int		ret_mov;
-	
+
 	game->raycast.cam_y = game->player.cam_y;
 	ret_mov = key_pressed_check_controls(game, &game->player);
 	ret_cam = key_pressed_check_camera(&game->player, game->key_infos);
