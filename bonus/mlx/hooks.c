@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 02:51:28 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/06/03 14:41:25 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/06/11 23:27:47 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ static int	loop(t_game *game)
 	game->raycast.cam_y = game->player.cam_y;
 	ret_mov = key_pressed_check_controls(game, &game->player);
 	ret_cam = key_pressed_check_camera(&game->player, game->key_infos);
+	actualise_cam_mouse(&game->mouse, game->consts.half_width, &game->player);
 	update_entities(game->map.entity_list, game->player, game->consts);
 	if (ret_mov || ret_cam)
 	{
@@ -92,5 +93,7 @@ void	init_hooks(t_game *game)
 	mlx_hook(game->mlx.window, DestroyNotify, KeyReleaseMask, quit, game);
 	mlx_hook(game->mlx.window, KeyPress, KeyPressMask, pressed_key, game);
 	mlx_hook(game->mlx.window, KeyRelease, KeyReleaseMask, release_key, game);
+	mlx_hook(game->mlx.window, MotionNotify, PointerMotionMask, mouse_move,
+		game);
 	mlx_loop_hook(game->mlx.init, loop, game);
 }

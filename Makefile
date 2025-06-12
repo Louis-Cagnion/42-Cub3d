@@ -42,6 +42,7 @@ FILES_BONUS = main.c \
 		player/controls.c \
 		\
 		mlx/hooks.c \
+		mlx/mouse.c \
 		mlx/set_mlx.c \
 		\
 		map_treatement/treat_map.c \

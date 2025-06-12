@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/06/10 13:29:33 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/11 20:22:47 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include <stdlib.h> // malloc, free, exit
 # include <string.h> // strerror
 # include <X11/X.h>
+# include <X11/Xlib.h>
+# include <X11/Xutil.h>
 # include <X11/keysym.h>
 
 # include "mlx.h"
@@ -28,10 +30,10 @@
 
 //game settings
 # ifndef SPEED
-#  define SPEED			0.06666f
+#  define SPEED			0.06666f / 2
 # endif
 # ifndef ROT_SPEED
-#  define ROT_SPEED		0.10f
+#  define ROT_SPEED		0.10f / 4
 # endif
 
 //window settings
@@ -56,6 +58,14 @@
 # include "bonus/raycast_bonus.h"
 # include "bonus/entities_bonus.h"
 
+typedef struct s_mouse
+{
+	int			delta_x;
+	Display		*display;
+	Window		window;
+	char		ignore_next;
+}	t_mouse;
+
 typedef struct s_game
 {
 	t_mlx				mlx;
@@ -64,6 +74,7 @@ typedef struct s_game
 	t_raycast			raycast;
 	t_opti_const		consts;
 	t_keyboard_control	key_infos;
+	t_mouse				mouse;
 }	t_game;
 
 //parse and treat file
@@ -115,9 +126,11 @@ int			set_mlx(t_mlx *mlx, char *win_title);
 
 //controls
 void		init_hooks(t_game *game);
-int			key_pressed_check_camera(t_player *player,
-				t_keyboard_control key_infos);
+int			mouse_move(int x, int y, t_game *game);
 int			key_pressed_check_controls(t_game *game, t_player *player);
+int			key_pressed_check_camera(t_player *player,
+			t_keyboard_control key_infos);
+void		actualise_cam_mouse(t_mouse *mouse, int mid_width, t_player *player);
 
 //free
 void		free_mlx(t_mlx *mlx);
