@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 20:41:35 by marvin            #+#    #+#             */
-/*   Updated: 2025/06/11 23:04:17 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/12 18:41:55 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 #  define SPEED			0.06666f
 # endif
 # ifndef ROT_SPEED
-#  define ROT_SPEED		0.10f
+#  define ROT_SPEED		0.05f
 # endif
 
 //window settings

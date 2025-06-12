@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 18:18:14 by marvin            #+#    #+#             */
-/*   Updated: 2025/06/11 23:25:14 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/12 18:51:12 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static inline char	return_token_map(t_map map, t_minimap mini, int y, int x)
 	col = (int)(x / mini.ratio_w);
 	if (col > map.w_map)
 		return ('0');
-	if (line == map.w_map)
+	if (col == map.w_map)
 		return ('1');
 	return (map.map_array[line][col]);
 }
