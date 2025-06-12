@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/06/11 21:37:36 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/06/12 19:03:00 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@
 #  define WIN_WIDTH		1000
 # endif
 # ifndef WIN_HEIGHT
-#  define WIN_HEIGHT	500
+#  define WIN_HEIGHT	1000
 # endif
 
 // Mouse defines
@@ -252,6 +252,8 @@ typedef struct s_game
 	int					stop;
 	int					next_draw;
 	pthread_mutex_t		jsp;
+	pthread_cond_t		start_event;
+	pthread_cond_t		done_event;
 }	t_game;
 
 //parse and treat file

@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 02:51:28 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/06/11 21:38:39 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/06/12 18:52:11 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	thread_draw_screen(t_game *game)
 	game->thread_wait = 0;
 	pthread_mutex_unlock(&game->jsp);
 	while (!thread_finished(game))
-		usleep(1);
+		;
 	mlx_put_image_to_window(game->mlx.init,
 		game->mlx.window, game->mlx.img, 0, 0);
 	pthread_mutex_lock(&game->jsp);
