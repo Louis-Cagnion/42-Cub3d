@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/06/11 23:54:43 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/13 15:50:40 by locagnio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,23 @@
 #  define E_ATK		P_HPS / 5
 # endif
 
-typedef struct s_stats
+typedef struct s_hp_bar
 {
-	int 	hps;
 	double 	hp_ratio;
-	int		old_hps;
-	int 	attack;
 	int		start_w_hp;
 	int		start_h_hp;
 	t_img	*hp_bar;
 	int		hp_bar_w;
 	int		hp_bar_h;
 	int		*pixels_hp_bar;
+}	t_hp_bar;
+
+typedef struct s_stats
+{
+	int 		hps;
+	int			old_hps;
+	int 		attack;
+	t_hp_bar	hp_bar;
 }	t_stats;
 
 typedef struct s_player

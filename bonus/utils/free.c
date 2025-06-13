@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 16:43:42 by marvin            #+#    #+#             */
-/*   Updated: 2025/06/10 15:34:48 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/13 15:54:18 by locagnio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,8 @@ void	free_game(t_game *game)
 	free(game->map.map);
 	if (game->map.map_array)
 		free_array(&game->map.map_array);
-	if (game->player.stats.pixels_hp_bar)
-		free(game->player.stats.pixels_hp_bar);
+	if (game->player.stats.hp_bar.pixels_hp_bar)
+		free(game->player.stats.hp_bar.pixels_hp_bar);
 	free(game->raycast.z_buffer);
 	free(game->raycast.row_dist_table);
 }
