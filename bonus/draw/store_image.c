@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   store_image.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 15:21:23 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/06/03 14:48:57 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/06/13 16:18:53 by locagnio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ void	store_textures(t_map *map, void *mlx)
 	t_tile	*cur;
 	int		i;
 
+	map->tiles[' '].is_wall = 1;
 	if (map->tile_defined[0])
 	{
 		store_defaults_settings(map, mlx);

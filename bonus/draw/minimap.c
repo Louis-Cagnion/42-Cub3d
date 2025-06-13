@@ -6,7 +6,7 @@
 /*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 18:18:14 by marvin            #+#    #+#             */
-/*   Updated: 2025/06/13 15:28:59 by locagnio         ###   ########.fr       */
+/*   Updated: 2025/06/13 16:19:52 by locagnio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,36 +22,33 @@ void	put_minimap(t_mlx mlx, t_minimap mini, t_player player)
 		mini.x_player_img, mini.y_player_img);
 }
 
-static inline char	return_token_map(t_map map, t_minimap mini, int y, int x)
+static inline int	return_token_map(t_map map, t_minimap mini, int y, int x)
 {
 	int	line;
 	int	col;
 
 	line = (int)(y / mini.ratio_h);
 	if (line == map.h_map)
-		return ('1');
+		return (1);
 	if (line > map.h_map)
-		return ('0');
+		return (0);
 	col = (int)(x / mini.ratio_w);
 	if (col > map.w_map)
-		return ('0');
+		return (0);
 	if (col == map.w_map)
-		return ('1');
-	return (map.map_array[line][col]);
+		return (1);
+	return (map.tiles[(int)map.map_array[line][col]].is_wall);
 }
 
 static void	put_player_minimap_pixels(t_minimap *mini, t_map map, int x, int y)
 {
-	char	box_token;
-
 	y = -1;
 	while (++y < mini->height_mini)
 	{
 		x = -1;
 		while (++x < mini->width_mini)
 		{
-			box_token = return_token_map(map, *mini, y, x);
-			if (box_token == '1' || box_token == ' ' || !y || !x
+			if (return_token_map(map, *mini, y, x) || !y|| !x
 				|| y == mini->height_mini - 1 || x == mini->width_mini - 1)
 				put_pixel(mini->mini_img, x, y, OX_BLACK);
 			else
