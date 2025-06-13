@@ -6,7 +6,7 @@
 /*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 18:18:14 by marvin            #+#    #+#             */
-/*   Updated: 2025/06/13 16:19:52 by locagnio         ###   ########.fr       */
+/*   Updated: 2025/06/13 16:22:40 by locagnio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,9 @@ void	put_minimap(t_mlx mlx, t_minimap mini, t_player player)
 {
 	mlx_put_image_to_window(mlx.init, mlx.window, mini.mini_img,
 		mini.x_mini_img, mini.y_mini_img);
-		mini.y_player_img = player.y * mini.ratio_h - 2 + mini.y_mini_img;
-		mini.x_player_img = player.x * mini.ratio_w - 2 + mini.x_mini_img;
 	mlx_put_image_to_window(mlx.init, mlx.window, mini.player_img,
-		mini.x_player_img, mini.y_player_img);
+		player.x * mini.ratio_w - 2 + mini.x_mini_img,
+		player.y * mini.ratio_h - 2 + mini.y_mini_img);
 }
 
 static inline int	return_token_map(t_map map, t_minimap mini, int y, int x)

@@ -6,7 +6,7 @@
 /*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/06/13 16:09:41 by locagnio         ###   ########.fr       */
+/*   Updated: 2025/06/13 16:23:07 by locagnio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ typedef struct s_minimap
 	int		height_mini;
 	int		width_mini;
 	t_img	*player_img;
-	int		y_player_img;
-	int		x_player_img;
 	double	h_player;
 	double	w_player;
 }	t_minimap;
