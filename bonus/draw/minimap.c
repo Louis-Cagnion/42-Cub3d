@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 18:18:14 by marvin            #+#    #+#             */
-/*   Updated: 2025/06/12 18:55:21 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/13 15:28:59 by locagnio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,8 @@ void	put_minimap(t_mlx mlx, t_minimap mini, t_player player)
 {
 	mlx_put_image_to_window(mlx.init, mlx.window, mini.mini_img,
 		mini.x_mini_img, mini.y_mini_img);
-	if (player.y < 1.4)
-		mini.y_player_img = player.y * mini.ratio_h + mini.y_mini_img;
-	else
-		mini.y_player_img = player.y * mini.ratio_h - 3 + mini.y_mini_img;
-	if (player.x < 1.4)
-		mini.x_player_img = player.x * mini.ratio_w + mini.x_mini_img;
-	else
-		mini.x_player_img = player.x * mini.ratio_w - 3 + mini.x_mini_img;
+		mini.y_player_img = player.y * mini.ratio_h - 2 + mini.y_mini_img;
+		mini.x_player_img = player.x * mini.ratio_w - 2 + mini.x_mini_img;
 	mlx_put_image_to_window(mlx.init, mlx.window, mini.player_img,
 		mini.x_player_img, mini.y_player_img);
 }
