@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 02:51:28 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/06/03 14:41:25 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/06/12 18:45:00 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,14 @@ static int	loop(t_game *game)
 		display_screen(game, game->consts, game->raycast);
 		mlx_put_image_to_window(game->mlx.init,
 			game->mlx.window, game->mlx.img, 0, 0);
+		put_minimap(game->mlx, game->map.minimap, game->player);
 	}
 	return (0);
 }
 
 void	init_hooks(t_game *game)
 {
+	init_minimap(&game->map.minimap, game->map, game->mlx);
 	init_raycast(game, &game->raycast);
 	game->map.entity_list = create_cell(
 			create_entity("./assets/snas.xpm", 2.5, 3.8, game->mlx.init));
@@ -89,6 +91,7 @@ void	init_hooks(t_game *game)
 	display_screen(game, game->consts, game->raycast);
 	mlx_put_image_to_window(game->mlx.init,
 		game->mlx.window, game->mlx.img, 0, 0);
+	put_minimap(game->mlx, game->map.minimap, game->player);
 	mlx_hook(game->mlx.window, DestroyNotify, KeyReleaseMask, quit, game);
 	mlx_hook(game->mlx.window, KeyPress, KeyPressMask, pressed_key, game);
 	mlx_hook(game->mlx.window, KeyRelease, KeyReleaseMask, release_key, game);

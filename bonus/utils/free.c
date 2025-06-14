@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 16:43:42 by marvin            #+#    #+#             */
-/*   Updated: 2025/06/03 14:39:20 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/06/11 22:39:02 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ static void	free_entities(t_list *entity_list, void *mlx)
 
 void	free_game(t_game *game)
 {
+	mlx_destroy_image(game->mlx.init, game->map.minimap.mini_img);
+	mlx_destroy_image(game->mlx.init, game->map.minimap.player_img);
 	free_entities(game->map.entity_list, game->mlx.init);
 	free_tiles(game->map.tiles, game->mlx.init, game->map.tile_defined, 256);
 	free_mlx(&game->mlx);

@@ -3,7 +3,7 @@ SO ./assets/wall.xpm
 WE ./assets/backrooms.xpm
 EA ./assets/wall.xpm
 
-F 255,0,0
+F ./assets/isaac.xpm
 C 255,0,0
 
 11111

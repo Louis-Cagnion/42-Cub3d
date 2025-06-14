@@ -51,6 +51,7 @@ FILES_BONUS = main.c \
 		map_treatement/check_elems.c \
 		map_treatement/treat_file_utils.c \
 		\
+		draw/minimap.c \
 		draw/store_image.c \
 		draw/draw_texture.c \
 		draw/draw_sprites.c \

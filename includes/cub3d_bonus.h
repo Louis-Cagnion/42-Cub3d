@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/06/10 13:29:33 by marvin           ###   ########.fr       */
+/*   Created: 2025/06/11 20:41:35 by marvin            #+#    #+#             */
+/*   Updated: 2025/06/13 16:12:19 by locagnio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,15 @@
 #  define SPEED			0.06666f
 # endif
 # ifndef ROT_SPEED
-#  define ROT_SPEED		0.10f
+#  define ROT_SPEED		0.05f
 # endif
 
 //window settings
 # ifndef WIN_WIDTH
-#  define WIN_WIDTH		1500
+#  define WIN_WIDTH		1900
 # endif
 # ifndef WIN_HEIGHT
-#  define WIN_HEIGHT	1500
+#  define WIN_HEIGHT	1000
 # endif
 
 // Mouse defines
@@ -80,6 +80,7 @@ int			get_tiles(char *content, int *i, char *elems[], t_map *map);
 
 //player
 int			only_one_player(t_game *game);
+void		update_player_ray_dirs(t_player *player);
 void		actualise_player_pos(char **map_array, t_player *ptr_p,
 				int key, t_tile tiles[256]);
 
@@ -88,10 +89,11 @@ int			usage_prompt(void);
 void		ft_error(char *msg);
 
 //display utils
+void		put_minimap(t_mlx mlx, t_minimap mini, t_player player);
+void		init_minimap(t_minimap *mini, t_map map, t_mlx mlx);
+void		store_textures(t_map *map, void *mlx);
 void		put_texture(t_game *game, int *addr,
 				t_raycast *infos, int size_line);
-void		store_textures(t_map *map, void *mlx);
-void		update_player_ray_dirs(t_player *player);
 int			get_pixel_color(t_img *img, int x, int y);
 void		init_raycast(t_game *game, t_raycast *raycast);
 void		put_pixel(t_img *img, int x, int y, int color);
