@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 16:40:40 by marvin            #+#    #+#             */
-/*   Updated: 2025/06/03 14:38:10 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/06/10 15:42:21 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,31 +31,33 @@ static void	init_camera(t_player *player, char dir)
 	update_player_ray_dirs(player);
 }
 
-static void	get_player_infos(t_game *game)
+static void	get_player_infos(t_map *map, t_player *player)
 {
 	int	y;
 	int	x;
 
 	y = 0;
-	while (!ft_strchr(game->map.map_array[y], 'N')
-		&& !ft_strchr(game->map.map_array[y], 'S')
-		&& !ft_strchr(game->map.map_array[y], 'E')
-		&& !ft_strchr(game->map.map_array[y], 'W'))
+	while (!ft_strchr(map->map_array[y], 'N')
+		&& !ft_strchr(map->map_array[y], 'S')
+		&& !ft_strchr(map->map_array[y], 'E')
+		&& !ft_strchr(map->map_array[y], 'W'))
 		y++;
-	game->player.y = y + 0.5001;
-	game->player.int_y = (int)y;
-	game->player.y_mantissa = 0.5001;
+	player->y = y + 0.5001;
+	player->int_y = (int)y;
+	player->y_mantissa = 0.5001;
 	x = 0;
-	while (!ft_strchr("NSEW", game->map.map_array[y][x]))
+	while (!ft_strchr("NSEW", map->map_array[y][x]))
 		x++;
-	game->player.x = x + 0.5001;
-	game->player.int_x = (int)x;
-	game->player.x_mantissa = 0.5001;
-	game->player.cam_y = 0;
-	init_camera(&game->player, game->map.map_array[y][x]);
-	game->map.map_array[(int)game->player.y][(int)game->player.x] = '0';
-	game->map.map[(int)((game->player.y * game->map.w_map)
-			+ game->player.x)] = '0';
+	player->x = x + 0.5001;
+	player->int_x = (int)x;
+	player->x_mantissa = 0.5001;
+	player->cam_y = 0;
+	init_camera(player, map->map_array[y][x]);
+	map->map_array[(int)player->y][(int)player->x] = '0';
+	map->map[(int)((player->y * map->w_map) + player->x)] = '0';
+	player->stats.hps = P_HPS;
+	player->stats.old_hps = P_HPS;
+	player->stats.attack = P_ATK;
 }
 
 int	only_one_player(t_game *game)
@@ -78,7 +80,7 @@ int	only_one_player(t_game *game)
 	}
 	if (nb_players == 1)
 	{
-		get_player_infos(game);
+		get_player_infos(&game->map, &game->player);
 		game->player.mvt_speed = SPEED;
 		return (1);
 	}

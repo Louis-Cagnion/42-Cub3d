@@ -40,6 +40,7 @@ FILES_BONUS = main.c \
 		\
 		player/player.c \
 		player/controls.c \
+		player/display_stats.c \
 		\
 		mlx/hooks.c \
 		mlx/set_mlx.c \
