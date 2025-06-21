@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/06/11 22:21:48 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/21 10:13:17 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ typedef struct s_minimap
 	int		height_mini;//
 	int		width_mini;//
 	t_img	*player_img;
+	int		player_img_w;
+	int		player_img_h;
 	int		y_player_img;//
 	int		x_player_img;//
 	double	h_player;//

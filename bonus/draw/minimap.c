@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 18:18:14 by marvin            #+#    #+#             */
-/*   Updated: 2025/06/12 18:55:21 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/21 10:23:40 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,8 @@ void	put_minimap(t_mlx mlx, t_minimap mini, t_player player)
 {
 	mlx_put_image_to_window(mlx.init, mlx.window, mini.mini_img,
 		mini.x_mini_img, mini.y_mini_img);
-	if (player.y < 1.4)
-		mini.y_player_img = player.y * mini.ratio_h + mini.y_mini_img;
-	else
-		mini.y_player_img = player.y * mini.ratio_h - 3 + mini.y_mini_img;
-	if (player.x < 1.4)
-		mini.x_player_img = player.x * mini.ratio_w + mini.x_mini_img;
-	else
-		mini.x_player_img = player.x * mini.ratio_w - 3 + mini.x_mini_img;
+	mini.y_player_img = player.y * mini.ratio_h - (mini.player_img_h / 2) + mini.y_mini_img;
+	mini.x_player_img = player.x * mini.ratio_w - (mini.player_img_w / 2) + mini.x_mini_img;
 	mlx_put_image_to_window(mlx.init, mlx.window, mini.player_img,
 		mini.x_player_img, mini.y_player_img);
 }
@@ -65,10 +59,10 @@ static void	put_player_minimap_pixels(t_minimap *mini, t_map map, int x, int y)
 		}
 	}
 	y = -1;
-	while (++y < 6)
+	while (++y < mini->player_img_h)
 	{
 		x = 0;
-		while (x < 6)
+		while (x < mini->player_img_w)
 			put_pixel(mini->player_img, x++, y, OX_GREEN);
 	}
 }
@@ -83,6 +77,13 @@ void	init_minimap(t_minimap *mini, t_map map, t_mlx mlx)
 	mini->ratio_w = (double)mini->width_mini / ((double)map.w_map);
 	mini->mini_img = mlx_new_image(mlx.init, mini->width_mini,
 			mini->height_mini);
-	mini->player_img = mlx_new_image(mlx.init, 6, 6);
+	mini->player_img_w = 1;
+	if (mini->player_img_w < mini->ratio_w)
+		mini->player_img_w = mini->ratio_w;
+	mini->player_img_h = 1;
+	if (mini->player_img_h < mini->ratio_h)
+		mini->player_img_h = mini->ratio_h;
+	mini->player_img = mlx_new_image(mlx.init, mini->player_img_w,
+		mini->player_img_h);
 	put_player_minimap_pixels(mini, map, 0, 0);
 }
