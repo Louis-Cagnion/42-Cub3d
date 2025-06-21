@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 18:18:14 by marvin            #+#    #+#             */
-/*   Updated: 2025/06/21 11:49:18 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/21 12:08:12 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void	put_player_minimap_pixels(t_minimap *mini, t_map map, int x, int y)
 		x = -1;
 		while (++x < mini->w_mini)
 		{
-			if (return_token_map(map, *mini, y, x) || !y|| !x
+			if (return_token_map(map, *mini, y, x) || !y || !x
 				|| y == mini->h_mini - 1 || x == mini->w_mini - 1)
 				put_pixel(mini->mini_img, x, y, OX_BLACK);
 			else
