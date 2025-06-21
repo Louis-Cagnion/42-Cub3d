@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 18:18:14 by marvin            #+#    #+#             */
-/*   Updated: 2025/06/21 10:36:39 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/21 10:51:08 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,10 @@ void	init_minimap(t_minimap *mini, t_map map, t_mlx mlx)
 	mini->ratio_w = (double)mini->width_mini / ((double)map.w_map);
 	mini->mini_img = mlx_new_image(mlx.init, mini->width_mini,
 			mini->height_mini);
-	mini->player_img_w = 1;
+	mini->player_img_w = 2;
 	if (mini->player_img_w < mini->ratio_w)
 		mini->player_img_w = mini->ratio_w;
-	mini->player_img_h = 1;
+	mini->player_img_h = 2;
 	if (mini->player_img_h < mini->ratio_h)
 		mini->player_img_h = mini->ratio_h;
 	mini->player_img = mlx_new_image(mlx.init, mini->player_img_w, mini->player_img_h);
