@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_bonus.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/06/13 16:23:07 by locagnio         ###   ########.fr       */
+/*   Updated: 2025/06/21 12:17:08 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,14 @@ typedef struct s_minimap
 	t_img	*mini_img;
 	int		y_mini_img;
 	int		x_mini_img;
-	int		height_mini;
-	int		width_mini;
+	int		h_mini;
+	int		limit_h_mini;
+	int		w_mini;
+	int		limit_w_mini;
+	double	win_mini_ratio;
 	t_img	*player_img;
+	int		p_img_w;
+	int		p_img_h;
 	double	h_player;
 	double	w_player;
 }	t_minimap;
@@ -56,6 +61,7 @@ typedef struct s_map
 	char		**map_array;
 	int			w_map;
 	int			h_map;
+	double		win_ratio;
 	t_list		*entity_list;
 	t_minimap	minimap;
 }	t_map;
