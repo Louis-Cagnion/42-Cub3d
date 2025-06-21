@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/06/21 10:13:17 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/21 10:36:52 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,18 @@
 
 typedef struct s_minimap
 {
-	double	ratio_h;//
-	double	ratio_w;//
+	double	ratio_h;
+	double	ratio_w;
 	t_img	*mini_img;
-	int		y_mini_img;//
-	int		x_mini_img;//
-	int		height_mini;//
-	int		width_mini;//
+	int		y_mini_img;
+	int		x_mini_img;
+	int		height_mini;
+	int		width_mini;
 	t_img	*player_img;
 	int		player_img_w;
 	int		player_img_h;
-	int		y_player_img;//
-	int		x_player_img;//
-	double	h_player;//
-	double	w_player;//
+	double	h_player;
+	double	w_player;
 }	t_minimap;
 
 typedef struct s_tile
