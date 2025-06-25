@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 12:13:54 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/06/10 16:35:23 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/06/25 18:55:06 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static inline void	init_drawer_consts(t_plane_drawer *drawer, t_raycast *ray,
 	drawer->player_pos[1] = map.player->y;
 	drawer->row_table = ray->row_dist_table
 		+ (ray->half_win_height - ray->wall_pos[0] + ray->cam_y);
-	*y = ft_min(ray->wall_pos[0], WIN_HEIGHT - ray->wall_pos[1] + 1);
+	*y = ft_min(ray->wall_pos[0], WIN_HEIGHT - ray->wall_pos[1]);
 }
 
 static inline void	draw_extra_floor(int *addr, t_plane_drawer dr,
@@ -91,19 +91,25 @@ void	draw_ceil_and_floor_tex(int *addr, int size_line,
 	int				y;
 	int				*ceil_addr;
 	int				*floor_addr;
+	int				aled;
 
 	floor_addr = addr + ray->wall_pos[1] * size_line;
 	ceil_addr = addr + ray->wall_pos[0] * size_line;
+	ceil_addr -= size_line;
 	init_drawer_consts(&dr, ray, map, &y);
 	while (y--)
 	{
 		init_loop_infos(&dr, *(++dr.row_table), map);
 		tex = map.tiles[dr.tile].tex_list[5];
-		*ceil_addr = ((int *)tex.data)[((int)(dr.real_pos[1] * tex.height)
+		aled = ((int *)tex.data)[((int)(dr.real_pos[1] * tex.height)
 				*tex.fake_size_line + ((int)(dr.real_pos[0] * tex.width)))];
+		if (aled >= 0)
+			*ceil_addr = aled;
 		tex = map.tiles[dr.tile].tex_list[4];
-		*floor_addr = ((int *)tex.data)[((int)(dr.real_pos[1] * tex.height)
+		aled = ((int *)tex.data)[((int)(dr.real_pos[1] * tex.height)
 				*tex.fake_size_line + ((int)(dr.real_pos[0] * tex.width)))];
+		if (aled >= 0)
+			*floor_addr = aled;
 		ceil_addr -= size_line;
 		floor_addr += size_line;
 	}

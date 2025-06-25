@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 02:51:28 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/06/12 18:52:11 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/06/25 17:50:32 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,28 +20,46 @@ static int	quit(t_game *game)
 
 static int	thread_finished(t_game *game)
 {
-	int	res;
+	int				res;
+	int				i;
+	t_thread_info	thread;
 
-	res = 0;
-	pthread_mutex_lock(&game->jsp);
-	if (game->thread_wait == THREAD_COUNT)
-		res++;
-	pthread_mutex_unlock(&game->jsp);
-	return (res);
+	res = 1;
+	i = -1;
+	while (++i < THREAD_COUNT)
+	{
+		thread = game->thread[i];
+		pthread_mutex_lock(&game->jsp);
+		if (!thread.is_finished)
+			res = 0;
+		pthread_mutex_unlock(&game->jsp);
+		if (!res)
+			return (0);
+	}
+	return (1);
+}
+
+static void	reset_all(t_game *game)
+{
+	int		i;
+
+	i = -1;
+	while (++i < THREAD_COUNT)
+		game->thread[i].is_finished = 0;
 }
 
 static void	thread_draw_screen(t_game *game)
 {
 	pthread_mutex_lock(&game->jsp);
-	game->next_draw = 1;
+	game->next_draw = THREAD_COUNT;
 	game->thread_wait = 0;
 	pthread_mutex_unlock(&game->jsp);
 	while (!thread_finished(game))
-		;
+		usleep(1);
 	mlx_put_image_to_window(game->mlx.init,
 		game->mlx.window, game->mlx.img, 0, 0);
 	pthread_mutex_lock(&game->jsp);
-	game->next_draw = 0;
+	reset_all(game);
 	pthread_mutex_unlock(&game->jsp);
 }
 
@@ -91,8 +109,8 @@ static int	release_key(int key, t_game *game)
 
 static int	loop(t_game *game)
 {
-	int		ret_cam;
-	int		ret_mov;
+	int			ret_cam;
+	int			ret_mov;
 
 	game->raycast.cam_y = game->player.cam_y;
 	ret_mov = key_pressed_check_controls(game, &game->player);
@@ -103,8 +121,6 @@ static int	loop(t_game *game)
 	game->map.entity_list = create_cell(
 			create_entity("./assets/snas.xpm", 2.5, 3.8, game->mlx.init));
 	update_entities(game->map.entity_list, game->player, game->consts);*/
-	mlx_put_image_to_window(game->mlx.init,
-		game->mlx.window, game->mlx.img, 0, 0);
 	return (0);
 }
 
@@ -123,9 +139,11 @@ void	init_hooks(t_game *game)
 	while (++i < THREAD_COUNT)
 	{
 		game->thread[i].index = i;
+		game->thread[i].is_finished = 0;
 		game->thread[i].raycast = game->raycast;
 		game->thread[i].game = game;
-		pthread_create(&game->thread[i].thread, NULL, thread_routine, &game->thread[i]);
+		pthread_create(&game->thread[i].thread, NULL,
+				thread_routine, &game->thread[i]);
 	}
 	thread_draw_screen(game);
 	mlx_hook(game->mlx.window, DestroyNotify, KeyReleaseMask, quit, game);

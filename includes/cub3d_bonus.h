@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/06/12 19:03:00 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/06/23 22:44:11 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@
 
 //window settings
 # ifndef WIN_WIDTH
-#  define WIN_WIDTH		1000
+#  define WIN_WIDTH		4000
 # endif
 # ifndef WIN_HEIGHT
-#  define WIN_HEIGHT	1000
+#  define WIN_HEIGHT	2000
 # endif
 
 // Mouse defines
@@ -236,6 +236,7 @@ typedef struct s_thread_info
 	int			index;
 	int			start;
 	int			width;
+	int			is_finished;
 	pthread_t	thread;
 }	t_thread_info;
 
@@ -252,8 +253,7 @@ typedef struct s_game
 	int					stop;
 	int					next_draw;
 	pthread_mutex_t		jsp;
-	pthread_cond_t		start_event;
-	pthread_cond_t		done_event;
+	pthread_cond_t		cond;
 }	t_game;
 
 //parse and treat file
@@ -328,5 +328,6 @@ void			free_game(t_game *game);
 void			ft_lstclear(t_list **lst, void (*del)(void *));
 
 void			*thread_routine(void *ptr);
+void			display_screen(t_game *game, t_raycast infos, int x, int width);
 
 #endif
