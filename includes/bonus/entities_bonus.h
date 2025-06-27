@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/06/10 12:14:24 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/27 13:39:42 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ typedef struct s_entity
 	double		player_dist_x;
 	double		player_dist_y;
 	double		player_dist;
+	double		mvt_speed;
 	double		draw_dir_x;
 	double		draw_dir_y;
 	int			screen_x;

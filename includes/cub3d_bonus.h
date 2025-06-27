@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 20:41:35 by marvin            #+#    #+#             */
-/*   Updated: 2025/06/21 18:10:22 by locagnio         ###   ########.fr       */
+/*   Updated: 2025/06/27 13:35:58 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,9 @@ void		draw_ceil_and_floor_tex(int *addr, int size,
 //entities
 void		draw_sprites(t_raycast infos, t_game *game);
 void		update_entities(t_list *entities, t_player player,
-				t_opti_const consts);
+			t_opti_const consts, t_map map);
+void		im_coming_jimmy(char **map_array, t_entity *entity,
+			t_tile tiles[256]);
 t_entity	*create_entity(char *tex_path, double x, double y, void *mlx_ptr);
 
 //mlx

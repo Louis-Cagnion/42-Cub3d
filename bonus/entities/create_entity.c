@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_entity.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:05:07 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/05/28 15:54:09 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/06/27 13:45:29 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ t_entity	*create_entity(char *tex_path, double x, double y, void *mlx_ptr)
 	tex.fake_size_line = tex.size_line / 4;
 	dest->tex = tex;
 	dest->invisible_parts = malloc(sizeof(t_list *) * (tex.width + 1));
+	dest->mvt_speed = SPEED / 2;
 	fill_invisible_buffer(dest);
 	return (dest);
 }

@@ -60,6 +60,7 @@ FILES_BONUS = main.c \
 		\
 		entities/create_entity.c \
 		entities/update_entities.c \
+		entities/im_coming_for_you_jimmy.c \
 		\
 		raycast/raycast.c \
 		\
