@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 15:17:03 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/06/25 17:34:19 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/06/27 21:12:17 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,30 @@ static inline void	draw_column(t_game *game, int x, t_map map_infos,
 	put_texture(game, addr, infos, size_line);
 }
 
+static void	reset_background(int *addr, int x, int width, int size_line)
+{
+	int		*addr_save;
+	int		j;
+	int		i;
+
+	j = WIN_HEIGHT;
+	addr += x;
+	width -= x;
+	while (j--)
+	{
+		addr_save = addr;
+		i = width;
+		while (i--)
+			*(addr++) = 0xffffff;
+		addr = addr_save + (size_line << 1);
+	}
+}
+
 void	display_screen(t_game *game, t_raycast infos, int x, int width)
 {
 	double		cam_coef;
 
+	reset_background((int *)game->mlx.img->data, x, width, game->mlx.size_line);
 	cam_coef = infos.cam_coef;
 	infos.cam_x = (infos.cam_x_step * x);
 	while (x < width)

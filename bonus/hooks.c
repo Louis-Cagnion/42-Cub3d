@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 02:51:28 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/06/25 17:50:32 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/06/27 21:12:22 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ static int	thread_finished(t_game *game)
 	i = -1;
 	while (++i < THREAD_COUNT)
 	{
-		thread = game->thread[i];
 		pthread_mutex_lock(&game->jsp);
+		thread = game->thread[i];
 		if (!thread.is_finished)
 			res = 0;
 		pthread_mutex_unlock(&game->jsp);
@@ -51,6 +51,7 @@ static void	reset_all(t_game *game)
 static void	thread_draw_screen(t_game *game)
 {
 	pthread_mutex_lock(&game->jsp);
+	reset_all(game);
 	game->next_draw = THREAD_COUNT;
 	game->thread_wait = 0;
 	pthread_mutex_unlock(&game->jsp);
@@ -58,9 +59,6 @@ static void	thread_draw_screen(t_game *game)
 		usleep(1);
 	mlx_put_image_to_window(game->mlx.init,
 		game->mlx.window, game->mlx.img, 0, 0);
-	pthread_mutex_lock(&game->jsp);
-	reset_all(game);
-	pthread_mutex_unlock(&game->jsp);
 }
 
 static int	pressed_key(int key, t_game *game)
