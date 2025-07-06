@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_bonus.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/06/13 16:23:07 by locagnio         ###   ########.fr       */
+/*   Updated: 2025/07/06 20:27:36 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,13 @@
 # include "libft.h"
 # include "player_bonus.h"
 # include "textures_bonus.h"
+
+typedef struct s_items
+{
+	char	*name;
+	int		value;
+	t_img	*item_img;
+}	t_items;
 
 typedef struct s_minimap
 {
@@ -58,6 +65,8 @@ typedef struct s_map
 	int			h_map;
 	t_list		*entity_list;
 	t_minimap	minimap;
+	t_items		medic_kit;
+	t_items		ammo_box;
 }	t_map;
 
 #endif

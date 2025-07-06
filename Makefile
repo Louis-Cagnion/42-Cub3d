@@ -58,6 +58,7 @@ FILES_BONUS = main.c \
 		draw/get_wall_dist.c \
 		draw/draw_ceil_and_floor.c \
 		\
+		entities/create_items.c \
 		entities/create_entity.c \
 		entities/update_entities.c \
 		\
