@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 16:43:42 by marvin            #+#    #+#             */
-/*   Updated: 2025/06/03 01:58:30 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/05 20:41:52 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,5 @@ void	free_game(t_game *game)
 	if (game->map.map_array)
 		free_array(&game->map.map_array);
 	free(game->raycast.z_buffer);
-	free(game->raycast.row_dist_table);
+	free(game->raycast.consts->row_dist_table);
 }

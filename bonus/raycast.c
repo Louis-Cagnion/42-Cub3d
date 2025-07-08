@@ -6,72 +6,68 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 15:17:03 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/06/27 21:12:17 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/08 13:42:37 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-static inline void	draw_column(t_game *game, int x, t_map map_infos,
+static inline void	draw_column(t_game *game, t_map *map_infos,
 		t_raycast *infos)
 {
-	t_img	*img;
 	int		*addr;
 	int		size_line;
 
-	img = game->mlx.img;
-	size_line = infos->size_line;
-	addr = (int *)(img->data + (x * infos->fake_bpp));
-	draw_ceil_and_floor_tex(addr, size_line,
-		map_infos, infos);
-	addr += size_line * infos->wall_pos[0];
+	size_line = infos->consts->size_line;
+	addr = infos->addr++;
 	put_texture(game, addr, infos, size_line);
 }
 
-static void	reset_background(int *addr, int x, int width, int size_line)
+/*
+static void reset_background(int *addr, int width, t_raycast *infos, t_player *player)
 {
-	int		*addr_save;
-	int		j;
-	int		i;
+	int	screen_pos[2];
+    int scroll = (int)(((atan2(player->direction_y, player->direction_x) + M_PI) / (2 * M_PI)) * WIN_WIDTH) % WIN_WIDTH;
+	int	*skybox = infos->consts->skybox_addr;
 
-	j = WIN_HEIGHT;
-	addr += x;
-	width -= x;
-	while (j--)
-	{
-		addr_save = addr;
-		i = width;
-		while (i--)
-			*(addr++) = 0xffffff;
-		addr = addr_save + (size_line << 1);
-	}
+	screen_pos[1] = -1;
+	skybox += scroll + infos->start_x;
+	while (++screen_pos[1] < WIN_HEIGHT)
+    {
+		screen_pos[0] = -1;
+		while (++screen_pos[0] < width)
+            *(addr++) = *(skybox++);
+		addr += width * (THREAD_COUNT - 1);
+		skybox += width * (THREAD_COUNT - 1);
+    }
+}
+*/
+
+static void	reset_background(int *addr, int width, t_raycast *ray, t_map *map)
+{
+	draw_ceil_and_floor_tex(addr++, ray->consts->size_line, map, ray, width);
 }
 
 void	display_screen(t_game *game, t_raycast infos, int x, int width)
 {
-	double		cam_coef;
-
-	reset_background((int *)game->mlx.img->data, x, width, game->mlx.size_line);
-	cam_coef = infos.cam_coef;
-	infos.cam_x = (infos.cam_x_step * x);
-	while (x < width)
+	infos.cam_x = (infos.consts->cam_x_step * x);
+	reset_background(infos.addr, width, &infos, &game->map);
+	while (width--)
 	{
 		infos.wall_dist = get_wall_dist(game->player, &infos,
-				cam_coef * x - 1, game->map);
+				infos.consts->cam_coef * x++ - 1, &game->map);
 		infos.z_buffer[x] = infos.wall_dist;
 		infos.line_height = WIN_HEIGHT / infos.wall_dist;
-		infos.line_height -= infos.line_height % 2;
 		infos.half_line_height = infos.line_height >> 1;
-		infos.wall_pos[0] = infos.half_win_height - infos.half_line_height
+		infos.wall_pos[0] = infos.consts->half_win_height - infos.half_line_height
 			+ infos.cam_y;
-		infos.wall_pos[1] = infos.half_win_height + infos.half_line_height
-			+ infos.cam_y;
+		infos.wall_pos[1] = infos.wall_pos[0] + (infos.half_line_height << 1);
 		if (infos.wall_pos[0] >> 31)
 			infos.wall_pos[0] = 0;
 		if (infos.wall_pos[1] > WIN_HEIGHT)
 			infos.wall_pos[1] = WIN_HEIGHT;
-		draw_column(game, x++, game->map, &infos);
-		infos.cam_x += infos.cam_x_step;
+		draw_column(game, &game->map, &infos);
+		infos.cam_x += infos.consts->cam_x_step;
 	}
 }
 
@@ -102,8 +98,10 @@ void	*thread_routine(void *ptr)
 
 	thread = (t_thread_info *)ptr;
 	game = thread->game;
-	thread->start = thread->index * (WIN_WIDTH / THREAD_COUNT);
-	thread->width = thread->start + (WIN_WIDTH / THREAD_COUNT);
+	thread->width = WIN_WIDTH / THREAD_COUNT;
+	thread->start = thread->index * thread->width;
+	thread->raycast.addr += thread->start;
+	thread->raycast.start_x = thread->start;
 	while (!game->stop)
 	{
 		while (!thread_finished(game, thread))

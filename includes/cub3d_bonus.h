@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/06/23 22:44:11 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/07 21:51:22 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@
 
 //window settings
 # ifndef WIN_WIDTH
-#  define WIN_WIDTH		4000
+#  define WIN_WIDTH		2000
 # endif
 # ifndef WIN_HEIGHT
-#  define WIN_HEIGHT	2000
+#  define WIN_HEIGHT	1000
 # endif
 
 // Mouse defines
@@ -81,36 +81,6 @@ typedef struct s_keyboard_control
 	char		down_key;
 }	t_keyboard_control;
 
-typedef struct s_raycast
-{
-	int			tile;
-	int			*addr;
-	char		side;
-	int			line_height;
-	int			half_line_height;
-	int			wall_pos[2];
-	double		ray_dir[2];
-	double		wall_dist;
-	int			texture_x;
-	int			size_line;
-	int			fake_bpp;
-	int			tex_fake_bpp;
-	double		*row_dist_table;
-	int			half_win_height;
-	double		cam_x;
-	int			cam_y;
-	double		cam_x_step;
-	double		cam_coef;
-	double		*z_buffer;
-}	t_raycast;
-
-typedef struct s_opti_const
-{
-	double		float_width;
-	int			half_height;
-	int			half_width;
-}	t_opti_const;
-
 typedef struct s_texture
 {
 	void		*ptr;
@@ -126,6 +96,41 @@ typedef struct s_texture
 	double		d_height;
 	int			height;
 }	t_texture;
+
+typedef struct s_opti_const
+{
+	double		float_width;
+	double		float_height;
+	int			half_win_width;
+	int			half_win_height;
+	t_texture	skybox;
+	int			*skybox_addr;
+	int			size_line;
+	int			fake_bpp;
+	int			tex_fake_bpp;
+	double		*row_dist_table;
+	double		cam_x_step;
+	double		cam_coef;
+}	t_opti_const;
+
+typedef struct s_raycast
+{
+	t_img			*img;
+	int				tile;
+	int				*addr;
+	char			side;
+	int				line_height;
+	int				half_line_height;
+	int				wall_pos[2];
+	double			ray_dir[2];
+	double			wall_dist;
+	int				texture_x;
+	double			cam_x;
+	int				cam_y;
+	double			*z_buffer;
+	int				start_x;
+	t_opti_const	*consts;
+}	t_raycast;
 
 typedef struct s_sprite_frame
 {
@@ -171,6 +176,7 @@ typedef struct s_player
 	double		inv_deter;
 	int			cam_y;
 	int			half_win_height;
+	int			temp;
 }	t_player;
 
 typedef struct s_sprite_drawing
@@ -211,9 +217,11 @@ typedef struct s_plane_drawer
 	double	player_pos[2];
 	double	floor_pos[2];
 	double	real_pos[2];
+	double	ray_step[2];
 	int		map_pos[2];
 	double	*row_table;
 	int		tile;
+	int		y;
 }	t_plane_drawer;
 
 typedef struct s_map
@@ -249,6 +257,7 @@ typedef struct s_game
 	t_opti_const		consts;
 	t_keyboard_control	key_infos;
 	t_thread_info		thread[4];
+	t_texture			default_tex;
 	int					thread_wait;
 	int					stop;
 	int					next_draw;
@@ -282,13 +291,13 @@ void			ft_error(char *msg);
 void			print_map(t_map *map);
 
 //display utils
-void			store_textures(t_map *map, void *mlx);
+void			store_textures(t_map *map, void *mlx, t_game *game);
 //void			display_screen(t_game *game, t_opti_const consts,
 //					t_raycast *infos);
 void			put_texture(t_game *game, int *addr,
 					t_raycast *infos, int size_line);
 double			get_wall_dist(t_player player, t_raycast *infos,
-					double cam_x, t_map map);
+					double cam_x, t_map *map);
 void			put_pixel(t_img *img, int x, int y, int color);
 int				get_pixel_color(t_img *img, int x, int y);
 void			init_size_line_steps(int size_line, int steps[5]);
@@ -297,7 +306,7 @@ void			update_player_ray_dirs(t_player *player);
 
 //floor and ceil
 void			draw_ceil_and_floor_tex(int *addr, int size,
-					t_map map, t_raycast *ray);
+					t_map *map, t_raycast *ray, int width);
 
 //entities
 t_entity		*create_entity(char *tex_path, double x, double y, void *mlx_ptr);
@@ -329,5 +338,6 @@ void			ft_lstclear(t_list **lst, void (*del)(void *));
 
 void			*thread_routine(void *ptr);
 void			display_screen(t_game *game, t_raycast infos, int x, int width);
+t_texture		create_skybox(char *path, void *mlx);
 
 #endif

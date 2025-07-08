@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 16:01:23 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/06/03 01:27:38 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/05 20:42:14 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	update_entities(t_list *entities, t_player player, t_opti_const consts)
 		entity->draw_dir_y = player.inv_deter * (-player.plane_y
 				* entity->player_dist_x + player.plane_x
 				* entity->player_dist_y);
-		entity->screen_x = (int)(consts.half_width
+		entity->screen_x = (int)(consts.half_win_width
 				* (1 + entity->draw_dir_x / entity->draw_dir_y));
 		entity->sprite_height = abs((int)(WIN_HEIGHT / entity->draw_dir_y));
 		entity->half_height = entity->sprite_height / 2;

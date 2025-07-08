@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 15:52:59 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/06/03 00:46:12 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/05 20:44:53 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,14 +128,14 @@ void	draw_sprites(t_raycast infos, t_game *game)
 	{
 		if (temp_spr->draw_dir_y <= 0)
 			continue ;
-		init_sprite_consts(&spr, temp_spr, infos.half_win_height, infos.cam_y);
+		init_sprite_consts(&spr, temp_spr, infos.consts->half_win_height, infos.cam_y);
 		addr = (int *)(game->mlx.img->data + (spr.delim_y_start
-					* infos.size_line << 2) + ((spr.delim_x_start) << 2));
+					* infos.consts->size_line << 2) + ((spr.delim_x_start) << 2));
 		stripe = spr.delim_x_start;
 		while (stripe < spr.delim_x_end)
 		{
 			if (infos.z_buffer[stripe++] > temp_spr->player_dist)
-				draw_sprite_loop(spr, temp_spr, addr, infos.size_line);
+				draw_sprite_loop(spr, temp_spr, addr, infos.consts->size_line);
 			addr++;
 			spr.screen_x++;
 		}
