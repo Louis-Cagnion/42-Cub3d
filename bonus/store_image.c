@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 15:21:23 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/07/07 22:12:24 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/08 21:35:15 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,28 +106,6 @@ static void	store_tile_texture(t_tile *cur, void *mlx, t_texture default_tex)
 	}
 }
 
-t_texture	create_default_texture(void *mlx)
-{
-	t_texture	dest;
-
-	dest.ptr = mlx_new_image(mlx, 2, 2);
-	if (dest.ptr)
-		dest.data = mlx_get_data_addr(dest.ptr, &dest.bpp,
-				&dest.size_line, &dest.endian);
-	dest.fake_bpp = dest.bpp >> 3;
-	dest.fake_size_line = dest.size_line >> 2;
-	dest.tex_endian = dest.endian - 1;
-	dest.d_width = 2.0f;
-	dest.d_height = 2.0f;
-	dest.width = 2;
-	dest.height = 2;
-	*(int *)dest.data = 0;
-	*(int *)(dest.data + 4) = 0xff00dc;
-	*(int *)(dest.data + 8) = 0xff00dc;
-	*(int *)(dest.data + 12) = 0;
-	return (dest);
-}
-
 void	store_textures(t_map *map, void *mlx, t_game *game)
 {
 	t_tile		*cur;
@@ -140,7 +118,6 @@ void	store_textures(t_map *map, void *mlx, t_game *game)
 		return ;
 	}
 	i = 256;
-	map->tiles[0] = map->tiles['0'];
 	while (--i)
 	{
 		if (!map->tile_defined[i])
@@ -148,5 +125,4 @@ void	store_textures(t_map *map, void *mlx, t_game *game)
 		cur = &map->tiles[i];
 		store_tile_texture(cur, mlx, game->default_tex);
 	}
-	store_tile_texture(&map->tiles[0], mlx, game->default_tex);
 }

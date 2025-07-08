@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 16:43:42 by marvin            #+#    #+#             */
-/*   Updated: 2025/07/05 20:41:52 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/08 21:10:00 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,13 @@ static void	free_tiles(t_tile tiles[256], void *mlx, char *defined, int i)
 void	free_game(t_game *game)
 {
 	free_tiles(game->map.tiles, game->mlx.init, game->map.tile_defined, 256);
+	mlx_destroy_image(game->mlx.init, game->raycast.consts->skybox.ptr);
+	mlx_destroy_image(game->mlx.init, game->default_tex.ptr);
 	free_mlx(&game->mlx);
+	free(game->raycast.consts->row_dist_table);
+	free(game->raycast.consts);
 	free(game->map.map);
 	if (game->map.map_array)
 		free_array(&game->map.map_array);
-	free(game->raycast.z_buffer);
-	free(game->raycast.consts->row_dist_table);
+	free(game->raycast.cast_infos);
 }

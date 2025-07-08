@@ -6,7 +6,7 @@
 /*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:02:01 by locagnio          #+#    #+#             */
-/*   Updated: 2025/07/06 00:59:08 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/08 22:40:25 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ static inline void	update_camera(t_player *player, double rotation)
 		+ player->plane_y * cos(rotation);
 }
 
-int	key_pressed_check_camera(t_player *player, t_keyboard_control key_infos)
+int	key_pressed_check_camera(t_player *player,
+		t_keyboard_control key_infos)
 {
 	int		ret;
 	int		res;
@@ -52,6 +53,9 @@ int	key_pressed_check_camera(t_player *player, t_keyboard_control key_infos)
 			rotation = ROT_SPEED;
 		update_camera(player, rotation);
 		update_player_ray_dirs(player);
+		player->skybox_scroll = (int)(((atan2(player->direction_y,
+							player->direction_x) + M_PI)
+					/ (2 * M_PI)) * WIN_WIDTH);
 	}
 	ret = (key_infos.up_key - key_infos.down_key) << 4;
 	if (ret && abs(player->cam_y + ret) < player->half_win_height)

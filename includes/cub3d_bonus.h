@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/07/07 21:51:22 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/08 23:53:05 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,26 +109,32 @@ typedef struct s_opti_const
 	int			fake_bpp;
 	int			tex_fake_bpp;
 	double		*row_dist_table;
-	double		cam_x_step;
+	double		width_ratio;
+	double		height_ratio;
 	double		cam_coef;
 }	t_opti_const;
 
+typedef struct s_cast_infos
+{
+	double		wall_dist;
+	double		ray_dir[2];
+	int			is_side;
+	int			tile;
+}	t_cast_infos;
+
 typedef struct s_raycast
 {
+	t_cast_infos	*cast_infos;
 	t_img			*img;
-	int				tile;
+	double			wall_dist;
 	int				*addr;
-	char			side;
 	int				line_height;
 	int				half_line_height;
 	int				wall_pos[2];
-	double			ray_dir[2];
-	double			wall_dist;
 	int				texture_x;
-	double			cam_x;
 	int				cam_y;
-	double			*z_buffer;
 	int				start_x;
+	int				temp;
 	t_opti_const	*consts;
 }	t_raycast;
 
@@ -177,6 +183,7 @@ typedef struct s_player
 	int			cam_y;
 	int			half_win_height;
 	int			temp;
+	int			skybox_scroll;
 }	t_player;
 
 typedef struct s_sprite_drawing
@@ -213,15 +220,17 @@ typedef struct s_tile
 
 typedef struct s_plane_drawer
 {
-	double	ray_dirs[2];
-	double	player_pos[2];
-	double	floor_pos[2];
-	double	real_pos[2];
-	double	ray_step[2];
-	int		map_pos[2];
-	double	*row_table;
-	int		tile;
-	int		y;
+	int			map_pos[2];
+	double		player_pos[2];
+	double		floor_pos[2];
+	double		real_pos[2];
+	double		steps[2];
+	double		*row_table;
+	double		row_dist;
+	double		width_ratio;
+	int			start_x;
+	int			tile;
+	int			y;
 }	t_plane_drawer;
 
 typedef struct s_map
@@ -296,25 +305,27 @@ void			store_textures(t_map *map, void *mlx, t_game *game);
 //					t_raycast *infos);
 void			put_texture(t_game *game, int *addr,
 					t_raycast *infos, int size_line);
-double			get_wall_dist(t_player player, t_raycast *infos,
+double			get_wall_dist(t_player player, t_cast_infos *infos,
 					double cam_x, t_map *map);
-void			put_pixel(t_img *img, int x, int y, int color);
+void			pput_pixel(t_img *img, int x, int y, int color);
 int				get_pixel_color(t_img *img, int x, int y);
 void			init_size_line_steps(int size_line, int steps[5]);
 void			init_raycast(t_game *game, t_raycast *raycast);
 void			update_player_ray_dirs(t_player *player);
 
 //floor and ceil
-void			draw_ceil_and_floor_tex(int *addr, int size,
-					t_map *map, t_raycast *ray, int width);
+void			draw_ceil_and_floor_tex(int *addr, t_map *map,
+					t_raycast *ray, int width);
 
 //entities
-t_entity		*create_entity(char *tex_path, double x, double y, void *mlx_ptr);
+t_entity		*create_entity(char *tex_path, double x,
+					double y, void *mlx_ptr);
 void			draw_sprites(t_raycast infos, t_game *game);
 void			update_entities(t_list *entities, t_player player,
 					t_opti_const consts);
 void			set_entity_framerate(t_entity *entity, int framerate);
-void			add_entity_frame(t_entity *entity, char *tex_path, void *mlx_ptr);
+void			add_entity_frame(t_entity *entity,
+					char *tex_path, void *mlx_ptr);
 t_sprite_frame	*create_sprite_frame(t_texture tex);
 
 //mlx
@@ -322,6 +333,7 @@ int				set_mlx(t_mlx *mlx, char *win_title);
 
 //controls
 void			init_hooks(t_game *game);
+int				loop(t_game *game);
 int				key_pressed_check_controls(t_game *game, t_player *player);
 int				key_pressed_check_camera(t_player *player,
 					t_keyboard_control key_infos);
@@ -339,5 +351,6 @@ void			ft_lstclear(t_list **lst, void (*del)(void *));
 void			*thread_routine(void *ptr);
 void			display_screen(t_game *game, t_raycast infos, int x, int width);
 t_texture		create_skybox(char *path, void *mlx);
+t_texture		create_default_texture(void *mlx);
 
 #endif
