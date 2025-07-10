@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 02:51:28 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/07/08 22:40:54 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/10 17:59:08 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@ static int	quit(t_game *game)
 {
 	int		i;
 
+	pthread_mutex_lock(&game->mutex);
 	game->stop = 1;
+	pthread_mutex_unlock(&game->mutex);
 	i = -1;
 	while (++i < THREAD_COUNT)
 		pthread_join(game->thread[i].thread, NULL);
@@ -74,9 +76,10 @@ void	init_hooks(t_game *game)
 
 	i = -1;
 	init_raycast(game, &game->raycast);
+	game->thread = malloc(sizeof(t_thread_info) * THREAD_COUNT);
 	key_pressed_check_controls(game, &game->player);
 	key_pressed_check_camera(&game->player, game->key_infos);
-	pthread_mutex_init(&game->jsp, NULL);
+	pthread_mutex_init(&game->mutex, NULL);
 	while (++i < THREAD_COUNT)
 	{
 		game->thread[i].index = i;

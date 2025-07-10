@@ -6,11 +6,18 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 16:47:14 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/05/28 16:49:44 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/09 22:03:54 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+int	ft_abs(int nb)
+{
+	if (nb >> 31)
+		return (-nb);
+	return (nb);
+}
 
 void	ft_lstclear(t_list **lst, void (*del)(void *))
 {

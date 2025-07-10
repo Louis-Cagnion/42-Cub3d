@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 21:11:57 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/07/08 22:40:00 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/10 17:57:37 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ static inline int	thread_finished(t_game *game, t_thread_info *thread)
 	int	res;
 
 	res = 0;
-	pthread_mutex_lock(&game->jsp);
+	pthread_mutex_lock(&game->mutex);
 	if (game->stop)
 		res++;
 	else if (thread->is_finished)
 	{
-		pthread_mutex_unlock(&game->jsp);
+		pthread_mutex_unlock(&game->mutex);
 		return (0);
 	}
 	else if (game->next_draw)
@@ -30,7 +30,7 @@ static inline int	thread_finished(t_game *game, t_thread_info *thread)
 		res++;
 		game->next_draw--;
 	}
-	pthread_mutex_unlock(&game->jsp);
+	pthread_mutex_unlock(&game->mutex);
 	return (res);
 }
 
@@ -39,10 +39,10 @@ static inline int	check_end(t_game *game)
 	int		res;
 
 	res = 0;
-	pthread_mutex_lock(&game->jsp);
+	pthread_mutex_lock(&game->mutex);
 	if (game->stop)
 		res++;
-	pthread_mutex_unlock(&game->jsp);
+	pthread_mutex_unlock(&game->mutex);
 	return (res);
 }
 
@@ -53,7 +53,7 @@ void	*thread_routine(void *ptr)
 
 	thread = (t_thread_info *)ptr;
 	game = thread->game;
-	thread->width = WIN_WIDTH / THREAD_COUNT;
+	thread->width = game->raycast.width;
 	thread->start = thread->index * thread->width;
 	thread->raycast.addr += thread->start;
 	thread->raycast.start_x = thread->start;
@@ -65,9 +65,9 @@ void	*thread_routine(void *ptr)
 			break ;
 		thread->raycast.cam_y = game->player.cam_y;
 		display_screen(game, thread->raycast, thread->start, thread->width);
-		pthread_mutex_lock(&game->jsp);
+		pthread_mutex_lock(&game->mutex);
 		thread->is_finished = 1;
-		pthread_mutex_unlock(&game->jsp);
+		pthread_mutex_unlock(&game->mutex);
 	}
 	return (NULL);
 }

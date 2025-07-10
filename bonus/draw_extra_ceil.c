@@ -1,30 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw_ceil_and_floor.c                              :+:      :+:    :+:   */
+/*   draw_extra_ceil.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/29 12:13:54 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/07/10 18:04:06 by gakarbou         ###   ########.fr       */
+/*   Created: 2025/07/10 11:59:27 by gakarbou          #+#    #+#             */
+/*   Updated: 2025/07/10 12:12:44 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
-
-static inline void	init_consts(t_plane_drawer *drawer,
-		t_raycast *ray, int *plane_addr[4], int *size_line)
-{
-	*size_line = ray->consts->size_line;
-	plane_addr[0] += (ray->consts->half_win_height + ray->cam_y) * *size_line;
-	plane_addr[1] = plane_addr[0];
-	plane_addr[2] = ray->consts->skybox_addr
-		+ (ray->consts->half_win_height * *size_line);
-	drawer->width_ratio = ray->consts->width_ratio;
-	drawer->row_table = ray->consts->row_dist_table;
-	drawer->start_x = ray->start_x;
-	drawer->y = ray->consts->half_win_height - ft_abs(ray->cam_y);
-}
 
 static inline int	init_loop_infos(t_plane_drawer *drawer, t_map *map)
 {
@@ -56,23 +42,14 @@ static inline void	draw_row(t_plane_drawer *drawer, int *plane_addr[4],
 		t_map *map)
 {
 	if (!init_loop_infos(drawer, map))
-	{
 		put_plane_pixel(plane_addr[0], plane_addr[2],
 			drawer, &map->tiles[drawer->tile].tex_list[5]);
-		put_plane_pixel(plane_addr[1], plane_addr[3],
-			drawer, &map->tiles[drawer->tile].tex_list[4]);
-	}
 	else
-	{
 		*plane_addr[0] = *(plane_addr[2]);
-		*plane_addr[1] = *(plane_addr[3]);
-	}
 	drawer->floor_pos[0] += drawer->steps[0];
 	drawer->floor_pos[1] += drawer->steps[1];
 	plane_addr[0]++;
-	plane_addr[1]++;
 	plane_addr[2]++;
-	plane_addr[3]++;
 }
 
 static inline void	draw_stripe(t_plane_drawer *drawer, int *plane_addr[4],
@@ -93,27 +70,19 @@ static inline void	draw_stripe(t_plane_drawer *drawer, int *plane_addr[4],
 		draw_row(drawer, plane_addr, map);
 }
 
-void	draw_ceil_and_floor_tex(int *addr, t_map *map,
-		t_raycast *ray, int width)
+void	draw_extra_ceil(t_plane_drawer *drawer, t_raycast *infos,
+		t_map *map, int *plane_addr[4])
 {
-	t_plane_drawer	dr;
-	int				size_line;
-	int				*plane_addr[4];
+	int		width;
+	int		size_line;
 
-	plane_addr[0] = addr;
-	init_consts(&dr, ray, plane_addr, &size_line);
-	plane_addr[2] += ray->start_x + map->player->skybox_scroll;
-	plane_addr[3] = plane_addr[2];
-	while (dr.y--)
+	width = infos->width;
+	size_line = infos->consts->size_line;
+	drawer->y = infos->cam_y << 1;
+	while (drawer->y--)
 	{
-		draw_stripe(&dr, plane_addr, map, width);
-		plane_addr[3] += width * (THREAD_COUNT - 1);
-		plane_addr[1] += width * (THREAD_COUNT - 1);
+		draw_stripe(drawer, plane_addr, map, width);
 		plane_addr[0] -= width + size_line;
 		plane_addr[2] -= width + size_line;
 	}
-	if (ray->cam_y >> 31)
-		draw_extra_floor(&dr, ray, map, plane_addr);
-	else if (ray->cam_y)
-		draw_extra_ceil(&dr, ray, map, plane_addr);
 }

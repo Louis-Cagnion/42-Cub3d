@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 17:57:22 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/07/08 21:40:41 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/10 11:56:47 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ t_texture	create_skybox(char *path, void *mlx)
 	temp.ptr = mlx_xpm_file_to_image(mlx, path, &temp.width, &temp.height);
 	temp.data = mlx_get_data_addr(temp.ptr, &temp.bpp,
 			&temp.size_line, &temp.endian);
-	dest.ptr = mlx_new_image(mlx, WIN_WIDTH, WIN_HEIGHT);
+	dest.ptr = mlx_new_image(mlx, WIN_WIDTH, WIN_HEIGHT * 2);
 	dest.data = mlx_get_data_addr(dest.ptr, &dest.bpp,
 			&dest.size_line, &dest.endian);
-	resize_image((int *)dest.data, temp, WIN_WIDTH, WIN_HEIGHT);
+	resize_image((int *)dest.data, temp, WIN_WIDTH, WIN_HEIGHT * 2);
 	mlx_destroy_image(mlx, temp.ptr);
 	return (dest);
 }

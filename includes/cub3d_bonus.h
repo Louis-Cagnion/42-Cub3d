@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/07/08 23:53:05 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/10 17:57:05 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,7 @@ typedef struct s_raycast
 	int				cam_y;
 	int				start_x;
 	int				temp;
+	int				width;
 	t_opti_const	*consts;
 }	t_raycast;
 
@@ -265,13 +266,12 @@ typedef struct s_game
 	t_raycast			raycast;
 	t_opti_const		consts;
 	t_keyboard_control	key_infos;
-	t_thread_info		thread[4];
+	t_thread_info		*thread;
 	t_texture			default_tex;
 	int					thread_wait;
 	int					stop;
 	int					next_draw;
-	pthread_mutex_t		jsp;
-	pthread_cond_t		cond;
+	pthread_mutex_t		mutex;
 }	t_game;
 
 //parse and treat file
@@ -316,6 +316,10 @@ void			update_player_ray_dirs(t_player *player);
 //floor and ceil
 void			draw_ceil_and_floor_tex(int *addr, t_map *map,
 					t_raycast *ray, int width);
+void			draw_extra_floor(t_plane_drawer *drawer, t_raycast *ray,
+					t_map *map, int *addr[4]);
+void			draw_extra_ceil(t_plane_drawer *drawer, t_raycast *ray,
+					t_map *map, int *addr[4]);
 
 //entities
 t_entity		*create_entity(char *tex_path, double x,
@@ -347,6 +351,7 @@ void			free_game(t_game *game);
 
 //fucking libft
 void			ft_lstclear(t_list **lst, void (*del)(void *));
+int				ft_abs(int nb);
 
 void			*thread_routine(void *ptr);
 void			display_screen(t_game *game, t_raycast infos, int x, int width);
