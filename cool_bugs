@@ -21,7 +21,6 @@ static inline void	draw_vert_tex(int *addr, double inter_dist[3],
 }
 
 
-
 SUPER COOL BG
 
 static void	reset_background(int *addr, int width, t_raycast *ray, t_map *map)

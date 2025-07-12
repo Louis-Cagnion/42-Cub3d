@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/07/12 19:13:54 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/12 21:28:35 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 #  define SPEED			0.06666f
 # endif
 # ifndef ROT_SPEED
-#  define ROT_SPEED		0.10f
+#  define ROT_SPEED		0.05f
 # endif
 # ifndef THREAD_COUNT
 #  define THREAD_COUNT		4
@@ -60,6 +60,20 @@ typedef struct s_inv_size
 	int		start;
 	int		end;
 }	t_inv_size;
+
+typedef struct s_minimap
+{
+	double	ratio_h;
+	double	ratio_w;
+	t_img	*mini_img;
+	int		y_mini_img;
+	int		x_mini_img;
+	int		height_mini;
+	int		width_mini;
+	t_img	*player_img;
+	double	h_player;
+	double	w_player;
+}	t_minimap;
 
 typedef struct s_mlx
 {
@@ -250,6 +264,7 @@ typedef struct s_map
 	int			w_map;
 	int			h_map;
 	t_list		*entity_list;
+	t_minimap	minimap;
 }	t_map;
 
 typedef struct s_thread_info
@@ -365,5 +380,7 @@ void			*thread_routine(void *ptr);
 void			display_screen(t_game *game, t_raycast infos, int x, int width);
 t_texture		create_skybox(char *path, void *mlx);
 t_texture		create_default_texture(void *mlx);
+void			init_minimap(t_minimap *mini, t_map map, t_mlx mlx);
+void			put_minimap(t_mlx mlx, t_minimap mini, t_player player);
 
 #endif

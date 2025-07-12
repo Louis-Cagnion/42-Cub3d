@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   controls.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:02:01 by locagnio          #+#    #+#             */
-/*   Updated: 2025/07/08 22:40:25 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/12 20:10:51 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-inline void	update_player_ray_dirs(t_player *player)
+void	update_player_ray_dirs(t_player *player)
 {
 	player->ray_dir_x[0] = player->direction_x - player->plane_x;
 	player->ray_dir_x[1] = player->plane_x * 2;

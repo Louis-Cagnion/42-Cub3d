@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 21:31:25 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/07/12 19:11:37 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/12 21:36:38 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ static inline int	thread_finished(t_game *game)
 
 static inline void	reset_all(t_game *game)
 {
-	static int	a = 1000;
 	int			i;
 
 	i = -1;
@@ -49,9 +48,6 @@ static inline void	reset_all(t_game *game)
 		game->thread[i].is_finished = 0;
 		game->thread[i].sprite.entity = NULL;
 	}
-	a--;
-	if (!a)
-		exit(0);
 }
 
 static inline void	thread_draw_screen(t_game *game)
@@ -65,6 +61,7 @@ static inline void	thread_draw_screen(t_game *game)
 	command_thread_sprites(game);
 	mlx_put_image_to_window(game->mlx.init, game->mlx.window,
 		game->mlx.img, 0, 0);
+	put_minimap(game->mlx, game->map.minimap, game->player);
 }
 
 int	loop(t_game *game)

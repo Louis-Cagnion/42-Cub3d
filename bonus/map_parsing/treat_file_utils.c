@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   treat_file_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 20:53:48 by locagnio          #+#    #+#             */
-/*   Updated: 2025/05/30 17:01:07 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/12 20:11:07 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	path_is_valid(char *pathname)
 	int		bytes_read;
 	char	test_buffer[10];
 
+	pathname[ft_strlen(pathname) - ft_strrspn(pathname, WSPACES)] = 0;
 	fd = open(pathname, O_RDONLY);
 	if (fd == -1)
 		return (ft_error("Path for elem is invalid\n"), 0);

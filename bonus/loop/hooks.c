@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 02:51:28 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/07/12 16:32:12 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/12 21:24:53 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	init_hooks(t_game *game)
 	game->map.entity_list = create_cell(
 			create_entity("./assets/snas.xpm", 2.5, 3.8, game->mlx.init));
 	init_raycast(game, &game->raycast);
+	init_minimap(&game->map.minimap, game->map, game->mlx);
 	game->thread = malloc(sizeof(t_thread_info) * THREAD_COUNT);
 	key_pressed_check_controls(game, &game->player);
 	key_pressed_check_camera(&game->player, game->key_infos);
