@@ -16,7 +16,7 @@ MLX_DIR = mlx
 MLX = $(MLX_DIR)/libmlx_Linux.a
 
 CC = cc
-FLAGS = -Wall -Wextra -g -O3
+FLAGS = -Wall -Wextra -Werror -g -O3
 MLX_FLAGS = -lX11 -lXext -lm
 
 FILES = main.c \
@@ -37,37 +37,37 @@ FILES = main.c \
 		raycast.c
 
 FILES_BONUS = main.c \
-		misc/free.c \
-		map_parsing/player.c \
-		misc/set_mlx.c \
-		loop/controls.c \
-		misc/printing.c \
 		map_parsing/treat_map.c \
 		map_parsing/treat_map_utils.c \
 		map_parsing/treat_file.c \
 		map_parsing/get_tiles.c \
 		map_parsing/check_elems.c \
 		map_parsing/treat_file_utils.c \
+		map_parsing/player.c \
 		map_parsing/store_image.c \
-		utils/display_utils.c \
 		loop/hooks.c \
 		loop/loop.c \
-		entities/entities_draw_manager.c \
+		loop/controls.c \
 		loop/thread_routine.c \
-		draw/get_wall_dist.c \
+		entities/create_entity.c \
+		entities/entities_methods.c \
 		entities/update_entities.c \
+		entities/entities_draw_manager.c \
+		draw/get_wall_dist.c \
 		draw/minimap.c \
 		draw/draw_ceil_and_floor.c \
 		draw/draw_extra_ceil.c \
 		draw/draw_extra_floor.c \
 		draw/draw_texture.c \
-		misc/create_special_textures.c \
-		entities/create_entity.c \
-		entities/entities_methods.c \
 		draw/draw_sprites.c \
-		utils/raycast_utils.c \
 		draw/raycast.c \
-		utils/libft.c
+		utils/raycast_utils.c \
+		utils/display_utils.c \
+		utils/libft.c \
+		misc/free.c \
+		misc/set_mlx.c \
+		misc/printing.c \
+		misc/create_special_textures.c \
 
 OBJS = $(FILES:%.c=$(OBJ_DIR)/%.o)
 OBJS_BONUS = $(FILES_BONUS:%.c=$(OBJ_BONUS_DIR)/%.o)
