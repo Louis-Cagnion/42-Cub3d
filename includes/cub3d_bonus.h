@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/07/10 17:57:05 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/12 19:13:54 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@
 
 //window settings
 # ifndef WIN_WIDTH
-#  define WIN_WIDTH		2000
+#  define WIN_WIDTH		1999
 # endif
 # ifndef WIN_HEIGHT
 #  define WIN_HEIGHT	1000
@@ -159,6 +159,8 @@ typedef struct s_entity
 	int			half_height;
 	int			framerate;
 	int			frame_count;
+	int			screen_width;
+	double		size_ratio;
 	void		*first_frame;
 	t_list		*frame_list;
 	t_texture	cur_tex;
@@ -189,6 +191,9 @@ typedef struct s_player
 
 typedef struct s_sprite_drawing
 {
+	t_entity	*entity;
+	int			start;
+	int			width;
 	double		step;
 	double		ratio;
 	int			delim_x_start;
@@ -249,13 +254,14 @@ typedef struct s_map
 
 typedef struct s_thread_info
 {
-	t_game		*game;
-	t_raycast	raycast;
-	int			index;
-	int			start;
-	int			width;
-	int			is_finished;
-	pthread_t	thread;
+	t_game				*game;
+	t_raycast			raycast;
+	int					index;
+	int					start;
+	int					width;
+	int					is_finished;
+	pthread_t			thread;
+	t_sprite_drawing	sprite;
 }	t_thread_info;
 
 typedef struct s_game
@@ -324,9 +330,11 @@ void			draw_extra_ceil(t_plane_drawer *drawer, t_raycast *ray,
 //entities
 t_entity		*create_entity(char *tex_path, double x,
 					double y, void *mlx_ptr);
-void			draw_sprites(t_raycast infos, t_game *game);
+void			draw_sprites(t_raycast *infos, t_game *game,
+					t_sprite_drawing *spr);
 void			update_entities(t_list *entities, t_player player,
-					t_opti_const consts);
+					t_opti_const *consts);
+void			command_thread_sprites(t_game *game);
 void			set_entity_framerate(t_entity *entity, int framerate);
 void			add_entity_frame(t_entity *entity,
 					char *tex_path, void *mlx_ptr);

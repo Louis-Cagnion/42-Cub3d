@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 16:43:42 by marvin            #+#    #+#             */
-/*   Updated: 2025/07/08 21:10:00 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/12 19:02:47 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,52 @@ static void	free_tiles(t_tile tiles[256], void *mlx, char *defined, int i)
 	}
 }
 
+static void	free_frame(t_list *frame_ptr, void *mlx_ptr)
+{
+	t_sprite_frame	*frame;
+	int				x;
+
+	x = -1;
+	frame = (t_sprite_frame *)frame_ptr->data;
+	while (frame->invisible_parts[++x])
+		ft_lstclear(&frame->invisible_parts[x], free);
+	free(frame->invisible_parts);
+	mlx_destroy_image(mlx_ptr, frame->tex.ptr);
+	free(frame);
+	free(frame_ptr);
+}
+
+static void	free_entities(t_list *entity_list, void *mlx)
+{
+	t_list			*temp;
+	t_list			*cur_frame;
+	t_list			*temp_frame;
+	t_entity		*cur;
+
+	while (entity_list)
+	{
+		temp = entity_list;
+		entity_list = entity_list->next;
+		cur = (t_entity *)temp->data;
+		cur_frame = cur->frame_list;
+		while (cur_frame != cur->first_frame)
+			cur_frame = cur_frame->next;
+		cur_frame = cur_frame->next;
+		while (cur_frame != cur->first_frame)
+		{
+			temp_frame = cur_frame;
+			cur_frame = cur_frame->next;
+			free_frame(temp_frame, mlx);
+		}
+		free_frame(cur_frame, mlx);
+		free(temp->data);
+		free(temp);
+	}
+}
+
 void	free_game(t_game *game)
 {
+	free_entities(game->map.entity_list, game->mlx.init);
 	free_tiles(game->map.tiles, game->mlx.init, game->map.tile_defined, 256);
 	mlx_destroy_image(game->mlx.init, game->raycast.consts->skybox.ptr);
 	mlx_destroy_image(game->mlx.init, game->default_tex.ptr);
@@ -62,6 +106,7 @@ void	free_game(t_game *game)
 	free(game->raycast.consts->row_dist_table);
 	free(game->raycast.consts);
 	free(game->map.map);
+	free(game->thread);
 	if (game->map.map_array)
 		free_array(&game->map.map_array);
 	free(game->raycast.cast_infos);

@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 11:59:27 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/07/10 12:12:44 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/11 14:49:10 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static inline int	init_loop_infos(t_plane_drawer *drawer, t_map *map)
 	return (0);
 }
 
-static inline void	put_plane_pixel(int *addr, int *skybox,
+static inline void	put_plane_pixel(int *addr,
 		t_plane_drawer *drawer, t_texture *tex)
 {
 	int		color;
@@ -33,19 +33,17 @@ static inline void	put_plane_pixel(int *addr, int *skybox,
 	color = ((int *)tex->data)[((int)(drawer->real_pos[1] * tex->d_height)
 			*tex->fake_size_line
 			+ ((int)(drawer->real_pos[0] * tex->d_width)))];
-	*addr = color;
-	if (color >> 31)
-		*addr = *skybox;
+	if (!(color >> 31))
+		*addr = color;
 }
 
 static inline void	draw_row(t_plane_drawer *drawer, int *plane_addr[4],
 		t_map *map)
 {
+	*plane_addr[0] = *plane_addr[2];
 	if (!init_loop_infos(drawer, map))
-		put_plane_pixel(plane_addr[0], plane_addr[2],
+		put_plane_pixel(plane_addr[0],
 			drawer, &map->tiles[drawer->tile].tex_list[5]);
-	else
-		*plane_addr[0] = *(plane_addr[2]);
 	drawer->floor_pos[0] += drawer->steps[0];
 	drawer->floor_pos[1] += drawer->steps[1];
 	plane_addr[0]++;

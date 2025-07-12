@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 15:17:03 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/07/08 22:29:32 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/11 14:05:23 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,6 @@ static inline void	draw_column(t_game *game, t_raycast *infos)
 	size_line = infos->consts->size_line;
 	addr = infos->addr++;
 	put_texture(game, addr, infos, size_line);
-}
-
-static void	reset_background(int *addr, int width, t_raycast *ray, t_map *map)
-{
-	draw_ceil_and_floor_tex(addr, map, ray, width);
 }
 
 static void	cast_rays(t_game *game, t_raycast *infos, int x, int width)
@@ -42,7 +37,7 @@ void	display_screen(t_game *game, t_raycast infos, int x, int width)
 {
 	cast_rays(game, &infos, x, width);
 	infos.cast_infos = infos.cast_infos + x;
-	reset_background(infos.addr, width, &infos, &game->map);
+	draw_ceil_and_floor_tex(infos.addr, &game->map, &infos, width);
 	while (width--)
 	{
 		infos.wall_dist = infos.cast_infos->wall_dist;

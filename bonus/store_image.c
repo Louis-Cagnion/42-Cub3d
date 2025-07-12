@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 15:21:23 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/07/08 21:35:15 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/12 19:23:25 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ static void	store_image(char *pathname, t_tile *tile, void *mlx_ptr, int i)
 	tile->tex_list[i] = dest;
 }
 
-static void	store_defaults_settings(t_map *map, void *mlx)
+static void	store_defaults_settings(t_map *map, void *mlx,
+		t_texture default_tex)
 {
 	t_tile	*cur;
 	t_tile	src;
@@ -78,6 +79,8 @@ static void	store_defaults_settings(t_map *map, void *mlx)
 	store_image(src.so_path, cur, mlx, 1);
 	store_image(src.we_path, cur, mlx, 2);
 	store_image(src.ea_path, cur, mlx, 3);
+	cur->tex_list[4] = default_tex;
+	cur->tex_list[5] = default_tex;
 	cur->is_wall = 1;
 }
 
@@ -114,7 +117,7 @@ void	store_textures(t_map *map, void *mlx, t_game *game)
 	game->default_tex = create_default_texture(mlx);
 	if (map->tile_defined[0])
 	{
-		store_defaults_settings(map, mlx);
+		store_defaults_settings(map, mlx, game->default_tex);
 		return ;
 	}
 	i = 256;

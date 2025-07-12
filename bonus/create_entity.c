@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:05:07 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/06/03 01:58:53 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/12 18:27:15 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,6 @@ t_entity	*create_entity(char *tex_path, double x, double y, void *mlx_ptr)
 	dest->frame_list->next = dest->frame_list;
 	dest->framerate = 24;
 	dest->frame_count = 0;
-	add_entity_frame(dest, "./assets/isaac.xpm", mlx_ptr);
 	add_entity_frame(dest, "./assets/mario.xpm", mlx_ptr);
 	return (dest);
 }

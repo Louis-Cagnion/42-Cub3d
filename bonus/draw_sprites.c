@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 15:52:59 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/07/08 21:24:35 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/12 19:02:23 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static inline void	init_sprite_consts(t_sprite_drawing *spr,
 	spr->screen_x = spr->delim_x_start - spr->screen_x;
 }
 
-static inline void	draw_sprite_stripe(t_sprite_drawing spr, int size_line,
+static inline void	draw_sprite_stripe(t_sprite_drawing *spr, int size_line,
 		int tex_size_line, int height)
 {
 	int		*addr;
@@ -46,17 +46,18 @@ static inline void	draw_sprite_stripe(t_sprite_drawing spr, int size_line,
 	double	tex_y;
 	double	step;
 
-	tex_y = spr.tex_y;
-	addr = spr.addr;
-	tex_addr = spr.tex_addr;
-	step = spr.step;
+	tex_y = spr->tex_y;
+	addr = spr->addr;
+	tex_addr = spr->tex_addr;
+	step = spr->step;
 	while (height--)
 	{
 		*addr = *(tex_addr + (tex_size_line * (int)tex_y));
 		tex_y += step;
+		if (tex_y >= 1389)
+			break ;
 		addr += size_line;
 	}
-	return ;
 }
 
 static inline int	init_stripe_draw(t_sprite_drawing *spr, int *og_addr,
@@ -89,7 +90,7 @@ static inline int	init_stripe_draw(t_sprite_drawing *spr, int *og_addr,
 	return (end_y);
 }
 
-static inline void	draw_sprite_loop(t_sprite_drawing spr, t_entity *temp_spr,
+static inline void	draw_sprite_loop(t_sprite_drawing *spr, t_entity *temp_spr,
 		int *og_addr, int size_line)
 {
 	int		tex_x;
@@ -98,45 +99,41 @@ static inline void	draw_sprite_loop(t_sprite_drawing spr, t_entity *temp_spr,
 	int		height;
 	t_list	*cur;
 
-	tex_x = (int)(spr.screen_x * temp_spr->cur_tex.width / spr.sprite_height);
+	tex_x = (int)(spr->screen_x * temp_spr->cur_tex.width / spr->sprite_height);
 	tex_data = (int *)temp_spr->cur_tex.data;
 	tex_data += tex_x;
 	tex_size_line = temp_spr->cur_tex.fake_size_line;
 	cur = temp_spr->cur_invisible_parts[tex_x];
 	while (cur)
 	{
-		height = init_stripe_draw(&spr, og_addr, size_line,
+		height = init_stripe_draw(spr, og_addr, size_line,
 				cur->data);
-		spr.tex_addr = tex_data;
+		spr->tex_addr = tex_data;
 		draw_sprite_stripe(spr, size_line, tex_size_line, height);
 		cur = cur->next;
 	}
 }
 
-void	draw_sprites(t_raycast infos, t_game *game)
+void	draw_sprites(t_raycast *infos, t_game *game, t_sprite_drawing *spr)
 {
-	t_sprite_drawing	spr;
 	t_entity			*temp_spr;
-	int					num_sprite;
 	int					*addr;
 	int					stripe;
 
-	num_sprite = -1;
-	temp_spr = (t_entity *)game->map.entity_list->data;
-	spr.cam_y = infos.cam_y;
-	while (++num_sprite < 1)
+	temp_spr = spr->entity;
+	spr->cam_y = infos->cam_y;
+	init_sprite_consts(spr, temp_spr, infos->consts->half_win_height,
+		infos->cam_y);
+	addr = (int *)(game->mlx.img->data + (spr->delim_y_start
+				* infos->consts->size_line << 2)
+			+ ((spr->delim_x_start + spr->start) << 2));
+	stripe = spr->delim_x_start + spr->start;
+	spr->screen_x += spr->start;
+	while (stripe < spr->delim_x_end && spr->width--)
 	{
-		if (temp_spr->draw_dir_y <= 0)
-			continue ;
-		init_sprite_consts(&spr, temp_spr, infos.consts->half_win_height, infos.cam_y);
-		addr = (int *)(game->mlx.img->data + (spr.delim_y_start * infos.consts->size_line << 2) + ((spr.delim_x_start) << 2));
-		stripe = spr.delim_x_start;
-		while (stripe < spr.delim_x_end)
-		{
-			if (infos.cast_infos[stripe++].wall_dist > temp_spr->player_dist)
-				draw_sprite_loop(spr, temp_spr, addr, infos.consts->size_line);
-			addr++;
-			spr.screen_x++;
-		}
+		if (infos->cast_infos[stripe++].wall_dist > temp_spr->player_dist)
+			draw_sprite_loop(spr, temp_spr, addr, infos->consts->size_line);
+		addr++;
+		spr->screen_x++;
 	}
 }

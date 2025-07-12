@@ -4,7 +4,7 @@
 	WE ./assets/backrooms.xpm
 	EA ./assets/isaac.xpm
 
-	F ./assets/invisible.xpm
+	F ./assets/wall.xpm
 	C ./assets/invisible.xpm
 	W 0
 }

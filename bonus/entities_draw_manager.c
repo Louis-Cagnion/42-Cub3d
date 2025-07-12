@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   loop.c                                             :+:      :+:    :+:   */
+/*   entities_draw_manager.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/08 21:31:25 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/07/12 19:11:37 by gakarbou         ###   ########.fr       */
+/*   Created: 2025/07/12 19:12:52 by gakarbou          #+#    #+#             */
+/*   Updated: 2025/07/12 19:13:14 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,41 +38,45 @@ static inline int	thread_finished(t_game *game)
 	return (1);
 }
 
-static inline void	reset_all(t_game *game)
+static inline void	thread_draw_sprite(t_game *game)
 {
-	static int	a = 1000;
 	int			i;
 
 	i = -1;
-	while (++i < THREAD_COUNT)
-	{
-		game->thread[i].is_finished = 0;
-		game->thread[i].sprite.entity = NULL;
-	}
-	a--;
-	if (!a)
-		exit(0);
-}
-
-static inline void	thread_draw_screen(t_game *game)
-{
 	pthread_mutex_lock(&game->mutex);
-	reset_all(game);
+	while (++i < THREAD_COUNT)
+		game->thread[i].is_finished = 0;
 	game->next_draw = THREAD_COUNT;
 	pthread_mutex_unlock(&game->mutex);
 	while (!thread_finished(game))
 		usleep(1);
-	command_thread_sprites(game);
-	mlx_put_image_to_window(game->mlx.init, game->mlx.window,
-		game->mlx.img, 0, 0);
 }
 
-int	loop(t_game *game)
+void	command_thread_sprites(t_game *game)
 {
-	game->raycast.cam_y = game->player.cam_y;
-	key_pressed_check_controls(game, &game->player);
-	key_pressed_check_camera(&game->player, game->key_infos);
-	update_entities(game->map.entity_list, game->player, game->raycast.consts);
-	thread_draw_screen(game);
-	return (0);
+	t_list		*entities;
+	t_entity	*entity;
+	int			i;
+	int			sprite_part;
+
+	entities = game->map.entity_list;
+	while (entities)
+	{
+		entity = (t_entity *)entities->data;
+		entities = entities->next;
+		if (entity->draw_dir_y <= 0 || entity->screen_width >> 31
+			|| entity->player_dist < 0.1)
+			continue ;
+		i = -1;
+		sprite_part = entity->screen_width / THREAD_COUNT;
+		pthread_mutex_lock(&game->mutex);
+		while (++i < THREAD_COUNT)
+		{
+			game->thread[i].sprite.entity = entity;
+			game->thread[i].sprite.start = sprite_part * i;
+			game->thread[i].sprite.width = sprite_part;
+		}
+		pthread_mutex_unlock(&game->mutex);
+		thread_draw_sprite(game);
+	}
 }

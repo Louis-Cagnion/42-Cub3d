@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 01:28:10 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/07/10 11:48:39 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/11 20:02:21 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,15 @@ void	draw_extra_floor(t_plane_drawer *drawer, t_raycast *infos,
 		t_map *map, int *plane_addr[4])
 {
 	int		width;
+	int		size_line;
 
 	width = infos->width;
-	drawer->y = -infos->cam_y << 1;
+	size_line = infos->consts->size_line;
+	drawer->y = (-infos->cam_y << 1);
 	while (drawer->y--)
 	{
 		draw_stripe(drawer, plane_addr, map, width);
-		plane_addr[3] += width * (THREAD_COUNT - 1);
-		plane_addr[1] += width * (THREAD_COUNT - 1);
+		plane_addr[3] = (plane_addr[3] - width) + size_line;
+		plane_addr[1] = (plane_addr[1] - width) + size_line;
 	}
 }
