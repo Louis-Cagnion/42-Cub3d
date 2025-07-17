@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   treat_map_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin   <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 21:57:47 by gakarbou          #+#    #+#             */
 /*   Updated: 2025/06/10 12:56:20 by marvin           ###   ########.fr       */

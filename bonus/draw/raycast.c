@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 15:17:03 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/07/17 20:20:51 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/17 20:57:57 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	display_screen(t_game *game, t_raycast infos, int x, int width)
 {
 	cast_rays(game, &infos, x, width);
 	infos.cast_infos += x;
-	draw_ceil_and_floor_tex(infos.addr, &game->map, &infos, width);
+	//draw_ceil_and_floor_tex(infos.addr, &game->map, &infos, width);
 	while (width--)
 	{
 		infos.wall_dist = infos.cast_infos->wall_dist;

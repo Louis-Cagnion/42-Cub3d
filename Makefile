@@ -79,8 +79,8 @@ RED    = "\033[31m"
 GREEN = "\033[32m"
 RESET = "\033[0m"
 
-all: $(NAME)
-#all : bonus
+#all: $(NAME)
+all : bonus
 
 $(NAME): $(LIBFT) $(MLX) $(OBJS)
 	@echo $(CYAN)"Compiling Cub3D..."$(RESET)
