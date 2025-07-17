@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 12:13:54 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/07/17 17:06:55 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/17 20:17:18 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,18 +89,21 @@ void	draw_ceil_and_floor_tex(int *addr, t_map *map,
 	t_plane_drawer	dr;
 	int				size_line;
 	int				*plane_addr[4];
+	int				line_jumps[2];
 
 	plane_addr[0] = addr;
 	init_consts(&dr, ray, plane_addr, &size_line);
 	plane_addr[2] += ray->start_x + map->player->skybox_scroll;
 	plane_addr[3] = plane_addr[2];
+	line_jumps[0] = width + size_line;
+	line_jumps[1] = size_line - width;
 	while (dr.y--)
 	{
 		draw_stripe(&dr, plane_addr, map, width);
-		plane_addr[3] = (plane_addr[3] - width) + size_line;
-		plane_addr[1] = (plane_addr[1] - width) + size_line;
-		plane_addr[0] -= width + size_line;
-		plane_addr[2] -= width + size_line;
+		plane_addr[0] -= line_jumps[0];
+		plane_addr[2] -= line_jumps[0];
+		plane_addr[1] += line_jumps[1];
+		plane_addr[3] += line_jumps[1];
 	}
 	if (ray->cam_y >> 31)
 		draw_extra_floor(&dr, ray, map, plane_addr);
