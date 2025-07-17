@@ -5,7 +5,7 @@
 	EA ./assets/isaac.xpm
 
 	F ./assets/wall.xpm
-	C ./assets/isaac.xpm
+	C ./assets/invisible.xpm
 	W 0
 }
 

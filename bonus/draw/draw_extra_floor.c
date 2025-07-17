@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 01:28:10 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/07/11 20:02:21 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/17 16:56:06 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,12 @@ static inline void	draw_row(t_plane_drawer *drawer, int *plane_addr[4],
 static inline void	draw_stripe(t_plane_drawer *drawer, int *plane_addr[4],
 		t_map *map, int width)
 {
+	double	row_dist_ratio;
+
 	drawer->row_dist = *(++drawer->row_table);
-	drawer->steps[0] = drawer->row_dist * map->player->ray_dir_x[1]
-		* drawer->width_ratio;
-	drawer->steps[1] = drawer->row_dist * map->player->ray_dir_y[1]
-		* drawer->width_ratio;
+	row_dist_ratio = drawer->row_dist * drawer->width_ratio;
+	drawer->steps[0] = row_dist_ratio * map->player->ray_dir_x[1];
+	drawer->steps[1] = row_dist_ratio * map->player->ray_dir_y[1];
 	drawer->floor_pos[0] = map->player->x + drawer->row_dist
 		* map->player->ray_dir_x[0];
 	drawer->floor_pos[1] = map->player->y + drawer->row_dist
@@ -77,12 +78,12 @@ void	draw_extra_floor(t_plane_drawer *drawer, t_raycast *infos,
 	int		size_line;
 
 	width = infos->width;
-	size_line = infos->consts->size_line;
+	size_line = infos->consts->size_line - width;
 	drawer->y = (-infos->cam_y << 1);
 	while (drawer->y--)
 	{
 		draw_stripe(drawer, plane_addr, map, width);
-		plane_addr[3] = (plane_addr[3] - width) + size_line;
-		plane_addr[1] = (plane_addr[1] - width) + size_line;
+		plane_addr[3] += size_line;
+		plane_addr[1] += size_line;
 	}
 }

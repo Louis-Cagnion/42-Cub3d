@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 12:13:54 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/07/12 19:01:42 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/17 17:06:55 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,12 @@ static inline void	draw_row(t_plane_drawer *drawer, int *plane_addr[4],
 static inline void	draw_stripe(t_plane_drawer *drawer, int *plane_addr[4],
 		t_map *map, int width)
 {
+	double	row_dist_ratio;
+
 	drawer->row_dist = *(++drawer->row_table);
-	drawer->steps[0] = drawer->row_dist * map->player->ray_dir_x[1]
-		* drawer->width_ratio;
-	drawer->steps[1] = drawer->row_dist * map->player->ray_dir_y[1]
-		* drawer->width_ratio;
+	row_dist_ratio = drawer->row_dist * drawer->width_ratio;
+	drawer->steps[0] = row_dist_ratio * map->player->ray_dir_x[1];
+	drawer->steps[1] = row_dist_ratio * map->player->ray_dir_y[1];
 	drawer->floor_pos[0] = map->player->x + drawer->row_dist
 		* map->player->ray_dir_x[0];
 	drawer->floor_pos[1] = map->player->y + drawer->row_dist

@@ -6,7 +6,7 @@
 /*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/07/12 21:28:35 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/13 17:34:17 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -380,7 +380,7 @@ void			*thread_routine(void *ptr);
 void			display_screen(t_game *game, t_raycast infos, int x, int width);
 t_texture		create_skybox(char *path, void *mlx);
 t_texture		create_default_texture(void *mlx);
-void			init_minimap(t_minimap *mini, t_map map, t_mlx mlx);
+void			init_minimap(t_minimap *mini, t_map *map, t_mlx mlx);
 void			put_minimap(t_mlx mlx, t_minimap mini, t_player player);
 
 #endif
