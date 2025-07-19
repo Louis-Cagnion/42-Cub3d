@@ -6,52 +6,51 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 15:17:03 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/06/03 17:31:42 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/17 20:57:57 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-static inline void	draw_column(t_game *game, int x, t_map map_infos,
-		t_raycast *infos)
+static inline void	draw_column(t_game *game, t_raycast *infos)
 {
-	t_img	*img;
 	int		*addr;
 	int		size_line;
 
-	img = game->mlx.img;
-	size_line = infos->size_line;
-	addr = (int *)(img->data + (x * infos->fake_bpp));
-	draw_ceil_and_floor_tex(addr, size_line,
-		map_infos, infos);
-	addr += size_line * infos->wall_pos[0];
+	size_line = infos->consts->size_line;
+	addr = infos->addr++;
 	put_texture(game, addr, infos, size_line);
 }
 
-void	display_screen(t_game *game, t_opti_const consts, t_raycast infos)
+static void	cast_rays(t_game *game, t_raycast *infos, int x, int width)
 {
-	double		cam_coef;
-	int			x;
-
-	x = WIN_WIDTH;
-	cam_coef = consts.cam_coef;
-	while (x)
+	while (width--)
 	{
-		infos.wall_dist = get_wall_dist(game->player, &infos,
-				cam_coef * x - 1, game->map);
-		infos.z_buffer[x - 1] = infos.wall_dist;
+		infos->cast_infos[x].wall_dist = get_wall_dist(game->player,
+				&infos->cast_infos[x], infos->consts->cam_coef * x - 1,
+				&game->map);
+		x++;
+	}
+}
+
+void	display_screen(t_game *game, t_raycast infos, int x, int width)
+{
+	cast_rays(game, &infos, x, width);
+	infos.cast_infos += x;
+	//draw_ceil_and_floor_tex(infos.addr, &game->map, &infos, width);
+	while (width--)
+	{
+		infos.wall_dist = infos.cast_infos->wall_dist;
 		infos.line_height = WIN_HEIGHT / infos.wall_dist;
 		infos.half_line_height = infos.line_height >> 1;
-		infos.wall_pos[0] = consts.half_height - infos.half_line_height
-			+ infos.cam_y;
-		infos.wall_pos[1] = consts.half_height + infos.half_line_height
-			+ infos.cam_y;
+		infos.wall_pos[0] = infos.consts->half_win_height
+			- infos.half_line_height + infos.cam_y;
+		infos.wall_pos[1] = infos.wall_pos[0] + (infos.half_line_height << 1);
 		if (infos.wall_pos[0] >> 31)
 			infos.wall_pos[0] = 0;
 		if (infos.wall_pos[1] > WIN_HEIGHT)
 			infos.wall_pos[1] = WIN_HEIGHT;
-		draw_column(game, x--, game->map, &infos);
-		infos.cam_x -= infos.cam_x_step;
+		draw_column(game, &infos);
+		infos.cast_infos++;
 	}
-	draw_sprites(infos, game);
 }

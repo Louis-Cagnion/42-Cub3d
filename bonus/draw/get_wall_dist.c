@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 23:49:22 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/06/03 14:41:35 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/12 20:02:50 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ static inline void	init_delta_infos(t_player player,
 		delta_dist[1] = fabs(1 / ray_dir[1]);
 }
 
-double	get_wall_dist(t_player player, t_raycast *infos,
-		double cam_x, t_map map)
+double	get_wall_dist(t_player player, t_cast_infos *infos,
+		double cam_x, t_map *map)
 {
 	int		is_vert;
 	int		steps[2];
@@ -60,7 +60,7 @@ double	get_wall_dist(t_player player, t_raycast *infos,
 	side_dist[0] *= delta_dist[0];
 	side_dist[1] *= delta_dist[1];
 	is_vert = 0;
-	while (!map.tiles[(int)map.map_array[map_pos[1]][map_pos[0]]].is_wall)
+	while (!map->tiles[(int)map->map_array[map_pos[1]][map_pos[0]]].is_wall)
 	{
 		is_vert = side_dist[0] >= side_dist[1];
 		side_dist[is_vert] += delta_dist[is_vert];
@@ -68,8 +68,8 @@ double	get_wall_dist(t_player player, t_raycast *infos,
 	}
 	if (is_vert)
 		player.x = player.y;
-	infos->side = is_vert;
-	infos->tile = map.map_array[map_pos[1]][map_pos[0]];
+	infos->is_side = is_vert;
+	infos->tile = map->map_array[map_pos[1]][map_pos[0]];
 	return ((map_pos[is_vert] - player.x
 			+ ((1 - steps[is_vert]) >> 1)) / infos->ray_dir[is_vert]);
 }

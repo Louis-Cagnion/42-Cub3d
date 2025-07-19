@@ -16,7 +16,7 @@ MLX_DIR = mlx
 MLX = $(MLX_DIR)/libmlx_Linux.a
 
 CC = cc
-FLAGS = -Wall -Wextra -Werror -g -O3
+FLAGS = -Wall -Wextra -Werror -g -O3 -ffast-math
 MLX_FLAGS = -lX11 -lXext -lm
 
 FILES = main.c \
@@ -37,37 +37,37 @@ FILES = main.c \
 		raycast.c
 
 FILES_BONUS = main.c \
-		\
-		player/player.c \
-		player/controls.c \
-		\
-		mlx/hooks.c \
-		mlx/set_mlx.c \
-		\
-		map_treatement/treat_map.c \
-		map_treatement/treat_map_utils.c \
-		map_treatement/treat_file.c \
-		map_treatement/get_tiles.c \
-		map_treatement/check_elems.c \
-		map_treatement/treat_file_utils.c \
-		\
+		map_parsing/treat_map.c \
+		map_parsing/treat_map_utils.c \
+		map_parsing/treat_file.c \
+		map_parsing/get_tiles.c \
+		map_parsing/check_elems.c \
+		map_parsing/treat_file_utils.c \
+		map_parsing/player.c \
+		map_parsing/store_image.c \
+		loop/hooks.c \
+		loop/loop.c \
+		loop/controls.c \
+		loop/thread_routine.c \
+		entities/create_entity.c \
+		entities/entities_methods.c \
+		entities/update_entities.c \
+		entities/entities_draw_manager.c \
+		draw/get_wall_dist.c \
 		draw/minimap.c \
-		draw/store_image.c \
+		draw/draw_ceil_and_floor.c \
+		draw/draw_extra_ceil.c \
+		draw/draw_extra_floor.c \
 		draw/draw_texture.c \
 		draw/draw_sprites.c \
-		draw/get_wall_dist.c \
-		draw/draw_ceil_and_floor.c \
-		\
-		entities/create_entity.c \
-		entities/update_entities.c \
-		\
-		raycast/raycast.c \
-		\
-		utils/free.c \
-		utils/libft.c \
-		utils/printing.c \
+		draw/raycast.c \
+		utils/raycast_utils.c \
 		utils/display_utils.c \
-		utils/raycast_utils.c
+		utils/libft.c \
+		misc/free.c \
+		misc/set_mlx.c \
+		misc/printing.c \
+		misc/create_special_textures.c \
 
 OBJS = $(FILES:%.c=$(OBJ_DIR)/%.o)
 OBJS_BONUS = $(FILES_BONUS:%.c=$(OBJ_BONUS_DIR)/%.o)
@@ -79,8 +79,8 @@ RED    = "\033[31m"
 GREEN = "\033[32m"
 RESET = "\033[0m"
 
-all: $(NAME)
-#all : bonus
+#all: $(NAME)
+all : bonus
 
 $(NAME): $(LIBFT) $(MLX) $(OBJS)
 	@echo $(CYAN)"Compiling Cub3D..."$(RESET)
