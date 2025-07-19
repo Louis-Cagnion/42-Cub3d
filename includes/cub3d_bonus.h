@@ -6,7 +6,7 @@
 /*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/07/13 17:34:17 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/19 19:10:50 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,6 +265,8 @@ typedef struct s_map
 	int			h_map;
 	t_list		*entity_list;
 	t_minimap	minimap;
+	t_list		*name_lst;
+	t_list		*tex_ptr;
 }	t_map;
 
 typedef struct s_thread_info
@@ -278,6 +280,13 @@ typedef struct s_thread_info
 	pthread_t			thread;
 	t_sprite_drawing	sprite;
 }	t_thread_info;
+
+typedef struct s_wall_list
+{
+	char				*name;
+	t_texture			tex;
+	struct s_wall_list	*next;
+}	t_wall_list;
 
 typedef struct s_game
 {
@@ -382,5 +391,7 @@ t_texture		create_skybox(char *path, void *mlx);
 t_texture		create_default_texture(void *mlx);
 void			init_minimap(t_minimap *mini, t_map *map, t_mlx mlx);
 void			put_minimap(t_mlx mlx, t_minimap mini, t_player player);
+void			ft_lstadd_front(t_list **lst, t_list *new);
+void			create_tex_structs(t_map *map, void *mlx);
 
 #endif

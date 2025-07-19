@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 15:17:03 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/07/11 14:05:23 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/19 10:57:41 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,16 @@ void	display_screen(t_game *game, t_raycast infos, int x, int width)
 	while (width--)
 	{
 		infos.wall_dist = infos.cast_infos->wall_dist;
+		if (infos.wall_dist < 0)
+		{
+			infos.cast_infos++;
+			continue ;
+		}
 		infos.line_height = WIN_HEIGHT / infos.wall_dist;
 		infos.half_line_height = infos.line_height >> 1;
 		infos.wall_pos[0] = infos.consts->half_win_height
 			- infos.half_line_height + infos.cam_y;
-		infos.wall_pos[1] = infos.wall_pos[0] + (infos.half_line_height << 1);
+		infos.wall_pos[1] = infos.wall_pos[0] + infos.line_height;
 		if (infos.wall_pos[0] >> 31)
 			infos.wall_pos[0] = 0;
 		if (infos.wall_pos[1] > WIN_HEIGHT)

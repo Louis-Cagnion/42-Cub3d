@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 23:49:22 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/07/12 20:02:50 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/19 10:57:35 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,16 @@ double	get_wall_dist(t_player player, t_cast_infos *infos,
 	side_dist[0] *= delta_dist[0];
 	side_dist[1] *= delta_dist[1];
 	is_vert = 0;
-	while (!map->tiles[(int)map->map_array[map_pos[1]][map_pos[0]]].is_wall)
+	while (1)
 	{
 		is_vert = side_dist[0] >= side_dist[1];
 		side_dist[is_vert] += delta_dist[is_vert];
 		map_pos[is_vert] += steps[is_vert];
+		if (map_pos[1] < 0 || map_pos[0] < 0 || map_pos[0] >= map->w_map
+				|| map_pos[1] >= map->h_map)
+			return (-1);
+		if (map->tiles[(int)map->map_array[map_pos[1]][map_pos[0]]].is_wall)
+			break ;
 	}
 	if (is_vert)
 		player.x = player.y;

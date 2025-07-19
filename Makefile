@@ -16,7 +16,7 @@ MLX_DIR = mlx
 MLX = $(MLX_DIR)/libmlx_Linux.a
 
 CC = cc
-FLAGS = -Wall -Wextra -Werror -g -O3 -ffast-math
+FLAGS = -Wall -Wextra -g -O3
 MLX_FLAGS = -lX11 -lXext -lm
 
 FILES = main.c \
@@ -45,6 +45,7 @@ FILES_BONUS = main.c \
 		map_parsing/treat_file_utils.c \
 		map_parsing/player.c \
 		map_parsing/store_image.c \
+		map_parsing/create_tex_structs.c \
 		loop/hooks.c \
 		loop/loop.c \
 		loop/controls.c \
@@ -79,8 +80,7 @@ RED    = "\033[31m"
 GREEN = "\033[32m"
 RESET = "\033[0m"
 
-all: $(NAME)
-#all : bonus
+all : bonus
 
 $(NAME): $(LIBFT) $(MLX) $(OBJS)
 	@echo $(CYAN)"Compiling Cub3D..."$(RESET)

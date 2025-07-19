@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 16:43:42 by marvin            #+#    #+#             */
-/*   Updated: 2025/07/12 19:02:47 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/19 19:27:00 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	free_mlx(t_mlx *mlx)
 	}
 }
 
-static void	free_tiles(t_tile tiles[256], void *mlx, char *defined, int i)
+static void	free_tiles(t_tile tiles[256], char *defined, int i)
 {
 	while (i--)
 	{
@@ -37,18 +37,6 @@ static void	free_tiles(t_tile tiles[256], void *mlx, char *defined, int i)
 		free(tiles[i].ea_path);
 		free(tiles[i].floor_path);
 		free(tiles[i].ceil_path);
-		if (tiles[i].is_wall_str)
-		{
-			mlx_destroy_image(mlx, tiles[i].tex_list[0].ptr);
-			mlx_destroy_image(mlx, tiles[i].tex_list[1].ptr);
-			mlx_destroy_image(mlx, tiles[i].tex_list[2].ptr);
-			mlx_destroy_image(mlx, tiles[i].tex_list[3].ptr);
-		}
-		else if (i)
-		{
-			mlx_destroy_image(mlx, tiles[i].tex_list[4].ptr);
-			mlx_destroy_image(mlx, tiles[i].tex_list[5].ptr);
-		}
 		free(tiles[i].tex_list);
 	}
 }
@@ -99,7 +87,8 @@ static void	free_entities(t_list *entity_list, void *mlx)
 void	free_game(t_game *game)
 {
 	free_entities(game->map.entity_list, game->mlx.init);
-	free_tiles(game->map.tiles, game->mlx.init, game->map.tile_defined, 256);
+	free_tiles(game->map.tiles, game->map.tile_defined, 256);
+	ft_lstclear(&game->map.name_lst, free);
 	mlx_destroy_image(game->mlx.init, game->raycast.consts->skybox.ptr);
 	mlx_destroy_image(game->mlx.init, game->default_tex.ptr);
 	free_mlx(&game->mlx);
