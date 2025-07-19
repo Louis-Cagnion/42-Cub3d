@@ -6,7 +6,7 @@
 /*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/07/19 19:10:50 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/19 21:39:27 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ typedef struct s_texture
 {
 	void		*ptr;
 	char		*data;
+	int			*idata;
 	int			endian;
 	int			tex_endian;
 	int			size_line;
@@ -109,6 +110,7 @@ typedef struct s_texture
 	double		d_width;
 	double		d_height;
 	int			height;
+	int			*stripe_is_opaque;
 }	t_texture;
 
 typedef struct s_opti_const
