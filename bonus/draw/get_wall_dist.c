@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 23:49:22 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/07/19 22:52:27 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/20 16:25:54 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,15 @@ static inline void	init_delta_infos(t_player player,
 		delta_dist[1] = fabs(1 / ray_dir[1]);
 }
 
-static inline int	hit_wall(int tile, t_map *map, double side_dist[2], int is_vert, double delta_dist[2])
+static inline int	hit_wall(int tile, t_map *map, double side_dist[2], int is_vert, double delta_dist[2], int map_pos[2])
 {
-	double	dist;
-
 	if (map->tiles[tile].is_wall && tile != '2')
 		return (1);
 	if (tile != '2')
 		return (0);
-	return (side_dist[!is_vert] >= (side_dist[is_vert] - (delta_dist[is_vert] * 0.5)));
+	int res = (side_dist[!is_vert] >= (side_dist[is_vert] - (delta_dist[is_vert] * 0.5)));
+	return (res);
+
 }
 
 double	get_wall_dist(t_player player, t_cast_infos *infos,
@@ -79,7 +79,7 @@ double	get_wall_dist(t_player player, t_cast_infos *infos,
 		if (map_pos[1] < 0 || map_pos[0] < 0 || map_pos[0] >= map->w_map
 				|| map_pos[1] >= map->h_map)
 			return (-1);
-		if (hit_wall(map->map_array[map_pos[1]][map_pos[0]], map, side_dist, is_vert, delta_dist))
+		if (hit_wall(map->map_array[map_pos[1]][map_pos[0]], map, side_dist, is_vert, delta_dist, map_pos))
 			break ;
 	}
 	infos->is_side = is_vert;
