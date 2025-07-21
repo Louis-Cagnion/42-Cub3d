@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 16:55:25 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/07/19 20:15:03 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/21 19:33:10 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,32 @@ static void	remove_duplicates(t_list *cur)
 	}
 }
 
+static inline void	fill_opaque_list(int *data, int *lst, int width, int height)
+{
+	int		i;
+	int		height_save;
+	int		*addr_save;
+
+	i = -1;
+	addr_save = data - 1;
+	while (width--)
+	{
+		lst[++i] = 0;
+		data = ++addr_save;
+		height_save = height;
+		while (height--)
+		{
+			if (*data >> 31)
+			{
+				lst[i] = 1;
+				break ;
+			}
+			data += width;
+		}
+		height = height_save;
+	}
+}
+
 static void	create_textures(t_list *names, t_list **tex, void *mlx)
 {
 	t_texture	*dest;
@@ -52,11 +78,14 @@ static void	create_textures(t_list *names, t_list **tex, void *mlx)
 		if (dest->ptr)
 			dest->data = mlx_get_data_addr(dest->ptr, &dest->bpp,
 					&dest->size_line, &dest->endian);
+		dest->idata = (int *)dest->data;
 		dest->fake_bpp = dest->bpp >> 3;
 		dest->fake_size_line = dest->size_line >> 2;
 		dest->tex_endian = dest->endian - 1;
 		dest->d_width = (double)dest->width;
 		dest->d_height = (double)dest->height;
+		dest->stripe_is_opaque = malloc(sizeof(int) * dest->width);
+		fill_opaque_list(dest->idata, dest->stripe_is_opaque, dest->width, dest->height);
 		ft_listadd_back(tex, create_cell(dest));
 		names = names->next;
 	}
