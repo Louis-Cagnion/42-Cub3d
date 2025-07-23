@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 15:17:03 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/07/21 18:08:07 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/23 18:33:00 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,8 @@ static void	cast_rays(t_game *game, t_raycast *infos, int x, int width)
 {
 	while (width--)
 	{
-		infos->cast_infos[x].wall_dist = get_wall_dist(game->player,
-				&infos->cast_infos[x], infos->consts->cam_coef * x - 1,
-				&game->map);
+		infos->cast_infos[x].wall_dist = get_wall_dist(&game->player,
+				infos->consts->cam_coef * x - 1, game);
 		x++;
 	}
 }
@@ -36,8 +35,9 @@ static void	cast_rays(t_game *game, t_raycast *infos, int x, int width)
 void	display_screen(t_game *game, t_raycast infos, int x, int width)
 {
 	cast_rays(game, &infos, x, width);
+	return ;
 	infos.cast_infos = infos.cast_infos + x;
-	draw_ceil_and_floor_tex(infos.addr, &game->map, &infos, width);
+	//draw_ceil_and_floor_tex(infos.addr, &game->map, &infos, width);
 	while (width--)
 	{
 		infos.wall_dist = infos.cast_infos->wall_dist;
@@ -50,7 +50,7 @@ void	display_screen(t_game *game, t_raycast infos, int x, int width)
 		infos.half_line_height = infos.line_height >> 1;
 		infos.wall_pos[0] = infos.consts->half_win_height
 			- infos.half_line_height + infos.cam_y;
-		infos.wall_pos[1] = infos.wall_pos[0] + infos.line_height;
+		infos.wall_pos[1] = infos.wall_pos[0] + (infos.half_line_height << 1);
 		if (infos.wall_pos[0] >> 31)
 			infos.wall_pos[0] = 0;
 		if (infos.wall_pos[1] > WIN_HEIGHT)

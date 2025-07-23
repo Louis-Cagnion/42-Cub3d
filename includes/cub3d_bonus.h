@@ -6,7 +6,7 @@
 /*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/07/19 21:39:27 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/23 18:32:43 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,6 +240,20 @@ typedef struct s_tile
 	int			is_wall;
 }	t_tile;
 
+typedef struct s_wall_drawer
+{
+	int			side;
+	double		ray_dir[2];
+	double		side_dist[2];
+	double		delta_dist[2];
+	int			map_pos[2];
+	int			steps[2];
+	int			wall_x;
+	int			tile;
+	double		wall_dist;
+	t_texture	tex;
+}	t_wall_drawer;
+
 typedef struct s_plane_drawer
 {
 	int			map_pos[2];
@@ -337,8 +351,8 @@ void			store_textures(t_map *map, void *mlx, t_game *game);
 //					t_raycast *infos);
 void			put_texture(t_game *game, int *addr,
 					t_raycast *infos, int size_line);
-double			get_wall_dist(t_player player, t_cast_infos *infos,
-					double cam_x, t_map *map);
+double			get_wall_dist(t_player *player,
+					double cam_x, t_game *game);
 void			pput_pixel(t_img *img, int x, int y, int color);
 int				get_pixel_color(t_img *img, int x, int y);
 void			init_size_line_steps(int size_line, int steps[5]);
