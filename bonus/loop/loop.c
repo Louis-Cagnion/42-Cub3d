@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 21:31:25 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/07/19 22:07:16 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/24 18:11:29 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ static inline void	thread_draw_screen(t_game *game)
 	while (!thread_finished(game))
 		usleep(1);
 	command_thread_sprites(game);
+	//display_screen(game, game->raycast, 0, WIN_WIDTH);
 	mlx_put_image_to_window(game->mlx.init, game->mlx.window,
 		game->mlx.img, 0, 0);
 	put_minimap(game->mlx, game->map.minimap, game->player);

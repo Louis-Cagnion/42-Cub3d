@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 12:23:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/07/12 20:04:25 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/24 18:29:25 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static t_opti_const	*compute_const(t_game *game)
 	dest->half_win_width = WIN_WIDTH / 2;
 	dest->half_win_height = WIN_HEIGHT / 2;
 	dest->size_line = game->mlx.img->size_line >> 2;
-	dest->skybox = create_skybox("assets/sky.xpm", game->mlx.init);
+	dest->skybox = create_skybox("assets/isaac.xpm", game->mlx.init);
 	dest->skybox_addr = (int *)(dest->skybox.data
 			+ (dest->half_win_height * dest->size_line * 4));
 	dest->fake_bpp = game->mlx.img->bpp >> 3;
@@ -59,6 +59,7 @@ void	init_raycast(t_game *game, t_raycast *raycast)
 	game->map.player = &game->player;
 	raycast->cast_infos = malloc(sizeof(t_cast_infos) * WIN_WIDTH);
 	raycast->consts = compute_const(game);
+	game->consts = raycast->consts;
 	raycast->width = WIN_WIDTH / THREAD_COUNT;
 	raycast->img = game->mlx.img;
 	raycast->addr = (int *)raycast->img->data;

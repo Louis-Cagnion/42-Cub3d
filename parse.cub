@@ -1,31 +1,31 @@
 0 {
-	NO ./assets/wall.xpm
+	NO ./assets/isaac.xpm
 	SO ./assets/isaac.xpm
-	WE ./assets/backrooms.xpm
-	EA ./assets/wall.xpm
+	WE ./assets/isaac.xpm
+	EA ./assets/isaac.xpm
 
 	F ./assets/wall.xpm
-	C ./assets/wall.xpm
+	C ./assets/invisible.xpm
 	W 0
 }
 
 A {
 	NO ./assets/wall.xpm
 	SO ./assets/wall.xpm
-	WE ./assets/backrooms.xpm
+	WE ./assets/wall.xpm
 	EA ./assets/wall.xpm
 
-	F ./assets/backrooms.xpm
+	F ./assets/wall.xpm
 	C ./assets/wall.xpm
 	W 0
 }
 1 {
 	NO ./assets/wall.xpm
-	SO ./assets/wall.xpm
-	WE ./assets/backrooms.xpm
+	SO ./assets/isaac.xpm
+	WE ./assets/invisible.xpm
 	EA ./assets/wall.xpm
 
-	F ./assets/backrooms.xpm
+	F ./assets/wall.xpm
 	C ./assets/wall.xpm
 	W 1
 }
@@ -36,16 +36,16 @@ A {
 	WE ./assets/wall.xpm
 	EA ./assets/wall.xpm
 
-	F ./assets/backrooms.xpm
+	F ./assets/wall.xpm
 	C ./assets/wall.xpm
 	W 1
 }
 
 8 {
-	NO ./assets/backrooms.xpm
-	SO ./assets/backrooms.xpm
-	WE ./assets/backrooms.xpm
-	EA ./assets/wall.xpm
+	NO ./assets/invisible.xpm
+	SO ./assets/invisible.xpm
+	WE ./assets/invisible.xpm
+	EA ./assets/invisible.xpm
 
 	F ./assets/wall.xpm
 	C ./assets/wall.xpm
@@ -54,10 +54,10 @@ A {
 
 18188811111111111111111111111111111111111
 10000000000001111111111111111111111111111
-10000000000001000000000000000000000000011
+10W00000000001000000000000000000000000011
 10000101010001010101010101010101010101011
 10000200000001000000000000000000000000011
-80N00101010001010101010101010101010101011
+80000101010001010101010101010101010101011
 10000000000001000000000000000000000000011
 10000101010001010101010101010101010101011
 10000000A00001000000000000000000000000011

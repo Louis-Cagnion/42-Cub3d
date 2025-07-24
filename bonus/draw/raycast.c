@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 15:17:03 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/07/23 18:33:00 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/24 18:22:34 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,20 +24,25 @@ static inline void	draw_column(t_game *game, t_raycast *infos)
 
 static void	cast_rays(t_game *game, t_raycast *infos, int x, int width)
 {
+	int		*addr;
+
+	addr = (int *)infos->addr;
 	while (width--)
 	{
-		infos->cast_infos[x].wall_dist = get_wall_dist(&game->player,
-				infos->consts->cam_coef * x - 1, game);
+		infos->cast_infos[x].wall_dist =
+			get_wall_dist(&game->player,
+				infos->consts->cam_coef * x - 1, game, addr);
+		addr++;
 		x++;
 	}
 }
 
 void	display_screen(t_game *game, t_raycast infos, int x, int width)
 {
+	draw_ceil_and_floor_tex(infos.addr, &game->map, &infos, width);
 	cast_rays(game, &infos, x, width);
 	return ;
 	infos.cast_infos = infos.cast_infos + x;
-	//draw_ceil_and_floor_tex(infos.addr, &game->map, &infos, width);
 	while (width--)
 	{
 		infos.wall_dist = infos.cast_infos->wall_dist;

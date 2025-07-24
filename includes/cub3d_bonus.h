@@ -6,7 +6,7 @@
 /*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/07/23 18:32:43 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/24 16:29:19 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@
 
 //window settings
 # ifndef WIN_WIDTH
-#  define WIN_WIDTH		1999
+#  define WIN_WIDTH		4000
 # endif
 # ifndef WIN_HEIGHT
-#  define WIN_HEIGHT	1000
+#  define WIN_HEIGHT	2000
 # endif
 
 // Mouse defines
@@ -248,9 +248,15 @@ typedef struct s_wall_drawer
 	double		delta_dist[2];
 	int			map_pos[2];
 	int			steps[2];
-	int			wall_x;
+	double		wall_x;
+	int			texture_x;
 	int			tile;
 	double		wall_dist;
+	int			line_height;
+	int			half_line_height;
+	int			wall_pos[2];
+	int			cam_y;
+	int			half_win_height;
 	t_texture	tex;
 }	t_wall_drawer;
 
@@ -310,7 +316,7 @@ typedef struct s_game
 	t_map				map;
 	t_player			player;
 	t_raycast			raycast;
-	t_opti_const		consts;
+	t_opti_const		*consts;
 	t_keyboard_control	key_infos;
 	t_thread_info		*thread;
 	t_texture			default_tex;
@@ -352,7 +358,7 @@ void			store_textures(t_map *map, void *mlx, t_game *game);
 void			put_texture(t_game *game, int *addr,
 					t_raycast *infos, int size_line);
 double			get_wall_dist(t_player *player,
-					double cam_x, t_game *game);
+					double cam_x, t_game *game, int *addr);
 void			pput_pixel(t_img *img, int x, int y, int color);
 int				get_pixel_color(t_img *img, int x, int y);
 void			init_size_line_steps(int size_line, int steps[5]);
