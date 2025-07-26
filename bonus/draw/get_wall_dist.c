@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 23:49:22 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/07/24 18:17:50 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/26 19:07:34 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,10 @@ static inline void	draw_texture(int *addr, t_wall_drawer *drawer, t_texture *tex
 static inline void	cast_ray(t_wall_drawer drawer, t_game *game, int *addr);
 static inline int	draw_tex(t_wall_drawer *drawer, t_game *game, int *addr)
 {
-	int		ret;
 	int		tex_x;
 
 	drawer->wall_dist = drawer->side_dist[drawer->side]
-		- drawer->delta_dist[drawer->side];
+		- (drawer->delta_dist[drawer->side] * game->map.tiles[drawer->tile].is_wall);
 	drawer->wall_x = (game->player.y * !drawer->side + game->player.x * drawer->side)
 		+ drawer->wall_dist * drawer->ray_dir[!drawer->side];
 	drawer->wall_x -= (int)drawer->wall_x;
@@ -101,8 +100,7 @@ static inline int	draw_tex(t_wall_drawer *drawer, t_game *game, int *addr)
 		tex_x = drawer->tex.width - tex_x - 1;
 	tex_x = (drawer->tex.width - tex_x - 1);
 	drawer->texture_x = tex_x * drawer->tex.fake_bpp;
-	ret = drawer->tex.stripe_is_opaque[tex_x];
-	if (ret)
+	if (drawer->tex.stripe_is_opaque[tex_x])
 		cast_ray(*drawer, game, addr);
 	drawer->line_height = WIN_HEIGHT / drawer->wall_dist;
 	drawer->half_line_height = drawer->line_height >> 1;
@@ -116,7 +114,11 @@ static inline int	draw_tex(t_wall_drawer *drawer, t_game *game, int *addr)
 	drawer->half_win_height = game->consts->half_win_height;
 	drawer->cam_y = game->player.cam_y;
 	draw_texture(addr, drawer, &drawer->tex, game->consts->size_line);
-	return (ret);
+}
+
+static inline int	hit_wall(int side, double side_dist[2], double delta_dist[2], double depth)
+{
+	return (side_dist[!side] >= (side_dist[side] - (delta_dist[side] * depth)));
 }
 
 static inline void	cast_ray(t_wall_drawer drawer, t_game *game, int *addr)
@@ -133,7 +135,7 @@ static inline void	cast_ray(t_wall_drawer drawer, t_game *game, int *addr)
 			 || drawer.map_pos[0] >= map->w_map || drawer.map_pos[1] >= map->h_map)
 			return ;
 		drawer.tile = map->map_array[drawer.map_pos[1]][drawer.map_pos[0]];
-		if (map->tiles[drawer.tile].is_wall)
+		if (map->tiles[drawer.tile].is_wall && hit_wall(drawer.side, drawer.side_dist, drawer.delta_dist, map->tiles[drawer.tile].is_wall))
 		{
 			drawer.tex = map->tiles[drawer.tile].tex_list[(!drawer.side * 2)
 				+ (drawer.ray_dir[drawer.side] < 0)];

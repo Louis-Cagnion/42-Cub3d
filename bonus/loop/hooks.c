@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 02:51:28 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/07/24 18:06:51 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/26 15:30:47 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ static int	quit(t_game *game)
 
 static int	pressed_key(int key, t_game *game)
 {
-	printf("%d\n", key);
 	if (key == XK_Escape)
 		quit(game);
 	else if (key == 'w')

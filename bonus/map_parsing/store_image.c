@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 15:21:23 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/07/19 20:15:30 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/26 15:51:07 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,24 +65,15 @@ static void	store_tile_texture(t_tile *cur, t_map *map, t_texture default_tex)
 	cur->tex_list = malloc(sizeof(t_texture) * 6);
 	if (cur->is_wall_str)
 	{
+		cur->is_wall = ft_atod(cur->is_wall_str);
 		free(cur->is_wall_str);
-		cur->is_wall = 1;
-		store_image(cur->no_path, map, cur, 0);
-		store_image(cur->so_path, map, cur, 1);
-		store_image(cur->we_path, map, cur, 2);
-		store_image(cur->ea_path, map, cur, 3);
-		cur->tex_list[4] = default_tex;
-		cur->tex_list[5] = default_tex;
 	}
-	else
-	{
-		cur->tex_list[0] = default_tex;
-		cur->tex_list[1] = default_tex;
-		cur->tex_list[2] = default_tex;
-		cur->tex_list[3] = default_tex;
-		store_image(cur->floor_path, map, cur, 4);
-		store_image(cur->ceil_path, map, cur, 5);
-	}
+	store_image(cur->no_path, map, cur, 0);
+	store_image(cur->so_path, map, cur, 1);
+	store_image(cur->we_path, map, cur, 2);
+	store_image(cur->ea_path, map, cur, 3);
+	store_image(cur->floor_path, map, cur, 4);
+	store_image(cur->ceil_path, map, cur, 5);
 }
 
 void	store_textures(t_map *map, void *mlx, t_game *game)

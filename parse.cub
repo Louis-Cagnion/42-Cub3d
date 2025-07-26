@@ -20,10 +20,10 @@ A {
 	W 0
 }
 1 {
-	NO ./assets/wall.xpm
-	SO ./assets/isaac.xpm
-	WE ./assets/invisible.xpm
-	EA ./assets/wall.xpm
+	NO ./assets/isaac.xpm
+	SO ./assets/backrooms.xpm
+	WE ./assets/wall.xpm
+	EA ./assets/backrooms.xpm
 
 	F ./assets/wall.xpm
 	C ./assets/wall.xpm
@@ -31,14 +31,14 @@ A {
 }
 
 2 {
-	NO ./assets/wall.xpm
+	NO ./assets/isaac.xpm
 	SO ./assets/wall.xpm
-	WE ./assets/wall.xpm
+	WE ./assets/isaac.xpm
 	EA ./assets/wall.xpm
 
 	F ./assets/wall.xpm
 	C ./assets/wall.xpm
-	W 1
+	W 0.5
 }
 
 8 {
@@ -54,9 +54,9 @@ A {
 
 18188811111111111111111111111111111111111
 10000000000001111111111111111111111111111
-10W00000000001000000000000000000000000011
+10000000000001000000000000000000000000011
 10000101010001010101010101010101010101011
-10000200000001000000000000000000000000011
+1000E200000001000000000000000000000000011
 80000101010001010101010101010101010101011
 10000000000001000000000000000000000000011
 10000101010001010101010101010101010101011

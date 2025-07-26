@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 16:54:50 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/06/02 12:04:56 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/26 18:39:08 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,40 @@ static int	get_rgb(t_tile *tile, char *info, int elem)
 	return (1);
 }
 
+static int	get_wall_depth(char *info, char **elem)
+{
+	int		float_len;
+
+	if (*info == '1')
+	{
+		info++;
+		while (*info)
+			if (!ft_strchr(" \t", *(++info)))
+				return (ft_error("Invalid wall depth\n"), 0);
+		*elem = ft_strndup("1", 1);
+		return (1);
+	}
+	if (*info != '0')
+		return (ft_error("Invalid wall identifier\n"), 0);
+	if (info[1] != '.')
+	{
+		info++;
+		while (*info)
+			if (!ft_strchr(" \t", *(++info)))
+				return (ft_error("Invalid wall depth\n"), 0);
+		return (1);
+	}
+	info += 2;
+	float_len = 0;
+	while (ft_isnum(info[float_len]))
+		float_len++;
+	while (info[float_len])
+		if (!ft_strchr(" \t", info[float_len]))
+			return (ft_error("Invalid wall depth\n"), 0);
+	*elem = ft_strndup(info - 2, float_len + 2); 
+	return (1);
+}
+
 static int	get_map_infos(t_tile *tile, char *info, char **elem, int elem_nb)
 {
 	int	len_line;
@@ -48,6 +82,7 @@ static int	get_map_infos(t_tile *tile, char *info, char **elem, int elem_nb)
 		info++;
 	if (elem_nb == 6)
 	{
+		return (get_wall_depth(info, elem));
 		if (ft_strchr("01", *info) && ft_str_isformat(info + 1, " \t"))
 		{
 			if (*info == '1')

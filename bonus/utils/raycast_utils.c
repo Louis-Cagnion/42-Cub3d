@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 12:23:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/07/24 18:29:25 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/26 15:29:42 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static t_opti_const	*compute_const(t_game *game)
 	dest->half_win_width = WIN_WIDTH / 2;
 	dest->half_win_height = WIN_HEIGHT / 2;
 	dest->size_line = game->mlx.img->size_line >> 2;
-	dest->skybox = create_skybox("assets/isaac.xpm", game->mlx.init);
+	dest->skybox = create_skybox("assets/sky.xpm", game->mlx.init);
 	dest->skybox_addr = (int *)(dest->skybox.data
 			+ (dest->half_win_height * dest->size_line * 4));
 	dest->fake_bpp = game->mlx.img->bpp >> 3;
