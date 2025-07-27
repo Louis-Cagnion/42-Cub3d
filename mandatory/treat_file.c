@@ -63,9 +63,9 @@ static int	get_map_infos(t_map *map, char *info, char **elem, int elem_nb)
 /* check if the elements are valid and get them */
 static int	check_elems(char *file_infos, int *i, t_map *map)
 {
-	int	j;
-	int	count;
-	char elem[4];
+	int		j;
+	int		count;
+	char	elem[4];
 
 	j = 0;
 	count = 6;

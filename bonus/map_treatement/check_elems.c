@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 16:54:50 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/07/27 16:27:29 by marvin           ###   ########.fr       */
+/*   Updated: 2025/07/27 17:02:07 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,9 @@ static int	get_map_infos(t_tile *tile, char *info, char **elem, int elem_nb)
 /* get the valid elements in the structure */
 int	check_single_elem(char *file_infos, int *i, t_tile *tile)
 {
-	int	j;
-	int	count;
-	char elem[4];
+	int		j;
+	int		count;
+	char	elem[4];
 
 	j = 0;
 	count = 6;
@@ -81,7 +81,7 @@ int	check_single_elem(char *file_infos, int *i, t_tile *tile)
 		while (ft_strchr("\n\r \t", file_infos[*i]))
 			(*i)++;
 		ft_strncpy(elem, file_infos + *i, 3);
-		if (!get_map_infos(tile, file_infos + (*i), get_elem(elem, tile, &j), j))
+		if (!get_map_infos(tile, file_infos + *i, get_elem(elem, tile, &j), j))
 			return (0);
 		count--;
 		while (file_infos[*i] && file_infos[*i] != '\n')
@@ -94,10 +94,10 @@ int	check_single_elem(char *file_infos, int *i, t_tile *tile)
 
 int	check_elems(char *file_infos, t_tile *tile)
 {
-	int	i;
-	int	j;
-	int	count;
-	char elem[4];
+	int		i;
+	int		j;
+	int		count;
+	char	elem[4];
 
 	j = 0;
 	i = 0;

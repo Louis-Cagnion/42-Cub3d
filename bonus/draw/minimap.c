@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 18:18:14 by marvin            #+#    #+#             */
-/*   Updated: 2025/06/13 16:22:40 by locagnio         ###   ########.fr       */
+/*   Updated: 2025/07/27 17:01:06 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void	put_player_minimap_pixels(t_minimap *mini, t_map map, int x, int y)
 		x = -1;
 		while (++x < mini->width_mini)
 		{
-			if (return_token_map(map, *mini, y, x) || !y|| !x
+			if (return_token_map(map, *mini, y, x) || !y || !x
 				|| y == mini->height_mini - 1 || x == mini->width_mini - 1)
 				put_pixel(mini->mini_img, x, y, OX_BLACK);
 			else
