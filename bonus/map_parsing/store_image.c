@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   store_image.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 15:21:23 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/06/13 16:18:53 by locagnio         ###   ########.fr       */
+/*   Updated: 2025/07/12 19:23:25 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	rgb_to_image(t_tile *tile, int color, void *mlx_ptr, int i)
 	if (dest.ptr)
 		dest.data = mlx_get_data_addr(dest.ptr, &dest.bpp,
 				&dest.size_line, &dest.endian);
-	dest.fake_bpp = dest.bpp >> 3;
+	dest.fake_bpp = dest.bpp / 8;
 	dest.fake_size_line = dest.size_line >> 2;
 	dest.tex_endian = dest.endian - 1;
 	dest.d_width = 1.0f;
@@ -58,7 +58,8 @@ static void	store_image(char *pathname, t_tile *tile, void *mlx_ptr, int i)
 	tile->tex_list[i] = dest;
 }
 
-static void	store_defaults_settings(t_map *map, void *mlx)
+static void	store_defaults_settings(t_map *map, void *mlx,
+		t_texture default_tex)
 {
 	t_tile	*cur;
 	t_tile	src;
@@ -66,6 +67,10 @@ static void	store_defaults_settings(t_map *map, void *mlx)
 	src = map->tiles[0];
 	cur = &map->tiles['0'];
 	cur->tex_list = malloc(sizeof(t_texture) * 6);
+	if (src.floor_path)
+		cur->floor_path = ft_strdup(src.floor_path);
+	if (src.ceil_path)
+		cur->ceil_path = ft_strdup(src.ceil_path);
 	store_image(src.floor_path, cur, mlx, 4);
 	store_image(src.ceil_path, cur, mlx, 5);
 	cur = &map->tiles['1'];
@@ -74,10 +79,12 @@ static void	store_defaults_settings(t_map *map, void *mlx)
 	store_image(src.so_path, cur, mlx, 1);
 	store_image(src.we_path, cur, mlx, 2);
 	store_image(src.ea_path, cur, mlx, 3);
+	cur->tex_list[4] = default_tex;
+	cur->tex_list[5] = default_tex;
 	cur->is_wall = 1;
 }
 
-static void	store_tile_texture(t_tile *cur, void *mlx)
+static void	store_tile_texture(t_tile *cur, void *mlx, t_texture default_tex)
 {
 	cur->tex_list = malloc(sizeof(t_texture) * 6);
 	if (cur->is_wall_str)
@@ -88,23 +95,29 @@ static void	store_tile_texture(t_tile *cur, void *mlx)
 		store_image(cur->so_path, cur, mlx, 1);
 		store_image(cur->we_path, cur, mlx, 2);
 		store_image(cur->ea_path, cur, mlx, 3);
+		cur->tex_list[4] = default_tex;
+		cur->tex_list[5] = default_tex;
 	}
 	else
 	{
+		cur->tex_list[0] = default_tex;
+		cur->tex_list[1] = default_tex;
+		cur->tex_list[2] = default_tex;
+		cur->tex_list[3] = default_tex;
 		store_image(cur->floor_path, cur, mlx, 4);
 		store_image(cur->ceil_path, cur, mlx, 5);
 	}
 }
 
-void	store_textures(t_map *map, void *mlx)
+void	store_textures(t_map *map, void *mlx, t_game *game)
 {
-	t_tile	*cur;
-	int		i;
+	t_tile		*cur;
+	int			i;
 
-	map->tiles[' '].is_wall = 1;
+	game->default_tex = create_default_texture(mlx);
 	if (map->tile_defined[0])
 	{
-		store_defaults_settings(map, mlx);
+		store_defaults_settings(map, mlx, game->default_tex);
 		return ;
 	}
 	i = 256;
@@ -113,6 +126,6 @@ void	store_textures(t_map *map, void *mlx)
 		if (!map->tile_defined[i])
 			continue ;
 		cur = &map->tiles[i];
-		store_tile_texture(cur, mlx);
+		store_tile_texture(cur, mlx, game->default_tex);
 	}
 }
