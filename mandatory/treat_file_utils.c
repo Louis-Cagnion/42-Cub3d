@@ -3,26 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   treat_file_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 20:53:48 by locagnio          #+#    #+#             */
-/*   Updated: 2025/05/01 01:48:29 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/27 16:53:12 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-char	**get_elem(t_map *map, int elem)
+char	**get_elem(char *elem_s, t_map *map, int *j)
 {
-	if (elem == 0)
-		return (&map->no_path);
-	else if (elem == 1)
-		return (&map->so_path);
-	else if (elem == 2)
-		return (&map->we_path);
-	else if (elem == 3)
-		return (&map->ea_path);
-	return (NULL);
+	if (!ft_strncmp(elem_s, "NO", 2) && ft_iswhitespace(elem_s[2]))
+		return (*j = 0, &map->no_path);
+	else if (!ft_strncmp(elem_s, "SO", 2) && ft_iswhitespace(elem_s[2]))
+		return (*j = 1, &map->so_path);
+	else if (!ft_strncmp(elem_s, "WE", 2) && ft_iswhitespace(elem_s[2]))
+		return (*j = 2, &map->we_path);
+	else if (!ft_strncmp(elem_s, "EA", 2) && ft_iswhitespace(elem_s[2]))
+		return (*j = 3, &map->ea_path);
+	else if (*elem_s == 'F' && ft_iswhitespace(elem_s[1]))
+		return (*j = 4, NULL);
+	else if (*elem_s == 'C' && ft_iswhitespace(elem_s[1]))
+		return (*j = 5, NULL);
+	return (*j = -1, NULL);
 }
 
 int	path_is_valid(char *pathname)

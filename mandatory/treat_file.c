@@ -12,16 +12,6 @@
 
 #include "cub3d.h"
 
-static void	init_elem_infos(char *elems[])
-{
-	elems[0] = "NO";
-	elems[1] = "SO";
-	elems[2] = "WE";
-	elems[3] = "EA";
-	elems[4] = "F";
-	elems[5] = "C";
-}
-
 static int	get_rgb(t_map *map, char *info, int elem)
 {
 	int	rgb[3];
@@ -38,7 +28,7 @@ static int	get_rgb(t_map *map, char *info, int elem)
 		if (i != '\n')
 			i++;
 	}
-	while (info[i] && info[i] != '\n')
+	while (info[i] && info[i] != '\n' && info[i - 1] != '\n')
 		if (ft_isnum(info[i++]))
 			return (ft_error("Too many RGB colors.\n"), 0);
 	if (elem == 4)
@@ -53,7 +43,9 @@ static int	get_map_infos(t_map *map, char *info, char **elem, int elem_nb)
 {
 	int	len_line;
 
-	if (elem_nb < 4)
+	if (elem_nb == -1)
+		return (ft_error("Wrong elements.\n"), 0);
+	if (elem && elem_nb < 4)
 	{
 		len_line = ft_strclen(info, '\n');
 		if (len_line < 4)
@@ -69,10 +61,11 @@ static int	get_map_infos(t_map *map, char *info, char **elem, int elem_nb)
 }
 
 /* check if the elements are valid and get them */
-static int	check_elems(char *file_infos, int *i, char *elems[], t_map *map)
+static int	check_elems(char *file_infos, int *i, t_map *map)
 {
-	int	j;
-	int	count;
+	int		j;
+	int		count;
+	char	elem[4];
 
 	j = 0;
 	count = 6;
@@ -80,15 +73,10 @@ static int	check_elems(char *file_infos, int *i, char *elems[], t_map *map)
 	{
 		while (ft_strchr("\n\r", file_infos[*i]))
 			(*i)++;
-		if (file_infos[*i]
-			&& !ft_strncmp(file_infos + *i, elems[j], ft_strlen(elems[j])))
-		{
-			if (!get_map_infos(map, file_infos + *i, get_elem(map, j), j))
-				return (0);
-			j++;
-		}
-		else
-			return (ft_error("Elements aren't in right order.\n"), 0);
+		ft_strncpy(elem, file_infos + *i, 3);
+		get_elem(elem, map, &j);
+		if (!get_map_infos(map, file_infos + *i, get_elem(elem, map, &j), j))
+			return (0);
 		count--;
 		while (file_infos[*i] && file_infos[*i] != '\n')
 			(*i)++;
@@ -101,15 +89,13 @@ static int	check_elems(char *file_infos, int *i, char *elems[], t_map *map)
 int	treat_file(char *map_name, t_game *game)
 {
 	char	*file_infos;
-	char	*elems[6];
 	int		i;
 
 	i = 0;
-	init_elem_infos(elems);
 	file_infos = ft_read_file(map_name);
 	if (!file_infos || !file_infos[0])
 		return (ft_error("Empty file.\n"), 1);
-	if (!check_elems(file_infos, &i, elems, &game->map))
+	if (!check_elems(file_infos, &i, &game->map))
 		return (free(file_infos), 1);
 	while (file_infos[i] && file_infos[i] != '\n')
 		i++;

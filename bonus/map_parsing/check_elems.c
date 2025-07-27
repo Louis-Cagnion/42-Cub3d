@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_elems.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 16:54:50 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/06/02 12:04:56 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/27 17:02:07 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ static int	get_map_infos(t_tile *tile, char *info, char **elem, int elem_nb)
 {
 	int	len_line;
 
+	if (elem_nb == -1)
+		return (ft_error("Wrong elements.\n"), 0);
 	while (!ft_strchr(" \t", *info))
 		info++;
 	while (ft_strchr(" \t", *info))
@@ -61,17 +63,16 @@ static int	get_map_infos(t_tile *tile, char *info, char **elem, int elem_nb)
 	len_line = ft_strclen(info, '\n');
 	if (len_line < 4)
 		return (ft_error("No informations for an elem.\n"), 0);
-	*elem = ft_strndup(info, len_line);
-	return (path_is_valid(*elem));
+	return (*elem = ft_strndup(info, len_line), path_is_valid(*elem));
 }
 
 /* check if the elements are valid and get them */
 /* get the valid elements in the structure */
-int	check_single_elem(char *file_infos, int *i,
-		char *elems[], t_tile *tile)
+int	check_single_elem(char *file_infos, int *i, t_tile *tile)
 {
-	int	j;
-	int	count;
+	int		j;
+	int		count;
+	char	elem[4];
 
 	j = 0;
 	count = 6;
@@ -79,13 +80,9 @@ int	check_single_elem(char *file_infos, int *i,
 	{
 		while (ft_strchr("\n\r \t", file_infos[*i]))
 			(*i)++;
-		if (!(file_infos[*i] && !ft_strncmp(file_infos + *i, elems[j],
-					ft_strlen(elems[j]))
-				&& ft_strchr(" \t", file_infos[*i + ft_strlen(elems[j])])))
-			return (ft_error("Elements aren't in right order.\n"), 0);
-		if (!get_map_infos(tile, file_infos + *i, get_elem(tile, j), j))
+		ft_strncpy(elem, file_infos + *i, 3);
+		if (!get_map_infos(tile, file_infos + *i, get_elem(elem, tile, &j), j))
 			return (0);
-		j++;
 		count--;
 		while (file_infos[*i] && file_infos[*i] != '\n')
 			(*i)++;
@@ -95,11 +92,12 @@ int	check_single_elem(char *file_infos, int *i,
 	return (ft_error("Lacking elements for map.\n"), 0);
 }
 
-int	check_elems(char *file_infos, char *elems[], t_tile *tile)
+int	check_elems(char *file_infos, t_tile *tile)
 {
-	int	i;
-	int	j;
-	int	count;
+	int		i;
+	int		j;
+	int		count;
+	char	elem[4];
 
 	j = 0;
 	i = 0;
@@ -108,13 +106,9 @@ int	check_elems(char *file_infos, char *elems[], t_tile *tile)
 	{
 		while (ft_strchr("\n\r \t", file_infos[i]))
 			i++;
-		if (!(file_infos[i] && !ft_strncmp(file_infos + i, elems[j],
-					ft_strlen(elems[j]))
-				&& ft_strchr(" \t", file_infos[i + ft_strlen(elems[j])])))
-			return (ft_error("Elements aren't in right order.\n"), 0);
-		if (!get_map_infos(tile, file_infos + i, get_elem(tile, j), j))
+		ft_strncpy(elem, file_infos + i, 3);
+		if (!get_map_infos(tile, file_infos + i, get_elem(elem, tile, &j), j))
 			return (0);
-		j++;
 		count--;
 		while (file_infos[i] && file_infos[i] != '\n')
 			i++;
