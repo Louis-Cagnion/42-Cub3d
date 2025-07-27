@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/05/18 15:03:35 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/27 16:28:03 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ typedef struct s_game
 
 //parse and treat file
 int		path_is_valid(char *pathname);
-char	**get_elem(t_map *map, int elem);
+char	**get_elem(char *elem_s, t_map *map, int *elem);
 int		treat_file(char *map_name, t_game *game);
 int		treat_map(char *map, int i, t_game *game);
 

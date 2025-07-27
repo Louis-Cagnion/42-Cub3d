@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_tiles.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:51:54 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/06/03 17:35:46 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/27 16:22:13 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	tile_already_defined(unsigned char token)
 	return (a * 0);
 }
 
-static int	get_tile_loop(char *content, int *i, char *elems[], t_map *map)
+static int	get_tile_loop(char *content, int *i, t_map *map)
 {
 	char			*tile_content;
 	unsigned char	token;
@@ -48,14 +48,14 @@ static int	get_tile_loop(char *content, int *i, char *elems[], t_map *map)
 	while (ft_strncmp("\n}", content + *i, 2))
 		(*i)++;
 	tile_content = ft_strndup(content + save, *i - save);
-	if (!check_elems(tile_content, elems, &map->tiles[token]))
+	if (!check_elems(tile_content, &map->tiles[token]))
 		return (free(tile_content), 0);
 	*i += 2;
 	map->tile_defined[token] = 1;
 	return (free(tile_content), 2);
 }
 
-int	get_tiles(char *content, int *i, char *elems[], t_map *map)
+int	get_tiles(char *content, int *i, t_map *map)
 {
 	int		save;
 
@@ -67,15 +67,14 @@ int	get_tiles(char *content, int *i, char *elems[], t_map *map)
 		map->tile_defined['1'] = 1;
 		map->tile_defined[0] = 1;
 		map->tiles['1'].is_wall_str = "";
-		return (check_single_elem(content + *i, i, elems, &map->tiles[0]));
+		return (check_single_elem(content + *i, i, &map->tiles[0]));
 	}
 	while (content[*i])
 	{
-		save = get_tile_loop(content, i, elems, map);
-		if (!save)
-			return (0);
-		else if (save == 1)
-			return (1);
+		save = get_tile_loop(content, i, map);
+		if (save == 2)
+			continue ;
+		return (save);
 	}
 	return (1);
 }

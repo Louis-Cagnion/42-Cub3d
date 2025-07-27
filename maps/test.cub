@@ -1,9 +1,8 @@
-NO ./assets/isaac.xpm
 SO ./assets/wall.xpm
+F 0,255,0
 WE ./assets/backrooms.xpm
+NO ./assets/isaac.xpm
 EA ./assets/wall.xpm
-
-F ./assets/isaac.xpm
 C 255,0,0
 
 11111

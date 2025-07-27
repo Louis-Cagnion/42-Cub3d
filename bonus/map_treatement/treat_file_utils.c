@@ -6,29 +6,29 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 20:53:48 by locagnio          #+#    #+#             */
-/*   Updated: 2025/06/11 20:09:06 by marvin           ###   ########.fr       */
+/*   Updated: 2025/07/27 16:12:27 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-char	**get_elem(t_tile *tile, int elem)
+char	**get_elem(char *elem_s, t_tile *tile, int *j)
 {
-	if (elem == 0)
-		return (&tile->no_path);
-	else if (elem == 1)
-		return (&tile->so_path);
-	else if (elem == 2)
-		return (&tile->we_path);
-	else if (elem == 3)
-		return (&tile->ea_path);
-	else if (elem == 4)
-		return (&tile->floor_path);
-	else if (elem == 5)
-		return (&tile->ceil_path);
-	else if (elem == 6)
-		return (&tile->is_wall_str);
-	return (NULL);
+	if (!ft_strncmp(elem_s, "NO", 2) || ft_iswhitespace(elem_s[2]))
+		return (*j = 0, &tile->no_path);
+	else if (!ft_strncmp(elem_s, "SO", 2) || ft_iswhitespace(elem_s[2]))
+		return (*j = 1, &tile->so_path);
+	else if (!ft_strncmp(elem_s, "WE", 2) || ft_iswhitespace(elem_s[2]))
+		return (*j = 2, &tile->we_path);
+	else if (!ft_strncmp(elem_s, "EA", 2) || ft_iswhitespace(elem_s[2]))
+		return (*j = 3, &tile->ea_path);
+	else if (!ft_strncmp(elem_s, "F", 1) || ft_iswhitespace(elem_s[1]))
+		return (*j = 4, &tile->floor_path);
+	else if (!ft_strncmp(elem_s, "C", 1) || ft_iswhitespace(elem_s[1]))
+		return (*j = 5, &tile->ceil_path);
+	else if (!ft_strncmp(elem_s, "W", 1) || ft_iswhitespace(elem_s[1]))
+		return (*j = 6, &tile->is_wall_str);
+	return (*j = -1, NULL);
 }
 
 int	path_is_valid(char *pathname)

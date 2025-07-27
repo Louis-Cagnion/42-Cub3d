@@ -1,10 +1,9 @@
-NO ./assets/isaac.xpm
-SO ./assets/wall.xpm
-WE ./assets/backrooms.xpm
 EA ./assets/wall.xpm
-
+NO ./assets/isaac.xpm
 F ./assets/isaac.xpm
+SO ./assets/wall.xpm
 C ./assets/wall.xpm
+WE ./assets/backrooms.xpm
 
 11111111111111111111111111111111111111111
 10000000000001111111111111111111111111111

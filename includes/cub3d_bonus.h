@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 20:41:35 by marvin            #+#    #+#             */
-/*   Updated: 2025/06/13 16:12:19 by locagnio         ###   ########.fr       */
+/*   Updated: 2025/07/27 16:12:54 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,15 +68,14 @@ typedef struct s_game
 
 //parse and treat file
 int			path_is_valid(char *pathname);
-char		**get_elem(t_tile *tile, int elem);
+char		**get_elem(char *elem_s, t_tile *tile, int *j);
 int			treat_file(char *map_name, t_game *game);
 int			treat_map(char *map, int i, t_game *game);
-int			check_single_elem(char *file_infos, int *i,
-				char *elems[], t_tile *tile);
+int			check_single_elem(char *file_infos, int *i, t_tile *tile);
 int			check_limits(char **map_array, int map_height,
 				int *len_strings, t_tile tiles[256]);
-int			check_elems(char *file_infos, char *elem[], t_tile *tile);
-int			get_tiles(char *content, int *i, char *elems[], t_map *map);
+int			check_elems(char *file_infos, t_tile *tile);
+int			get_tiles(char *content, int *i, t_map *map);
 
 //player
 int			only_one_player(t_game *game);
