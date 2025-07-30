@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 15:21:23 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/07/26 15:51:07 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/29 17:27:11 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,13 @@ static void	store_tile_texture(t_tile *cur, t_map *map, t_texture default_tex)
 	{
 		cur->is_wall = ft_atod(cur->is_wall_str);
 		free(cur->is_wall_str);
+	}
+	if (cur->is_door_str)
+	{
+		cur->is_door = 1;
+		if (!cur->is_wall)
+			cur->is_wall = 1;
+		free(cur->is_door_str);
 	}
 	store_image(cur->no_path, map, cur, 0);
 	store_image(cur->so_path, map, cur, 1);

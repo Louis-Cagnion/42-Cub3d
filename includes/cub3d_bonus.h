@@ -6,7 +6,7 @@
 /*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/07/26 16:34:59 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/30 12:17:17 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,9 +235,11 @@ typedef struct s_tile
 	char		*floor_path;
 	char		*ceil_path;
 	char		*is_wall_str;
+	char		*is_door_str;
 	int			f_rgb;
 	int			c_rgb;
 	double		is_wall;
+	int			is_door;
 }	t_tile;
 
 typedef struct s_wall_drawer
@@ -282,6 +284,7 @@ typedef struct s_map
 	t_tile		tiles[256];
 	char		tile_defined[256];
 	char		*map;
+	char		**door_array;
 	char		**map_array;
 	int			w_map;
 	int			h_map;
@@ -415,5 +418,6 @@ void			init_minimap(t_minimap *mini, t_map *map, t_mlx mlx);
 void			put_minimap(t_mlx mlx, t_minimap mini, t_player player);
 void			ft_lstadd_front(t_list **lst, t_list *new);
 void			create_tex_structs(t_map *map, void *mlx);
+int				create_door_map(t_map *map);
 
 #endif

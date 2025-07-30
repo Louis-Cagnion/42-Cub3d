@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 20:53:48 by locagnio          #+#    #+#             */
-/*   Updated: 2025/07/12 20:11:07 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/30 12:20:27 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ char	**get_elem(t_tile *tile, int elem)
 		return (&tile->ceil_path);
 	else if (elem == 6)
 		return (&tile->is_wall_str);
+	else if (elem == 7)
+		return (&tile->is_door_str);
 	return (NULL);
 }
 
@@ -48,4 +50,32 @@ int	path_is_valid(char *pathname)
 	if (!bytes_read)
 		return (ft_error("Path for elem leads to empty file\n"), 0);
 	return (1);
+}
+
+int	create_door_map(t_map *map)
+{
+	int		res;
+	int		i;
+	int		j;
+
+	res = 0;
+	map->door_array = malloc(sizeof(char *) * (map->h_map + 1));
+	j = -1;
+	while (map->map_array[++j])
+	{
+		i = -1;
+		map->door_array[j] = malloc(sizeof(char) * (map->w_map + 1));
+		while (map->map_array[j][++i])
+		{
+			map->door_array[j][i] = 2;
+			if (map->tiles[map->map_array[j][i]].is_door_str)
+			{
+				map->door_array[j][i] = 1;
+				if (i == 0 || j == 0 || j == map->h_map || i == map->w_map)
+					res = 1;
+			}
+		}
+	}
+	map->door_array[j] = NULL;
+	return (res);
 }

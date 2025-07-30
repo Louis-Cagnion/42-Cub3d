@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 16:54:50 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/07/26 18:39:08 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/29 17:28:37 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	get_wall_depth(char *info, char **elem)
 	if (*info == '1')
 	{
 		info++;
-		while (*info)
+		while (*info && *info != '\n')
 			if (!ft_strchr(" \t", *(++info)))
 				return (ft_error("Invalid wall depth\n"), 0);
 		*elem = ft_strndup("1", 1);
@@ -56,7 +56,7 @@ static int	get_wall_depth(char *info, char **elem)
 	if (info[1] != '.')
 	{
 		info++;
-		while (*info)
+		while (*info && *info != '\n')
 			if (!ft_strchr(" \t", *(++info)))
 				return (ft_error("Invalid wall depth\n"), 0);
 		return (1);
@@ -65,7 +65,7 @@ static int	get_wall_depth(char *info, char **elem)
 	float_len = 0;
 	while (ft_isnum(info[float_len]))
 		float_len++;
-	while (info[float_len])
+	while (info[float_len] && (info[float_len] != '\n'))
 		if (!ft_strchr(" \t", info[float_len]))
 			return (ft_error("Invalid wall depth\n"), 0);
 	*elem = ft_strndup(info - 2, float_len + 2); 
@@ -80,18 +80,15 @@ static int	get_map_infos(t_tile *tile, char *info, char **elem, int elem_nb)
 		info++;
 	while (ft_strchr(" \t", *info))
 		info++;
-	if (elem_nb == 6)
+	if (elem_nb == 7)
 	{
-		return (get_wall_depth(info, elem));
-		if (ft_strchr("01", *info) && ft_str_isformat(info + 1, " \t"))
-		{
-			if (*info == '1')
-				*elem = ft_strndup(info, 1);
-			return (1);
-		}
-		return (ft_error("Invalid wall identifier\n"), 0);
+		if (*info == '1')
+			*elem = ft_strndup("1", 1);
+		return (1);
 	}
-	else if ((elem_nb >= 4) && ft_isnum(*info))
+	if (elem_nb == 6)
+		return (get_wall_depth(info, elem));
+	else if ((elem_nb <= 5) && ft_isnum(*info))
 		return (get_rgb(tile, info, elem_nb));
 	len_line = ft_strclen(info, '\n');
 	if (len_line < 4)
@@ -125,7 +122,7 @@ int	check_single_elem(char *file_infos, int *i,
 		while (file_infos[*i] && file_infos[*i] != '\n')
 			(*i)++;
 	}
-	if (!count)
+	if (!count || (count == 1 && !get_elem(tile, 7)))
 		return (1);
 	return (ft_error("Lacking elements for map.\n"), 0);
 }
@@ -138,7 +135,7 @@ int	check_elems(char *file_infos, char *elems[], t_tile *tile)
 
 	j = 0;
 	i = 0;
-	count = 7;
+	count = 8;
 	while (file_infos[i] && count)
 	{
 		while (ft_strchr("\n\r \t", file_infos[i]))
@@ -154,7 +151,7 @@ int	check_elems(char *file_infos, char *elems[], t_tile *tile)
 		while (file_infos[i] && file_infos[i] != '\n')
 			i++;
 	}
-	if (!count)
+	if (!count || (count == 1 && !(*get_elem(tile, 7))))
 		return (1);
 	return (ft_error("Lacking elements for map.\n"), 0);
 }

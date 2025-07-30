@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:47:09 by locagnio          #+#    #+#             */
-/*   Updated: 2025/06/02 12:04:44 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/29 17:00:25 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static void	init_elem_infos(char *elems[])
 	elems[4] = "F";
 	elems[5] = "C";
 	elems[6] = "W";
+	elems[7] = "D";
 }
 
 static inline void	define_player_tile(char *defined, char n)
@@ -34,7 +35,7 @@ static inline void	define_player_tile(char *defined, char n)
 int	treat_file(char *map_name, t_game *game)
 {
 	char	*file_infos;
-	char	*elems[7];
+	char	*elems[8];
 	int		i;
 
 	i = 0;

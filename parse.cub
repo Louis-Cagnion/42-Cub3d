@@ -9,6 +9,18 @@
 	W 0
 }
 
+O {
+	NO ./assets/isaac.xpm
+	SO ./assets/isaac.xpm
+	WE ./assets/isaac.xpm
+	EA ./assets/isaac.xpm
+
+	F ./assets/wall.xpm
+	C ./assets/invisible.xpm
+	W 0
+	D 1
+}
+
 A {
 	NO ./assets/wall.xpm
 	SO ./assets/wall.xpm
@@ -38,7 +50,8 @@ A {
 
 	F ./assets/wall.xpm
 	C ./assets/wall.xpm
-	W 0.5
+	W 1
+	D 1
 }
 
 8 {
@@ -53,7 +66,7 @@ A {
 }
 
 18188811111111111111111111111111111111111
-10000000000001111111111111111111111111111
+1O000000000001111111111111111111111111111
 10000000000001000000000000000000000000011
 10000101010001010101010101010101010101011
 1000E200000001000000000000000000000000011
