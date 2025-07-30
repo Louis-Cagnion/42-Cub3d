@@ -6,7 +6,7 @@
 /*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 16:40:40 by marvin            #+#    #+#             */
-/*   Updated: 2025/07/24 16:34:08 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/27 18:39:54 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,13 +117,13 @@ void	actualise_player_pos(char **map_array, t_player *player,
 
 	cpy = *player;
 	compute_movement(&cpy, key);
-	if (!tiles[(int)map_array[player->int_y][(int)(cpy.x)]].is_wall)
+	if (1 || !tiles[(int)map_array[player->int_y][(int)(cpy.x)]].is_wall)
 	{
 		player->x = cpy.x;
 		player->int_x = (int)cpy.x;
 		player->x_mantissa = cpy.x - (int)cpy.x;
 	}
-	if (!tiles[(int)map_array[(int)cpy.y][(player->int_x)]].is_wall)
+	if (1 || !tiles[(int)map_array[(int)cpy.y][(player->int_x)]].is_wall)
 	{
 		player->y = cpy.y;
 		player->int_y = (int)cpy.y;

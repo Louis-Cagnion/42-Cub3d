@@ -48,6 +48,7 @@ FILES_BONUS = main.c \
 		map_parsing/create_tex_structs.c \
 		loop/hooks.c \
 		loop/loop.c \
+		loop/mouse.c \
 		loop/controls.c \
 		loop/thread_routine.c \
 		entities/create_entity.c \

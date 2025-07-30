@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 23:49:22 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/07/26 19:07:34 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/30 19:10:59 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ static inline int	hit_wall(int side, double side_dist[2], double delta_dist[2], 
 	return (side_dist[!side] >= (side_dist[side] - (delta_dist[side] * depth)));
 }
 
-static inline void	cast_ray(t_wall_drawer drawer, t_game *game, int *addr)
+static inline t_wall_drawer cast_ray(t_wall_drawer drawer, t_game *game, int *addr, int door)
 {
 	t_map	*map;
 
@@ -133,16 +133,19 @@ static inline void	cast_ray(t_wall_drawer drawer, t_game *game, int *addr)
 		drawer.map_pos[drawer.side] += drawer.steps[drawer.side];
 		if (drawer.map_pos[1] < 0 || drawer.map_pos[0] < 0
 			 || drawer.map_pos[0] >= map->w_map || drawer.map_pos[1] >= map->h_map)
-			return ;
+			return (drawer);
 		drawer.tile = map->map_array[drawer.map_pos[1]][drawer.map_pos[0]];
 		if (map->tiles[drawer.tile].is_wall && hit_wall(drawer.side, drawer.side_dist, drawer.delta_dist, map->tiles[drawer.tile].is_wall))
 		{
 			drawer.tex = map->tiles[drawer.tile].tex_list[(!drawer.side * 2)
 				+ (drawer.ray_dir[drawer.side] < 0)];
 			draw_tex(&drawer, game, addr);
-			return ;
+			return (drawer);
 		}
+		if (door)
+			return (drawer);
 	}
+	return (drawer);
 }
 
 double	get_wall_dist(t_player *player,

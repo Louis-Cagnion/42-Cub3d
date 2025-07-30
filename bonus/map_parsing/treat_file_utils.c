@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 20:53:48 by locagnio          #+#    #+#             */
-/*   Updated: 2025/07/30 12:20:27 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/30 14:41:27 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	create_door_map(t_map *map)
 		while (map->map_array[j][++i])
 		{
 			map->door_array[j][i] = 2;
-			if (map->tiles[map->map_array[j][i]].is_door_str)
+			if (map->tiles[(int)map->map_array[j][i]].is_door_str)
 			{
 				map->door_array[j][i] = 1;
 				if (i == 0 || j == 0 || j == map->h_map || i == map->w_map)
