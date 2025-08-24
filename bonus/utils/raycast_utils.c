@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 12:23:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/08/24 17:53:10 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/08/24 19:17:58 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ t_wall_drawer	init_ray_consts(t_player *player, double cam_x)
 	drawer.ray_dir[1] = player->direction_y + player->plane_y * cam_x;
 	drawer.map_pos[0] = player->int_x;
 	drawer.map_pos[1] = player->int_y;
-	drawer.delta_dist[0] = 1000;
+	drawer.delta_dist[0] = 1e30;
 	if (drawer.ray_dir[0])
 		drawer.delta_dist[0] = fabs(1 / drawer.ray_dir[0]);
-	drawer.delta_dist[1] = 1000;
+	drawer.delta_dist[1] = 1e30;
 	if (drawer.ray_dir[1])
 		drawer.delta_dist[1] = fabs(1 / drawer.ray_dir[1]);
 	init_steps_infos(player, drawer.ray_dir, drawer.side_dist, drawer.steps);

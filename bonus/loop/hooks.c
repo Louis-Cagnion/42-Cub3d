@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 02:51:28 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/08/24 18:58:54 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/08/24 19:23:13 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,6 @@ void	init_hooks(t_game *game)
 	mlx_hook(game->mlx.window, KeyPress, KeyPressMask, pressed_key, game);
 	mlx_hook(game->mlx.window, KeyRelease, KeyReleaseMask, release_key, game);
 	mlx_hook(game->mlx.window, MotionNotify, PointerMotionMask,
-			mouse_move, game);
+		mouse_move, game);
 	mlx_loop_hook(game->mlx.init, loop, game);
 }

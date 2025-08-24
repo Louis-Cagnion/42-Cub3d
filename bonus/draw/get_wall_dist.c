@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 23:49:22 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/08/24 18:17:44 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/08/24 19:21:45 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static inline void	draw_texture(int *addr, t_wall_drawer *drawer,
 	d.temp = ((drawer->wall_pos[1] - drawer->wall_pos[0]) >> 1) + 1;
 	d.data = (int *)(tex->data + drawer->texture_x);
 	d.addr_two = addr + size_line * drawer->wall_pos[1];
-	d.tex_pos[1] = d.tex_pos[0] + (d.step * (d.temp << 1));
+	d.tex_pos[1] = d.tex_pos[0] + (d.step * ((d.temp - 1) << 1));
 	addr += size_line * drawer->wall_pos[0];
 	while (d.temp--)
 	{

@@ -16,7 +16,7 @@ MLX_DIR = mlx
 MLX = $(MLX_DIR)/libmlx_Linux.a
 
 CC = cc
-FLAGS = -Wall -Wextra -g -O0
+FLAGS = -Wall -Wextra -Werror -O3 -g
 MLX_FLAGS = -lX11 -lXext -lm
 
 FILES = main.c \

@@ -1,8 +1,8 @@
 0 {
-	NO ./assets/isaac.xpm
-	SO ./assets/isaac.xpm
-	WE ./assets/isaac.xpm
-	EA ./assets/isaac.xpm
+	NO ./assets/dirt.xpm
+	SO ./assets/dirt.xpm
+	WE ./assets/dirt.xpm
+	EA ./assets/dirt.xpm
 
 	F ./assets/wall.xpm
 	C ./assets/invisible.xpm
@@ -10,13 +10,13 @@
 }
 
 O {
-	NO ./assets/isaac.xpm
-	SO ./assets/isaac.xpm
-	WE ./assets/isaac.xpm
-	EA ./assets/isaac.xpm
+	NO ./assets/dirt.xpm
+	SO ./assets/dirt.xpm
+	WE ./assets/dirt.xpm
+	EA ./assets/dirt.xpm
 
 	F ./assets/wall.xpm
-	C ./assets/invisible.xpm
+	C ./assets/backrooms.xpm
 	W 0
 	D 1
 }
@@ -32,7 +32,7 @@ A {
 	W 0
 }
 1 {
-	NO ./assets/isaac.xpm
+	NO ./assets/dirt.xpm
 	SO ./assets/backrooms.xpm
 	WE ./assets/wall.xpm
 	EA ./assets/backrooms.xpm
@@ -43,9 +43,9 @@ A {
 }
 
 2 {
-	NO ./assets/isaac.xpm
+	NO ./assets/dirt.xpm
 	SO ./assets/wall.xpm
-	WE ./assets/isaac.xpm
+	WE ./assets/dirt.xpm
 	EA ./assets/wall.xpm
 
 	F ./assets/wall.xpm
@@ -55,10 +55,10 @@ A {
 }
 
 8 {
-	NO ./assets/invisible.xpm
-	SO ./assets/invisible.xpm
-	WE ./assets/invisible.xpm
-	EA ./assets/invisible.xpm
+	NO ./assets/backrooms.xpm
+	SO ./assets/backrooms.xpm
+	WE ./assets/backrooms.xpm
+	EA ./assets/backrooms.xpm
 
 	F ./assets/wall.xpm
 	C ./assets/wall.xpm
