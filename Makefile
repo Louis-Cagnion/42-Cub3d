@@ -60,7 +60,6 @@ FILES_BONUS = main.c \
 		draw/draw_ceil_and_floor.c \
 		draw/draw_extra_ceil.c \
 		draw/draw_extra_floor.c \
-		draw/draw_texture.c \
 		draw/draw_sprites.c \
 		draw/raycast.c \
 		utils/raycast_utils.c \

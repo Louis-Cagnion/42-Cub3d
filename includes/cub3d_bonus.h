@@ -6,7 +6,7 @@
 /*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/07/30 15:01:42 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/08/17 11:22:10 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ typedef struct s_texture
 	int			endian;
 	int			tex_endian;
 	int			size_line;
+	int			tex_size_line;
 	int			bpp;
 	int			fake_bpp;
 	int			fake_size_line;
@@ -259,6 +260,7 @@ typedef struct s_wall_drawer
 	int			wall_pos[2];
 	int			cam_y;
 	int			half_win_height;
+	int			color;
 	t_texture	tex;
 }	t_wall_drawer;
 
@@ -306,13 +308,6 @@ typedef struct s_thread_info
 	t_sprite_drawing	sprite;
 }	t_thread_info;
 
-typedef struct s_wall_list
-{
-	char				*name;
-	t_texture			tex;
-	struct s_wall_list	*next;
-}	t_wall_list;
-
 typedef struct s_game
 {
 	t_mlx				mlx;
@@ -343,7 +338,7 @@ int				check_limits(char **map_array, int map_height,
 
 //player
 int				only_one_player(t_game *game);
-void			actualise_player_pos(char **map_array, t_player *ptr_p,
+void			actualise_player_pos(t_map *map, t_player *ptr_p,
 					int key, t_tile tiles[256]);
 int				is_valid_move(char **map_array, t_player p, int key);
 
@@ -360,8 +355,8 @@ void			store_textures(t_map *map, void *mlx, t_game *game);
 //					t_raycast *infos);
 void			put_texture(t_game *game, int *addr,
 					t_raycast *infos, int size_line);
-double			get_wall_dist(t_player *player,
-					double cam_x, t_game *game, int *addr);
+t_wall_drawer	cast_ray(t_wall_drawer drawer, t_game *game,
+					int *addr, int door);
 void			pput_pixel(t_img *img, int x, int y, int color);
 int				get_pixel_color(t_img *img, int x, int y);
 void			init_size_line_steps(int size_line, int steps[5]);
@@ -419,6 +414,7 @@ void			put_minimap(t_mlx mlx, t_minimap mini, t_player player);
 void			ft_lstadd_front(t_list **lst, t_list *new);
 void			create_tex_structs(t_map *map, void *mlx);
 int				create_door_map(t_map *map);
-int				pressed_mouse(int key, t_game *game);
+int				pressed_mouse(int key, int x, int y, t_game *game);
+t_wall_drawer	init_ray_consts(t_player *player, double cam_x);
 
 #endif

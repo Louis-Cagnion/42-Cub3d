@@ -6,11 +6,51 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 12:23:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/07/26 15:29:42 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/07/31 11:51:46 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
+
+static inline void	init_steps_infos(t_player *player, double ray_dir[2],
+		double side_dist[2], int steps[2])
+{
+	steps[0] = -1;
+	side_dist[0] = player->x_mantissa;
+	if (ray_dir[0] >= 0)
+	{
+		steps[0] = 1;
+		side_dist[0] = 1 - side_dist[0];
+	}
+	steps[1] = -1;
+	side_dist[1] = player->y_mantissa;
+	if (ray_dir[1] >= 0)
+	{
+		steps[1] = 1;
+		side_dist[1] = 1 - side_dist[1];
+	}
+}
+
+t_wall_drawer	init_ray_consts(t_player *player, double cam_x)
+{
+	t_wall_drawer	drawer;
+
+	drawer.ray_dir[0] = player->direction_x + player->plane_x * cam_x;
+	drawer.ray_dir[1] = player->direction_y + player->plane_y * cam_x;
+	drawer.map_pos[0] = player->int_x;
+	drawer.map_pos[1] = player->int_y;
+	drawer.delta_dist[0] = 1000;
+	if (drawer.ray_dir[0])
+		drawer.delta_dist[0] = fabs(1 / drawer.ray_dir[0]);
+	drawer.delta_dist[1] = 1000;
+	if (drawer.ray_dir[1])
+		drawer.delta_dist[1] = fabs(1 / drawer.ray_dir[1]);
+	init_steps_infos(player, drawer.ray_dir, drawer.side_dist, drawer.steps);
+	drawer.side_dist[0] *= drawer.delta_dist[0];
+	drawer.side_dist[1] *= drawer.delta_dist[1];
+	drawer.side = 0;
+	return (drawer);
+}
 
 static double	*init_row_dist_table(int half_height)
 {

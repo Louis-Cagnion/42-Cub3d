@@ -6,7 +6,7 @@
 /*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 16:40:40 by marvin            #+#    #+#             */
-/*   Updated: 2025/07/27 18:39:54 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/08/17 11:25:36 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,20 +110,22 @@ static void	compute_movement(t_player *cpy, int key)
 	}
 }
 
-void	actualise_player_pos(char **map_array, t_player *player,
+void	actualise_player_pos(t_map *map, t_player *player,
 		int key, t_tile tiles[256])
 {
 	t_player	cpy;
 
 	cpy = *player;
 	compute_movement(&cpy, key);
-	if (1 || !tiles[(int)map_array[player->int_y][(int)(cpy.x)]].is_wall)
+	if (!tiles[(int)map->map_array[player->int_y][(int)(cpy.x)]].is_wall ||
+			!map->door_array[player->int_y][(int)cpy.x])
 	{
 		player->x = cpy.x;
 		player->int_x = (int)cpy.x;
 		player->x_mantissa = cpy.x - (int)cpy.x;
 	}
-	if (1 || !tiles[(int)map_array[(int)cpy.y][(player->int_x)]].is_wall)
+	if (!tiles[(int)map->map_array[(int)cpy.y][player->int_x]].is_wall ||
+			!map->door_array[(int)cpy.y][player->int_x])
 	{
 		player->y = cpy.y;
 		player->int_y = (int)cpy.y;

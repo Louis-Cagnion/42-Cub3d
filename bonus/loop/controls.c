@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:02:01 by locagnio          #+#    #+#             */
-/*   Updated: 2025/07/12 20:10:51 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/08/03 17:32:30 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,24 +65,24 @@ int	key_pressed_check_camera(t_player *player,
 
 int	key_pressed_check_controls(t_game *game, t_player *player)
 {
-	char	**map_array;
+	t_map	*map;
 	int		hsp;
 	int		vsp;
 
 	hsp = game->key_infos.d_key - game->key_infos.a_key;
 	vsp = game->key_infos.s_key - game->key_infos.w_key;
 	player->mvt_speed = SPEED;
-	map_array = game->map.map_array;
+	map = &game->map;
 	if (hsp && vsp)
 		player->mvt_speed *= 0.7;
 	if (hsp >> 31)
-		actualise_player_pos(map_array, player, 'a', game->map.tiles);
+		actualise_player_pos(map, player, 'a', game->map.tiles);
 	else if (hsp)
-		actualise_player_pos(map_array, player, 'd', game->map.tiles);
+		actualise_player_pos(map, player, 'd', game->map.tiles);
 	if (vsp >> 31)
-		actualise_player_pos(map_array, player, 'w', game->map.tiles);
+		actualise_player_pos(map, player, 'w', game->map.tiles);
 	else if (vsp)
-		actualise_player_pos(map_array, player, 's', game->map.tiles);
+		actualise_player_pos(map, player, 's', game->map.tiles);
 	return (vsp || hsp);
 }
 

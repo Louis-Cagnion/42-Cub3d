@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 15:21:23 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/07/29 17:27:11 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/08/17 10:48:46 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ static void	store_defaults_settings(t_map *map,
 	src = map->tiles[0];
 	cur = &map->tiles['0'];
 	cur->tex_list = malloc(sizeof(t_texture) * 6);
-	if (src.floor_path)
-		cur->floor_path = ft_strdup(src.floor_path);
-	if (src.ceil_path)
-		cur->ceil_path = ft_strdup(src.ceil_path);
+	store_image(src.no_path, map, cur, 0);
+	store_image(src.so_path, map, cur, 1);
+	store_image(src.we_path, map, cur, 2);
+	store_image(src.ea_path, map, cur, 3);
 	store_image(src.floor_path, map, cur, 4);
 	store_image(src.ceil_path, map, cur, 5);
 	cur = &map->tiles['1'];
@@ -55,8 +55,8 @@ static void	store_defaults_settings(t_map *map,
 	store_image(src.so_path, map, cur, 1);
 	store_image(src.we_path, map, cur, 2);
 	store_image(src.ea_path, map, cur, 3);
-	cur->tex_list[4] = default_tex;
-	cur->tex_list[5] = default_tex;
+	store_image(src.floor_path, map, cur, 4);
+	store_image(src.ceil_path, map, cur, 5);
 	cur->is_wall = 1;
 }
 

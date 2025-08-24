@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 16:43:42 by marvin            #+#    #+#             */
-/*   Updated: 2025/07/19 19:27:00 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/08/17 10:53:05 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,49 @@ void	free_mlx(t_mlx *mlx)
 	}
 }
 
-static void	free_tiles(t_tile tiles[256], char *defined, int i)
+static void	free_tile(t_tile tile)
 {
-	while (i--)
+	free(tile.no_path);
+	free(tile.so_path);
+	free(tile.we_path);
+	free(tile.ea_path);
+	free(tile.floor_path);
+	free(tile.ceil_path);
+}
+
+static void	free_tiles(t_tile tiles[256], char *defined, t_map *map, void *mlx)
+{
+	int			i;
+	t_list		*cur;
+	t_list		*temp;
+
+	if (defined[0])
 	{
-		if (!defined[i])
-			continue ;
-		free(tiles[i].no_path);
-		free(tiles[i].so_path);
-		free(tiles[i].we_path);
-		free(tiles[i].ea_path);
-		free(tiles[i].floor_path);
-		free(tiles[i].ceil_path);
-		free(tiles[i].tex_list);
+		free_tile(tiles[0]);
+		free(tiles['0'].tex_list);
+		free(tiles['1'].tex_list);
+	}
+	else
+	{
+		i = 256;
+		while (i--)
+		{
+			if (!defined[i])
+				continue ;
+			free_tile(tiles[i]);
+			free(tiles[i].tex_list);
+		}
+	}
+	ft_lstclear(&map->name_lst, free);
+	cur = map->tex_ptr;
+	while (cur)
+	{
+		temp = cur;
+		free(((t_texture *)cur->data)->stripe_is_opaque);
+		mlx_destroy_image(mlx, ((t_texture *)cur->data)->ptr);
+		free(cur->data);
+		cur = cur->next;
+		free(temp);
 	}
 }
 
@@ -87,15 +117,18 @@ static void	free_entities(t_list *entity_list, void *mlx)
 void	free_game(t_game *game)
 {
 	free_entities(game->map.entity_list, game->mlx.init);
-	free_tiles(game->map.tiles, game->map.tile_defined, 256);
+	free_tiles(game->map.tiles, game->map.tile_defined, &game->map, game->mlx.init);
 	ft_lstclear(&game->map.name_lst, free);
 	mlx_destroy_image(game->mlx.init, game->raycast.consts->skybox.ptr);
+	mlx_destroy_image(game->mlx.init, game->map.minimap.mini_img);
+	mlx_destroy_image(game->mlx.init, game->map.minimap.player_img);
 	mlx_destroy_image(game->mlx.init, game->default_tex.ptr);
 	free_mlx(&game->mlx);
 	free(game->raycast.consts->row_dist_table);
 	free(game->raycast.consts);
 	free(game->map.map);
 	free(game->thread);
+	free_array(&game->map.door_array);
 	if (game->map.map_array)
 		free_array(&game->map.map_array);
 	free(game->raycast.cast_infos);

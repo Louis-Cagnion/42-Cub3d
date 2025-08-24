@@ -6,7 +6,7 @@
 /*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:29:31 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/07/30 12:17:26 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/08/17 10:59:40 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	main(int ac, char **av)
 		if (len_file <= 4 || ft_strcmp(av[1] + (len_file - 4), ".cub"))
 			return (ft_error("file with '.cub' extension needed.\n"), 1);
 		if (treat_file(av[1], &game) || create_door_map(&game.map)
-				|| set_mlx(&game.mlx, "Cub3d"))
+			|| set_mlx(&game.mlx, "Cub3d"))
 		{
 			free_game(&game);
 			return (1);

@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 16:54:50 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/07/29 17:28:37 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/08/17 11:29:12 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,10 @@ static int	get_rgb(t_tile *tile, char *info, int elem)
 	return (1);
 }
 
-static int	get_wall_depth(char *info, char **elem)
+static int	get_wall_depth(char *info, char **elem, int float_len)
 {
-	int		float_len;
-
-	if (*info == '1')
+	if (*info == '1' && info++)
 	{
-		info++;
 		while (*info && *info != '\n')
 			if (!ft_strchr(" \t", *(++info)))
 				return (ft_error("Invalid wall depth\n"), 0);
@@ -53,22 +50,20 @@ static int	get_wall_depth(char *info, char **elem)
 	}
 	if (*info != '0')
 		return (ft_error("Invalid wall identifier\n"), 0);
-	if (info[1] != '.')
+	if (info[1] != '.' && info++)
 	{
-		info++;
 		while (*info && *info != '\n')
 			if (!ft_strchr(" \t", *(++info)))
 				return (ft_error("Invalid wall depth\n"), 0);
 		return (1);
 	}
 	info += 2;
-	float_len = 0;
 	while (ft_isnum(info[float_len]))
 		float_len++;
 	while (info[float_len] && (info[float_len] != '\n'))
 		if (!ft_strchr(" \t", info[float_len]))
 			return (ft_error("Invalid wall depth\n"), 0);
-	*elem = ft_strndup(info - 2, float_len + 2); 
+	*elem = ft_strndup(info - 2, float_len + 2);
 	return (1);
 }
 
@@ -87,7 +82,7 @@ static int	get_map_infos(t_tile *tile, char *info, char **elem, int elem_nb)
 		return (1);
 	}
 	if (elem_nb == 6)
-		return (get_wall_depth(info, elem));
+		return (get_wall_depth(info, elem, 0));
 	else if ((elem_nb <= 5) && ft_isnum(*info))
 		return (get_rgb(tile, info, elem_nb));
 	len_line = ft_strclen(info, '\n');

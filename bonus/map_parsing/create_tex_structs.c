@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 16:55:25 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/07/21 19:33:10 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/08/17 11:26:49 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,12 @@ static void	create_textures(t_list *names, t_list **tex, void *mlx)
 		dest->fake_bpp = dest->bpp >> 3;
 		dest->fake_size_line = dest->size_line >> 2;
 		dest->tex_endian = dest->endian - 1;
+		dest->tex_size_line = dest->size_line >> 2;
 		dest->d_width = (double)dest->width;
 		dest->d_height = (double)dest->height;
 		dest->stripe_is_opaque = malloc(sizeof(int) * dest->width);
-		fill_opaque_list(dest->idata, dest->stripe_is_opaque, dest->width, dest->height);
+		fill_opaque_list(dest->idata, dest->stripe_is_opaque,
+			dest->width, dest->height);
 		ft_listadd_back(tex, create_cell(dest));
 		names = names->next;
 	}
@@ -107,10 +109,13 @@ void	create_tex_structs(t_map *map, void *mlx)
 {
 	int		i;
 
-	i = -1;
-	while (++i < 256)
-		if (map->tile_defined[i])
-			add_path_to_list((t_tile *)&map->tiles[i], &map->name_lst);
+	i = 0;
+	if (map->tile_defined[0])
+		add_path_to_list((t_tile *)&map->tiles[0], &map->name_lst);
+	else
+		while (++i < 256)
+			if (map->tile_defined[i])
+				add_path_to_list((t_tile *)&map->tiles[i], &map->name_lst);
 	remove_duplicates(map->name_lst);
 	create_textures(map->name_lst, &map->tex_ptr, mlx);
 }
