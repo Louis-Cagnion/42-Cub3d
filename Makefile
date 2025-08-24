@@ -119,7 +119,6 @@ clean:
 fclean: clean
 	@echo $(GREEN)"Libft cleared !"$(RESET)
 	#@make -C $(LIBFT_DIR) fclean > /dev/null
-	@echo $(GREEN)"$(NAME) cleared !"$(RESET)
 	@$(RM) $(NAME)
 
 re: fclean all
