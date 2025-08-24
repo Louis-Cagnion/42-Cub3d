@@ -4,7 +4,7 @@
 	WE ./assets/dirt.xpm
 	EA ./assets/dirt.xpm
 
-	F ./assets/wall.xpm
+	F ./assets/dirt.xpm
 	C ./assets/invisible.xpm
 	W 0
 }
@@ -32,7 +32,7 @@ A {
 	W 0
 }
 1 {
-	NO ./assets/dirt.xpm
+	NO ./assets/wall.xpm
 	SO ./assets/backrooms.xpm
 	WE ./assets/wall.xpm
 	EA ./assets/backrooms.xpm
@@ -43,9 +43,9 @@ A {
 }
 
 2 {
-	NO ./assets/dirt.xpm
+	NO ./assets/wall.xpm
 	SO ./assets/wall.xpm
-	WE ./assets/dirt.xpm
+	WE ./assets/wall.xpm
 	EA ./assets/wall.xpm
 
 	F ./assets/wall.xpm

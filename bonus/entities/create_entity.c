@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_entity.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:05:07 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/07/12 20:03:28 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/08/24 20:09:26 by locagnio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,10 @@ t_entity	*create_entity(char *tex_path, double x, double y, void *mlx_ptr)
 	dest->x = x;
 	dest->y = y;
 	tex.ptr = mlx_xpm_file_to_image(mlx_ptr, tex_path, &tex.width, &tex.height);
-	if (tex.ptr)
-		tex.data = mlx_get_data_addr(tex.ptr, &tex.bpp,
-				&tex.size_line, &tex.endian);
+	if (!tex.ptr)
+		return (free(dest), NULL);
+	tex.data = mlx_get_data_addr(tex.ptr, &tex.bpp,
+			&tex.size_line, &tex.endian);
 	tex.tex_endian = tex.endian - 1;
 	tex.d_width = (double)tex.width;
 	tex.d_height = (double)tex.height;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 02:51:28 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/08/24 19:23:13 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/08/24 20:13:32 by locagnio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ static void	create_threads(t_game *game)
 	while (++i < THREAD_COUNT)
 	{
 		game->thread[i].index = i;
+		game->thread[i].is_finished = 0;
 		game->thread[i].raycast = game->raycast;
 		game->thread[i].game = game;
 		pthread_create(&game->thread[i].thread, NULL,
@@ -90,7 +91,7 @@ static void	create_threads(t_game *game)
 void	init_hooks(t_game *game)
 {
 	game->map.entity_list = create_cell(
-			create_entity("./assets/snas.xpm", 3.5, 3.8, game->mlx.init));
+			create_entity("./assets/snas.xpm", 8.5, 8.5, game->mlx.init));
 	init_raycast(game, &game->raycast);
 	init_minimap(&game->map.minimap, &game->map, game->mlx);
 	key_pressed_check_controls(game, &game->player);

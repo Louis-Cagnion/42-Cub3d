@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 16:43:42 by marvin            #+#    #+#             */
-/*   Updated: 2025/08/24 18:19:58 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/08/24 20:12:08 by locagnio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,18 +68,21 @@ static void	free_frame(t_list *frame_ptr, void *mlx_ptr)
 	free(frame_ptr);
 }
 
-static void	free_entities(t_list *entity_list, void *mlx)
+static void	free_entities(t_list *entity_list, void *mlx,
+	t_list *temp, t_entity *cur)
 {
-	t_list			*temp;
 	t_list			*cur_frame;
 	t_list			*temp_frame;
-	t_entity		*cur;
 
 	while (entity_list)
 	{
 		temp = entity_list;
 		entity_list = entity_list->next;
 		cur = (t_entity *)temp->data;
+		if (!cur)
+			free(temp);
+		if (!cur)
+			continue ;
 		cur_frame = cur->frame_list;
 		while (cur_frame != cur->first_frame)
 			cur_frame = cur_frame->next;
@@ -91,14 +94,13 @@ static void	free_entities(t_list *entity_list, void *mlx)
 			free_frame(temp_frame, mlx);
 		}
 		free_frame(cur_frame, mlx);
-		free(temp->data);
-		free(temp);
+		(free(temp->data), free(temp));
 	}
 }
 
 void	free_game(t_game *game, int mode, t_mlx *mlx)
 {
-	free_entities(game->map.entity_list, game->mlx.init);
+	free_entities(game->map.entity_list, game->mlx.init, 0, 0);
 	free_tiles(game->map.tiles, game->map.tile_defined,
 		&game->map, game->mlx.init);
 	ft_lstclear(&game->map.name_lst, free);

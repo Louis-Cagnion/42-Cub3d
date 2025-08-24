@@ -29,13 +29,13 @@ static int	get_rgb(t_map *map, char *info, int elem)
 	int	j;
 
 	i = 0;
-	j = 0;
-	while (j < 3)
+	j = -1;
+	while (++j < 3)
 	{
-		rgb[j++] = ft_natoi(info, &i);
-		if (!ft_isnum(info[i - 1]) || rgb[j - 1] > 255 || rgb[j - 1] < 0)
+		rgb[j] = ft_natoi(info, &i);
+		if (!ft_isnum(info[i - 1]) || rgb[j] > 255 || rgb[j] < 0)
 			return (ft_error("Invalid RGB color.\n"), 0);
-		if (i != '\n')
+		if (info[i] != '\n')
 			i++;
 	}
 	while (info[i] && info[i] != '\n')

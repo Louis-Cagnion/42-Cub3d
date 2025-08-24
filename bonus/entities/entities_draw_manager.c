@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   entities_draw_manager.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 19:12:52 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/08/24 16:19:33 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/08/24 20:05:52 by locagnio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	command_thread_sprites(t_game *game)
 	{
 		entity = (t_entity *)entities->data;
 		entities = entities->next;
-		if (entity->draw_dir_y <= 0 || entity->screen_width >> 31
+		if (!entity || entity->draw_dir_y <= 0 || entity->screen_width >> 31
 			|| entity->player_dist < 0.1)
 			continue ;
 		i = -1;

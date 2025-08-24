@@ -1,6 +1,6 @@
 MAKEFLAGS += -s
 
-NAME = cub3d
+NAME = cub3D
 
 INCLUDE = includes
 INCLUDE_B = includes/bonus -I $(INCLUDE)
@@ -80,7 +80,7 @@ RED    = "\033[31m"
 GREEN = "\033[32m"
 RESET = "\033[0m"
 
-all : bonus
+all : $(NAME)
 
 $(NAME): $(LIBFT) $(MLX) $(OBJS)
 	@echo $(CYAN)"Compiling Cub3D..."$(RESET)

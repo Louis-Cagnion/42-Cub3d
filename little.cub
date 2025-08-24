@@ -1,0 +1,70 @@
+0 {
+	NO ./assets/dirt.xpm
+	SO ./assets/dirt.xpm
+	WE ./assets/dirt.xpm
+	EA ./assets/dirt.xpm
+
+	F ./assets/dirt.xpm
+	C ./assets/invisible.xpm
+	W 0
+}
+
+O {
+	NO ./assets/dirt.xpm
+	SO ./assets/dirt.xpm
+	WE ./assets/dirt.xpm
+	EA ./assets/dirt.xpm
+
+	F ./assets/wall.xpm
+	C ./assets/backrooms.xpm
+	W 0
+	D 1
+}
+
+A {
+	NO ./assets/wall.xpm
+	SO ./assets/wall.xpm
+	WE ./assets/wall.xpm
+	EA ./assets/wall.xpm
+
+	F ./assets/wall.xpm
+	C ./assets/wall.xpm
+	W 0
+}
+1 {
+	NO ./assets/wall.xpm
+	SO ./assets/backrooms.xpm
+	WE ./assets/wall.xpm
+	EA ./assets/backrooms.xpm
+
+	F ./assets/wall.xpm
+	C ./assets/wall.xpm
+	W 1
+}
+
+2 {
+	NO ./assets/wall.xpm
+	SO ./assets/wall.xpm
+	WE ./assets/wall.xpm
+	EA ./assets/wall.xpm
+
+	F ./assets/wall.xpm
+	C ./assets/wall.xpm
+	W 1
+	D 1
+}
+
+8 {
+	NO ./assets/backrooms.xpm
+	SO ./assets/backrooms.xpm
+	WE ./assets/backrooms.xpm
+	EA ./assets/backrooms.xpm
+
+	F ./assets/wall.xpm
+	C ./assets/wall.xpm
+	W 1
+}
+
+11111
+10N01
+11111
