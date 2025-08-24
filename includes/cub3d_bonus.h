@@ -6,7 +6,7 @@
 /*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/08/24 18:22:15 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/08/24 18:50:21 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -415,6 +415,7 @@ void			put_minimap(t_mlx mlx, t_minimap mini, t_player player);
 void			ft_lstadd_front(t_list **lst, t_list *new);
 void			create_tex_structs(t_map *map, void *mlx);
 int				create_door_map(t_map *map);
+int				mouse_move(int x, int y, t_game *game);
 int				pressed_mouse(int key, int x, int y, t_game *game);
 t_wall_drawer	init_ray_consts(t_player *player, double cam_x);
 

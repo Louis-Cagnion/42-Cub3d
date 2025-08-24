@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 12:27:00 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/08/24 18:23:07 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/08/24 18:50:32 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,21 @@ int	pressed_mouse(int key, int x, int y, t_game *game)
 	if (key == 1)
 		if (open_sesame(game, &game->map))
 			return (0);
+	return (0);
+}
+
+int	mouse_move(int x, int y, t_game *game)
+{
+	static int	last_x = 1;
+
+	if (x < last_x)
+		game->player.rotation = -ROT_SPEED * 2;
+	else if (x > last_x)
+		game->player.rotation = ROT_SPEED * 2;
+	if (x <= 10)
+		mlx_mouse_move(game->mlx.init, game->mlx.window, WIN_WIDTH - 11, y);
+	else if (x > (WIN_WIDTH - 10))
+		mlx_mouse_move(game->mlx.init, game->mlx.window, 11, y);
+	last_x = x;
 	return (0);
 }
