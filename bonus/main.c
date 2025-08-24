@@ -6,7 +6,7 @@
 /*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:29:31 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/08/17 10:59:40 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/08/24 17:40:34 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ int	main(int ac, char **av)
 		if (treat_file(av[1], &game) || create_door_map(&game.map)
 			|| set_mlx(&game.mlx, "Cub3d"))
 		{
-			free_game(&game);
+			free_game(&game, 0);
 			return (1);
 		}
 		store_textures(&game.map, game.mlx.init, &game);
 		init_hooks(&game);
 		mlx_loop(game.mlx.init);
-		free_game(&game);
+		free_game(&game, 1);
 		return (0);
 	}
 	usage_prompt();

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 16:43:42 by marvin            #+#    #+#             */
-/*   Updated: 2025/08/17 10:53:05 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/08/24 17:51:47 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,11 @@ static void	free_tiles(t_tile tiles[256], char *defined, t_map *map, void *mlx)
 			if (!defined[i])
 				continue ;
 			free_tile(tiles[i]);
+			if (!tiles[i].tex_list)
+			{
+				free(tiles[i].is_wall_str);
+				free(tiles[i].is_door_str);
+			}
 			free(tiles[i].tex_list);
 		}
 	}
@@ -114,22 +119,25 @@ static void	free_entities(t_list *entity_list, void *mlx)
 	}
 }
 
-void	free_game(t_game *game)
+void	free_game(t_game *game, int mode)
 {
 	free_entities(game->map.entity_list, game->mlx.init);
 	free_tiles(game->map.tiles, game->map.tile_defined, &game->map, game->mlx.init);
 	ft_lstclear(&game->map.name_lst, free);
-	mlx_destroy_image(game->mlx.init, game->raycast.consts->skybox.ptr);
-	mlx_destroy_image(game->mlx.init, game->map.minimap.mini_img);
-	mlx_destroy_image(game->mlx.init, game->map.minimap.player_img);
-	mlx_destroy_image(game->mlx.init, game->default_tex.ptr);
-	free_mlx(&game->mlx);
-	free(game->raycast.consts->row_dist_table);
-	free(game->raycast.consts);
+	if (mode)
+	{
+		mlx_destroy_image(game->mlx.init, game->raycast.consts->skybox.ptr);
+		mlx_destroy_image(game->mlx.init, game->map.minimap.mini_img);
+		mlx_destroy_image(game->mlx.init, game->map.minimap.player_img);
+		mlx_destroy_image(game->mlx.init, game->default_tex.ptr);
+		free(game->raycast.consts->row_dist_table);
+		free(game->raycast.consts);
+		free(game->raycast.cast_infos);
+	}
 	free(game->map.map);
+	free_mlx(&game->mlx);
 	free(game->thread);
 	free_array(&game->map.door_array);
 	if (game->map.map_array)
 		free_array(&game->map.map_array);
-	free(game->raycast.cast_infos);
 }

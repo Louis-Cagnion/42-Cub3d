@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 12:23:29 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/07/31 11:51:46 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/08/24 17:53:10 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ static t_opti_const	*compute_const(t_game *game)
 void	init_raycast(t_game *game, t_raycast *raycast)
 {
 	game->map.player = &game->player;
-	raycast->cast_infos = malloc(sizeof(t_cast_infos) * WIN_WIDTH);
+	raycast->cast_infos = malloc(sizeof(t_wall_drawer) * WIN_WIDTH);
 	raycast->consts = compute_const(game);
 	game->consts = raycast->consts;
 	raycast->width = WIN_WIDTH / THREAD_COUNT;

@@ -6,7 +6,7 @@
 /*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/08/17 11:22:10 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/08/24 17:41:03 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,17 +131,30 @@ typedef struct s_opti_const
 	double		cam_coef;
 }	t_opti_const;
 
-typedef struct s_cast_infos
+typedef struct s_wall_drawer
 {
-	double		wall_dist;
+	int			side;
 	double		ray_dir[2];
-	int			is_side;
+	double		side_dist[2];
+	double		delta_dist[2];
+	int			map_pos[2];
+	int			steps[2];
+	double		wall_x;
+	int			texture_x;
 	int			tile;
-}	t_cast_infos;
+	double		wall_dist;
+	int			line_height;
+	int			half_line_height;
+	int			wall_pos[2];
+	int			cam_y;
+	int			half_win_height;
+	int			color;
+	t_texture	tex;
+}	t_wall_drawer;
 
 typedef struct s_raycast
 {
-	t_cast_infos	*cast_infos;
+	t_wall_drawer	*cast_infos;
 	t_img			*img;
 	double			wall_dist;
 	int				*addr;
@@ -242,27 +255,6 @@ typedef struct s_tile
 	double		is_wall;
 	int			is_door;
 }	t_tile;
-
-typedef struct s_wall_drawer
-{
-	int			side;
-	double		ray_dir[2];
-	double		side_dist[2];
-	double		delta_dist[2];
-	int			map_pos[2];
-	int			steps[2];
-	double		wall_x;
-	int			texture_x;
-	int			tile;
-	double		wall_dist;
-	int			line_height;
-	int			half_line_height;
-	int			wall_pos[2];
-	int			cam_y;
-	int			half_win_height;
-	int			color;
-	t_texture	tex;
-}	t_wall_drawer;
 
 typedef struct s_plane_drawer
 {
@@ -399,7 +391,7 @@ void			print_map(t_map *map);
 
 //free
 void			free_mlx(t_mlx *mlx);
-void			free_game(t_game *game);
+void			free_game(t_game *game, int mode);
 
 //fucking libft
 void			ft_lstclear(t_list **lst, void (*del)(void *));

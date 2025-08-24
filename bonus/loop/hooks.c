@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 02:51:28 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/08/17 11:26:36 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/08/24 16:19:19 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	init_hooks(t_game *game)
 
 	i = -1;
 	game->map.entity_list = create_cell(
-			create_entity("./assets/snas.xpm", 2.5, 3.8, game->mlx.init));
+			create_entity("./assets/snas.xpm", 3.5, 3.8, game->mlx.init));
 	init_raycast(game, &game->raycast);
 	init_minimap(&game->map.minimap, &game->map, game->mlx);
 	game->thread = malloc(sizeof(t_thread_info) * THREAD_COUNT);

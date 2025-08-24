@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:51:54 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/08/17 10:50:27 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/08/24 17:47:19 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,10 @@ static int	get_tile_loop(char *content, int *i, char *elems[], t_map *map)
 	while (ft_strncmp("\n}", content + *i, 2))
 		(*i)++;
 	tile_content = ft_strndup(content + save, *i - save);
+	map->tile_defined[token] = 1;
 	if (!check_elems(tile_content, elems, &map->tiles[token]))
 		return (free(tile_content), 0);
 	*i += 2;
-	map->tile_defined[token] = 1;
 	return (free(tile_content), 2);
 }
 
