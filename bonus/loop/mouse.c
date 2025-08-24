@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 12:27:00 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/08/24 18:50:32 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/08/24 18:58:28 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ int	mouse_move(int x, int y, t_game *game)
 	static int	last_x = 1;
 
 	if (x < last_x)
-		game->player.rotation = -ROT_SPEED * 2;
+		game->player.rotation = (-ROT_SPEED * 1.5);
 	else if (x > last_x)
-		game->player.rotation = ROT_SPEED * 2;
+		game->player.rotation = (ROT_SPEED * 1.5);
 	if (x <= 10)
 		mlx_mouse_move(game->mlx.init, game->mlx.window, WIN_WIDTH - 11, y);
 	else if (x > (WIN_WIDTH - 10))

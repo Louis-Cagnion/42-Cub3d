@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:02:01 by locagnio          #+#    #+#             */
-/*   Updated: 2025/08/03 17:32:30 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/08/24 18:54:32 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,16 @@ int	key_pressed_check_camera(t_player *player,
 		t_keyboard_control key_infos)
 {
 	int		ret;
-	int		res;
 	double	rotation;
 
-	res = key_infos.left_key - key_infos.right_key;
-	if (res)
+	ret = key_infos.left_key - key_infos.right_key;
+	if (ret >> 31)
+		player->rotation += ROT_SPEED;
+	else if (ret)
+		player->rotation -= ROT_SPEED;
+	if (player->rotation)
 	{
-		rotation = -ROT_SPEED;
-		if (res >> 31)
-			rotation = ROT_SPEED;
+		rotation = player->rotation;
 		update_camera(player, rotation);
 		update_player_ray_dirs(player);
 		player->skybox_scroll = (int)(((atan2(player->direction_y,
@@ -60,7 +61,8 @@ int	key_pressed_check_camera(t_player *player,
 	ret = (key_infos.up_key - key_infos.down_key) << 4;
 	if (ret && abs(player->cam_y + ret) < player->half_win_height)
 		player->cam_y += ret;
-	return (res || ret);
+	player->rotation = 0;
+	return (ret);
 }
 
 int	key_pressed_check_controls(t_game *game, t_player *player)

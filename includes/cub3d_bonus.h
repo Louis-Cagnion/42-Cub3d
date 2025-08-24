@@ -6,7 +6,7 @@
 /*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/08/24 18:50:21 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/08/24 18:52:14 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,6 +212,7 @@ typedef struct s_player
 	double		y;
 	int			int_x;
 	int			int_y;
+	double		rotation;
 	double		x_mantissa;
 	double		y_mantissa;
 	double		plane_x;

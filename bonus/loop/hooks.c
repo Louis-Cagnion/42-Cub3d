@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 02:51:28 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/08/24 18:08:01 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/08/24 18:58:54 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,18 +70,12 @@ static int	release_key(int key, t_game *game)
 	return (0);
 }
 
-void	init_hooks(t_game *game)
+static void	create_threads(t_game *game)
 {
 	int		i;
 
 	i = -1;
-	game->map.entity_list = create_cell(
-			create_entity("./assets/snas.xpm", 3.5, 3.8, game->mlx.init));
-	init_raycast(game, &game->raycast);
-	init_minimap(&game->map.minimap, &game->map, game->mlx);
 	game->thread = malloc(sizeof(t_thread_info) * THREAD_COUNT);
-	key_pressed_check_controls(game, &game->player);
-	key_pressed_check_camera(&game->player, game->key_infos);
 	pthread_mutex_init(&game->mutex, NULL);
 	while (++i < THREAD_COUNT)
 	{
@@ -91,10 +85,23 @@ void	init_hooks(t_game *game)
 		pthread_create(&game->thread[i].thread, NULL,
 			thread_routine, &game->thread[i]);
 	}
+}
+
+void	init_hooks(t_game *game)
+{
+	game->map.entity_list = create_cell(
+			create_entity("./assets/snas.xpm", 3.5, 3.8, game->mlx.init));
+	init_raycast(game, &game->raycast);
+	init_minimap(&game->map.minimap, &game->map, game->mlx);
+	key_pressed_check_controls(game, &game->player);
+	key_pressed_check_camera(&game->player, game->key_infos);
+	create_threads(game);
 	mlx_hook(game->mlx.window, DestroyNotify, KeyReleaseMask, quit, game);
 	mlx_hook(game->mlx.window, ButtonPress, ButtonPressMask,
 		pressed_mouse, game);
 	mlx_hook(game->mlx.window, KeyPress, KeyPressMask, pressed_key, game);
 	mlx_hook(game->mlx.window, KeyRelease, KeyReleaseMask, release_key, game);
+	mlx_hook(game->mlx.window, MotionNotify, PointerMotionMask,
+			mouse_move, game);
 	mlx_loop_hook(game->mlx.init, loop, game);
 }
