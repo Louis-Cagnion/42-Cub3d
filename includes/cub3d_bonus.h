@@ -6,7 +6,7 @@
 /*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/08/24 17:41:03 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/08/24 18:22:15 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,15 @@ typedef struct s_inv_size
 	int		start;
 	int		end;
 }	t_inv_size;
+
+typedef struct s_draw
+{
+	int		*data;
+	int		*addr_two;
+	double	tex_pos[2];
+	double	step;
+	int		temp;
+}	t_draw;
 
 typedef struct s_minimap
 {
@@ -391,7 +400,7 @@ void			print_map(t_map *map);
 
 //free
 void			free_mlx(t_mlx *mlx);
-void			free_game(t_game *game, int mode);
+void			free_game(t_game *game, int mode, t_mlx *mlx);
 
 //fucking libft
 void			ft_lstclear(t_list **lst, void (*del)(void *));

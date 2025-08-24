@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 02:51:28 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/08/24 16:19:19 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/08/24 18:08:01 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ void	init_hooks(t_game *game)
 	while (++i < THREAD_COUNT)
 	{
 		game->thread[i].index = i;
-		game->thread[i].is_finished = 0;
 		game->thread[i].raycast = game->raycast;
 		game->thread[i].game = game;
 		pthread_create(&game->thread[i].thread, NULL,

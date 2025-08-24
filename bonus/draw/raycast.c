@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 15:17:03 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/08/24 16:27:43 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/08/24 18:09:18 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ static void	cast_rays(t_game *game, t_raycast *infos, int x, int width)
 	while (width--)
 	{
 		infos->cast_infos[x] = cast_ray(init_ray_consts(&game->player,
-				infos->consts->cam_coef * x - 1),
-			game, addr, -1);
+					infos->consts->cam_coef * x - 1),
+				game, addr, -1);
 		addr++;
 		x++;
 	}

@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 12:27:00 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/08/24 16:16:36 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/08/24 18:23:07 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ static inline int	open_sesame(t_game *game, t_map *map)
 	while (++i < range)
 	{
 		res = cast_ray(consts, game, NULL, i);
-		if (map->tiles[map->map_array[res.map_pos[1]][res.map_pos[0]]].is_door)
+		if (map->tiles[(int)
+				map->map_array[res.map_pos[1]][res.map_pos[0]]].is_door)
 		{
 			map->door_array[res.map_pos[1]][res.map_pos[0]] ^= 1;
 			return (1);

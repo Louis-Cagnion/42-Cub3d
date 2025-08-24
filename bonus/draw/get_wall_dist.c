@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 23:49:22 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/08/24 16:25:19 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/08/24 18:17:44 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,32 +15,29 @@
 static inline void	draw_texture(int *addr, t_wall_drawer *drawer,
 		t_texture *tex, int size_line)
 {
-	int		*data;
-	int		*addr_two;
-	double	tex_pos[2];
-	double	step;
-	int		temp;
+	t_draw	d;
 
-	step = tex->d_height / drawer->line_height;
-	tex_pos[0] = (drawer->wall_pos[0] - drawer->half_win_height
-			+ drawer->half_line_height - drawer->cam_y) * step;
-	temp = ((drawer->wall_pos[1] - drawer->wall_pos[0]) >> 1) + 1;
-	data = (int *)(tex->data + drawer->texture_x);
-	addr_two = addr + size_line * drawer->wall_pos[1];
-	tex_pos[1] = tex_pos[0] + (step * (temp << 1));
+	d = (t_draw){0};
+	d.step = tex->d_height / drawer->line_height;
+	d.tex_pos[0] = (drawer->wall_pos[0] - drawer->half_win_height
+			+ drawer->half_line_height - drawer->cam_y) * d.step;
+	d.temp = ((drawer->wall_pos[1] - drawer->wall_pos[0]) >> 1) + 1;
+	d.data = (int *)(tex->data + drawer->texture_x);
+	d.addr_two = addr + size_line * drawer->wall_pos[1];
+	d.tex_pos[1] = d.tex_pos[0] + (d.step * (d.temp << 1));
 	addr += size_line * drawer->wall_pos[0];
-	while (temp--)
+	while (d.temp--)
 	{
-		drawer->color = *(data + ((int)tex_pos[0] * tex->tex_size_line));
+		drawer->color = *(d.data + ((int)d.tex_pos[0] * tex->tex_size_line));
 		if (drawer->color >= 0)
 			*addr = drawer->color;
-		drawer->color = *(data + ((int)tex_pos[1] * tex->tex_size_line));
+		drawer->color = *(d.data + ((int)d.tex_pos[1] * tex->tex_size_line));
 		if (drawer->color >= 0)
-			*addr_two = drawer->color;
-		tex_pos[0] += step;
-		tex_pos[1] -= step;
+			*d.addr_two = drawer->color;
+		d.tex_pos[0] += d.step;
+		d.tex_pos[1] -= d.step;
 		addr += size_line;
-		addr_two -= size_line;
+		d.addr_two -= size_line;
 	}
 }
 

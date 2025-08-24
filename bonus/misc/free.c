@@ -6,24 +6,11 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 16:43:42 by marvin            #+#    #+#             */
-/*   Updated: 2025/08/24 17:51:47 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/08/24 18:19:58 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
-
-void	free_mlx(t_mlx *mlx)
-{
-	if (mlx->img)
-		mlx_destroy_image(mlx->init, mlx->img);
-	if (mlx->window)
-		mlx_destroy_window(mlx->init, mlx->window);
-	if (mlx->init)
-	{
-		mlx_destroy_display(mlx->init);
-		free(mlx->init);
-	}
-}
 
 static void	free_tile(t_tile tile)
 {
@@ -33,6 +20,9 @@ static void	free_tile(t_tile tile)
 	free(tile.ea_path);
 	free(tile.floor_path);
 	free(tile.ceil_path);
+	free(tile.is_wall_str);
+	free(tile.is_door_str);
+	free(tile.tex_list);
 }
 
 static void	free_tiles(t_tile tiles[256], char *defined, t_map *map, void *mlx)
@@ -42,26 +32,14 @@ static void	free_tiles(t_tile tiles[256], char *defined, t_map *map, void *mlx)
 	t_list		*temp;
 
 	if (defined[0])
-	{
-		free_tile(tiles[0]);
-		free(tiles['0'].tex_list);
-		free(tiles['1'].tex_list);
-	}
+		(free_tile(tiles[0]), free(tiles['0'].tex_list),
+			free(tiles['1'].tex_list));
 	else
 	{
 		i = 256;
 		while (i--)
-		{
-			if (!defined[i])
-				continue ;
-			free_tile(tiles[i]);
-			if (!tiles[i].tex_list)
-			{
-				free(tiles[i].is_wall_str);
-				free(tiles[i].is_door_str);
-			}
-			free(tiles[i].tex_list);
-		}
+			if (defined[i])
+				free_tile(tiles[i]);
 	}
 	ft_lstclear(&map->name_lst, free);
 	cur = map->tex_ptr;
@@ -70,9 +48,8 @@ static void	free_tiles(t_tile tiles[256], char *defined, t_map *map, void *mlx)
 		temp = cur;
 		free(((t_texture *)cur->data)->stripe_is_opaque);
 		mlx_destroy_image(mlx, ((t_texture *)cur->data)->ptr);
-		free(cur->data);
 		cur = cur->next;
-		free(temp);
+		(free(temp->data), free(temp));
 	}
 }
 
@@ -119,10 +96,11 @@ static void	free_entities(t_list *entity_list, void *mlx)
 	}
 }
 
-void	free_game(t_game *game, int mode)
+void	free_game(t_game *game, int mode, t_mlx *mlx)
 {
 	free_entities(game->map.entity_list, game->mlx.init);
-	free_tiles(game->map.tiles, game->map.tile_defined, &game->map, game->mlx.init);
+	free_tiles(game->map.tiles, game->map.tile_defined,
+		&game->map, game->mlx.init);
 	ft_lstclear(&game->map.name_lst, free);
 	if (mode)
 	{
@@ -135,7 +113,12 @@ void	free_game(t_game *game, int mode)
 		free(game->raycast.cast_infos);
 	}
 	free(game->map.map);
-	free_mlx(&game->mlx);
+	if (mlx->img)
+		mlx_destroy_image(mlx->init, mlx->img);
+	if (mlx->window)
+		mlx_destroy_window(mlx->init, mlx->window);
+	if (mlx->init)
+		(mlx_destroy_display(mlx->init), free(mlx->init));
 	free(game->thread);
 	free_array(&game->map.door_array);
 	if (game->map.map_array)

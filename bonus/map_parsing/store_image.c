@@ -6,7 +6,7 @@
 /*   By: gakarbou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 15:21:23 by gakarbou          #+#    #+#             */
-/*   Updated: 2025/08/24 16:17:09 by gakarbou         ###   ########.fr       */
+/*   Updated: 2025/08/24 18:20:39 by gakarbou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,7 @@ static void	store_image(char *pathname, t_map *map, t_tile *tile, int i)
 	tile->tex_list[i] = dest;
 }
 
-static void	store_defaults_settings(t_map *map,
-		t_texture default_tex)
+static void	store_defaults_settings(t_map *map)
 {
 	t_tile	*cur;
 	t_tile	src;
@@ -60,20 +59,16 @@ static void	store_defaults_settings(t_map *map,
 	cur->is_wall = 1;
 }
 
-static void	store_tile_texture(t_tile *cur, t_map *map, t_texture default_tex)
+static void	store_tile_texture(t_tile *cur, t_map *map)
 {
 	cur->tex_list = malloc(sizeof(t_texture) * 6);
 	if (cur->is_wall_str)
-	{
 		cur->is_wall = ft_atod(cur->is_wall_str);
-		free(cur->is_wall_str);
-	}
 	if (cur->is_door_str)
 	{
 		cur->is_door = 1;
 		if (!cur->is_wall)
 			cur->is_wall = 1;
-		free(cur->is_door_str);
 	}
 	store_image(cur->no_path, map, cur, 0);
 	store_image(cur->so_path, map, cur, 1);
@@ -92,7 +87,7 @@ void	store_textures(t_map *map, void *mlx, t_game *game)
 	create_tex_structs(map, mlx);
 	if (map->tile_defined[0])
 	{
-		store_defaults_settings(map, game->default_tex);
+		store_defaults_settings(map);
 		return ;
 	}
 	i = 256;
@@ -101,6 +96,6 @@ void	store_textures(t_map *map, void *mlx, t_game *game)
 		if (!map->tile_defined[i])
 			continue ;
 		cur = &map->tiles[i];
-		store_tile_texture(cur, map, game->default_tex);
+		store_tile_texture(cur, map);
 	}
 }
