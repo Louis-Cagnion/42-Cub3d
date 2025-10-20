@@ -23,16 +23,21 @@ This repository organizes its functions and headers into logical groups, each st
 
 This project include various features, such as:
 
-- Raycasting for fake 3D render
-- A minimap  
-- Static entities on the map  
-- Movable camera in all directions  
-- Simple graphics and textures  
-- Transparence
+🎯 Raycasting engine for pseudo-3D rendering
+
+🗺️ Minimap for spatial awareness
+
+🧱 Static entities displayed on the map
+
+🎮 Free camera movement in all directions
+
+🧩 Simple yet functional graphics and textures
+
+🌫️ Transparency support
 
 ---
 
-## Illustrations
+## 🖼️ Illustrations
 
 <img width="1893" height="1057" alt="image" src="https://github.com/user-attachments/assets/befcbf22-ff6b-4104-bb46-c36cb32a52c5" />  
 <img width="1893" height="1058" alt="image" src="https://github.com/user-attachments/assets/139e55e0-adc8-4f88-a717-de2b5c3d2151" />  
