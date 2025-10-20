@@ -46,7 +46,7 @@ The project includes a Makefile for easy compilation.
 
 ```bash
 make
-./Cub3D filename.cube
+./Cub3D filename.cub
 ```
 
 ---
