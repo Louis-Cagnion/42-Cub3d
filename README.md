@@ -45,7 +45,7 @@ This project includes various features, such as:
 The project includes a Makefile for easy compilation.
 
 ```bash
-make
+make bonus
 ./Cub3D filename.cub
 ```
 
