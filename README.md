@@ -7,7 +7,7 @@ Cub3D is C, minimalist game based on Wolfenstein video game.
 ## 📋 Table of Contents
 - [Overview](#-overview)
 - [Features](#-features)
-- [Illustrations](#illustrations)
+- [Illustrations](#-illustrations)
 - [Usage](#-usage)
 - [Author](#-author)
 
