@@ -26,7 +26,16 @@ This project include various features, such as:
 - A minimap  
 - Static entities on the map  
 - Movable camera in all directions  
-- Simple graphics and textures
+- Simple graphics and textures  
+- Transparence
+
+---
+
+## Illustrations
+
+<img width="1893" height="1057" alt="image" src="https://github.com/user-attachments/assets/befcbf22-ff6b-4104-bb46-c36cb32a52c5" />  
+<img width="1893" height="1058" alt="image" src="https://github.com/user-attachments/assets/139e55e0-adc8-4f88-a717-de2b5c3d2151" />  
+<img width="1890" height="1060" alt="image" src="https://github.com/user-attachments/assets/edcec896-0359-4d5a-8a1d-03675d37ca14" />
 
 ---
 
