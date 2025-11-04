@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: locagnio <locagnio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 19:01:51 by locagnio          #+#    #+#             */
-/*   Updated: 2025/08/24 19:55:22 by locagnio         ###   ########.fr       */
+/*   Updated: 2025/10/11 21:02:46 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@
 
 //window settings
 # ifndef WIN_WIDTH
-#  define WIN_WIDTH		4000
+#  define WIN_WIDTH		(int)(1980 * 0.95)
 # endif
 # ifndef WIN_HEIGHT
-#  define WIN_HEIGHT	2000
+#  define WIN_HEIGHT	(int)(1080 * 0.95)
 # endif
 
 // Mouse defines
