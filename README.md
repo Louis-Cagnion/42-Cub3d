@@ -53,4 +53,4 @@ make bonus
 
 ## 🧑‍💻 Author <a id="author"></a>
 
-Created by @Sung_Jinw00 and @Galbio
+Created by @Louis-Cagnion and @Galbio
